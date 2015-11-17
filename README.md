@@ -1,2 +1,2 @@
 # dotfiles
-config files
+Config files for my WMs, editors, and whatever else
