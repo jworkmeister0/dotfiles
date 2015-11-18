@@ -40,7 +40,7 @@ filetype plugin indent on
 set fileencodings=utf-8,latin1
 scriptencoding utf-8,latin1
 set encoding=utf-8
-set guifontwide=MingLiU:h11
+"set guifontwide=MingLiU:h11
 "Fixes some issues with special chars
 set list
 "set listchars=trail:·,precedes:«,extends:»,eol:↲
@@ -69,17 +69,17 @@ set backup
 set nocompatible
 behave mswin
 "Use mouse features if possible
-if has('mouse')
-  set mouse=a
-endif
+set mouse=a
+set pastetoggle=<F2>
+set clipboard=unnamesplus
 
 "----------Colors and Eyecandy. Includes plugin colorschemes----------
 syntax on
-let g:solarized_termcolors=256
+let g:solarized_termcolors=16
 let g:solarized_contrast="high"
 set background=dark
-let g:airline_theme='serene'
-colorscheme solarized
+let g:airline_theme='jellybeans'
+colorscheme molokai
 " when to use bolds and italics
 "highlight Comment cterm=italic gui=italic
 "highlight Folded gui=bold
@@ -158,7 +158,7 @@ set incsearch		" do incremental searching
 "autocmd CursorMoved * exe printf('match IncSearch /\V\<%s\>/', escape(expand('<cword>'), '/\'))
 "Margin guide. 80 is standard
 set colorcolumn=80
-hi ColorColumn ctermbg=233
+"hi ColorColumn ctermbg=233
 set wrap linebreak nolist
 
 " line up soft-wrap prefix with the line numbers
@@ -168,7 +168,9 @@ set showbreak====»
 set cpoptions+=n
 
 " Turns off annoying comment insertion
-autocmd FileType * setlocal formatoptions-=o formatoptions -=c formatoptions -=r
+autocmd FileType * setlocal formatoptions-=o formatoptions -=c 
+
+"formatoptions -=r
 
 "saves and loads folds automaticallys
 "autocmd BufWinLeave *.* mkview!
@@ -179,6 +181,20 @@ autocmd FileType * setlocal formatoptions-=o formatoptions -=c formatoptions -=r
 "set nofoldenable
 "Javascript folding
 au FileType javascript call JavaScriptFold()
+
+"Automatic paste mode (hopefully)
+let &t_SI .= "\<Esc>[?2004h"
+let &t_EI .= "\<Esc>[?2004l"
+
+inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
+
+function! XTermPasteBegin()
+  set pastetoggle=<Esc>[201~
+  set paste
+  return ""
+endfunction
+
+
 
 "----------------------------------------
 "---------Plugin Settings Below----------
