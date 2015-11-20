@@ -357,27 +357,27 @@ let g:NERDTreeDirArrows = 1
 "Use custom airline symbols if not using an airline font.
 "I'm not going to install an airline-patched font on a work
 "machine so we're always going to use UTF-8 Chars below
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
+"if !exists('g:airline_symbols')
+"  let g:airline_symbols = {}
+"endif
 
 "Custom airline symbols. Used in place of patching fonts
 "NOTE: only some fonts support these chars. Deja Vu Mono
 "is confirmed working (for most)
 
 " let g:airline_left_sep = '»'
-let g:airline_left_sep = ''
-" let g:airline_right_sep = '«'
-let g:airline_right_sep = ''
-" let g:airline_symbols.crypt = '🔒'
-" let g:airline_symbols.linenr = '␊'
-" let g:airline_symbols.linenr = '␤'
-let g:airline_symbols.linenr = '¶'
-" let g:airline_symbols.branch = '⎇'
-let g:airline_symbols.paste = 'ρ'
-" let g:airline_symbols.paste = 'Þ'
-" let g:airline_symbols.paste = '∥'
-let g:airline_symbols.whitespace = 'Ξ'
+" let g:airline_left_sep = ''
+" " let g:airline_right_sep = '«'
+" let g:airline_right_sep = ''
+" " let g:airline_symbols.crypt = '🔒'
+" " let g:airline_symbols.linenr = '␊'
+" " let g:airline_symbols.linenr = '␤'
+" let g:airline_symbols.linenr = '¶'
+" " let g:airline_symbols.branch = '⎇'
+" let g:airline_symbols.paste = 'ρ'
+" " let g:airline_symbols.paste = 'Þ'
+" " let g:airline_symbols.paste = '∥'
+" let g:airline_symbols.whitespace = 'Ξ'
 
 "" display open buffers in tabline
 "let g:airline#extensions#tabline#enabled = 1
@@ -419,6 +419,8 @@ let g:airline_symbols.whitespace = 'Ξ'
 " 	set shell=powershell
 " 	let g:airline_theme='base16'
 " endif
+
+let g:airline_powerline_fonts=1
 
 
 let b:syntastic_skip_checks = 0

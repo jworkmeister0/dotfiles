@@ -118,40 +118,16 @@ promptinit
 #ignore repeated commands in history
 setopt HIST_IGNORE_DUPS
 
-# file manager keybinds
-# alt+left for dir history
-# alt+up for dir context
-cdUndoKey() {
-  popd      > /dev/null
-  zle       reset-prompt
-  echo
-  ls
-  echo
-}
-
-cdParentKey() {
-  pushd .. > /dev/null
-  zle      reset-prompt
-  echo
-  ls
-  echo
-}
-
-zle -N                 cdParentKey
-zle -N                 cdUndoKey
-bindkey '^[[1;3A'      cdParentKey
-bindkey '^[[1;3D'      cdUndoKey
-
 #insert symbols: ✍  ✎ ✏  ✐  ✑  ✒  
 #normal symbols: Ⓐ Ⓑ Ⓒ Ⓓ Ⓔ Ⓕ Ⓖ Ⓗ Ⓘ Ⓙ Ⓛ Ⓜ Ⓝ Ⓞ Ⓟ Ⓠ Ⓡ Ⓢ Ⓣ
 # Ⓘ Ⓝ Ⓢ Ⓔ Ⓡ Ⓣ
-function zle-line-init zle-keymap-select {
-    RPS1="${${KEYMAP/vicmd/⇉ Ⓝ Ⓞ Ⓡ Ⓜ Ⓐ Ⓛ ⇇}/(main|viins)/ ✍ }"
-    RPS2=$RPS1
-    zle reset-prompt
-}
-
-zle -N zle-line-init
-zle -N zle-keymap-select
+#function zle-line-init zle-keymap-select {
+#    RPS1="${${KEYMAP/vicmd/⇉ Ⓝ Ⓞ Ⓡ Ⓜ Ⓐ Ⓛ ⇇}/(main|viins)/ ✍ }"
+#    RPS2=$RPS1
+#    zle reset-prompt
+#}
+#
+#zle -N zle-line-init
+#zle -N zle-keymap-select
 
 

@@ -204,6 +204,13 @@ bindsym button8 move right
 
 bindsym --release Mod1+Shift+b exec google-chrome
 
+# New stuff here!
+set $borders 4
+set $resize 5
+
+
+
+
 exec xset r rate 250 25
 exec nitrogen --save --set-tiled /home/john/.i3/pattern.gif
 exec setxkbmap -option ctrl:nocaps
