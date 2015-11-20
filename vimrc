@@ -115,7 +115,7 @@ set relativenumber
 set tabstop=4
 set shiftwidth=4
 "keeps the cursor off the bottom-most and top-most line if possible
-set scrolloff=30
+set scrolloff=5
 "allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 set history=100		" keep 50 lines of command line history
