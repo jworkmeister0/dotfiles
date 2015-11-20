@@ -12,7 +12,7 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'Shougo/neocomplete.vim'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'bkad/CamelCaseMotion'
-Plugin 'Raimondi/delimitMate'
+"Plugin 'Raimondi/delimitMate'
 Plugin 'jelera/vim-javascript-syntax'
 Plugin 'othree/javascript-libraries-syntax.vim'
 Plugin 'kien/rainbow_parentheses.vim'
@@ -67,7 +67,7 @@ set undoreload=5000
 " set swapfile
 set backup
 set nocompatible
-behave mswin
+"behave mswin
 "Use mouse features if possible
 set mouse=a
 set pastetoggle=<F2>
