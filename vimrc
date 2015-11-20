@@ -79,9 +79,9 @@ let g:solarized_termcolors=16
 let g:solarized_contrast="high"
 set background=dark
 let g:airline_theme='jellybeans'
-colorscheme molokai
+colorscheme jellybeans
 " when to use bolds and italics
-"highlight Comment cterm=italic gui=italic
+highlight Comment cterm=italic gui=italic
 "highlight Folded gui=bold
 set foldmethod=indent
 
@@ -105,38 +105,6 @@ map R "_dP
 nnoremap <silent> <F8> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 "Remap NERDTree to ctrl+n
 map <C-n> :NERDTreeToggle<CR>
-"AirLine Mappings. Putting this here (and not in Plug-In config)
-" for the sake of consolidation.
-"noremap <silent> <Leader>w :call ToggleWrap()<CR>
-"Toggle wapping with <space>w
-" function ToggleWrap()
-" 	if &wrap
-" 		echo "Wrap OFF"
-" 		setlocal nowrap
-" 		set virtualedit=all
-" 		silent! nunmap <buffer> <Up>
-" 		silent! nunmap <buffer> <Down>
-" 		silent! nunmap <buffer> <Home>
-" 		silent! nunmap <buffer> <End>
-" 		silent! iunmap <buffer> <Up>
-" 		silent! iunmap <buffer> <Down>
-" 		silent! iunmap <buffer> <Home>
-" 		silent! iunmap <buffer> <End>
-" 	else
-" 		echo "Wrap ON"
-" 		setlocal wrap linebreak nolist
-" 		set virtualedit=
-" 		setlocal display+=lastline
-" 		noremap  <buffer> <silent> <Up>   gk
-" 		noremap  <buffer> <silent> <Down> gj
-" 		noremap  <buffer> <silent> <Home> g<Home>
-" 		noremap  <buffer> <silent> <End>  g<End>
-" 		inoremap <buffer> <silent> <Up>   <C-o>gk
-" 		inoremap <buffer> <silent> <Down> <C-o>gj
-" 		inoremap <buffer> <silent> <Home> <C-o>g<Home>
-" 		inoremap <buffer> <silent> <End>  <C-o>g<End>
-" 	endif
-" endfunction
 
 "----------Editor behavior----------
 set hlsearch
@@ -170,8 +138,6 @@ set cpoptions+=n
 " Turns off annoying comment insertion
 autocmd FileType * setlocal formatoptions-=o formatoptions -=c 
 
-"formatoptions -=r
-
 "saves and loads folds automaticallys
 "autocmd BufWinLeave *.* mkview!
 "autocmd BufWinEnter *.* silent loadview
@@ -193,8 +159,6 @@ function! XTermPasteBegin()
   set paste
   return ""
 endfunction
-
-
 
 "----------------------------------------
 "---------Plugin Settings Below----------
@@ -316,77 +280,15 @@ let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 
 "----------NERDTree on startup with focus on the editor (ONLY GVIM)----------
-if has("gui_running")
-	autocmd VimEnter * NERDTree
-	autocmd BufEnter * NERDTreeMirror
-	autocmd VimEnter * wincmd w
-endif
-"
 "Set NERDTree arrow chars
 let g:NERDTreeDirArrows = 1
-"
-"
-""Quit NERDTree with vim
-"function! NERDTreeQuit()
-"  redir => buffersoutput
-"  silent buffers
-"  redir END
-""                     1BufNo  2Mods.     3File           4LineNo
-"  let pattern = '^\s*\(\d\+\)\(.....\) "\(.*\)"\s\+line \(\d\+\)$'
-"  let windowfound = 0
-"
-"  for bline in split(buffersoutput, "\n")
-"    let m = matchlist(bline, pattern)
-"
-"    if (len(m) > 0)
-"      if (m[2] =~ '..a..')
-"        let windowfound = 1
-"      endif
-"    endif
-"  endfor
-"
-"  if (!windowfound)
-"    quitall
-"  endif
-"endfunction
-"autocmd WinEnter * call NERDTreeQuit()
-"
-""Show hidden files in NERDTree by default
-"let NERDTreeShowHidden=1
 
-"Use custom airline symbols if not using an airline font.
-"I'm not going to install an airline-patched font on a work
-"machine so we're always going to use UTF-8 Chars below
-"if !exists('g:airline_symbols')
-"  let g:airline_symbols = {}
-"endif
-
-"Custom airline symbols. Used in place of patching fonts
-"NOTE: only some fonts support these chars. Deja Vu Mono
-"is confirmed working (for most)
-
-" let g:airline_left_sep = '»'
-" let g:airline_left_sep = ''
-" " let g:airline_right_sep = '«'
-" let g:airline_right_sep = ''
-" " let g:airline_symbols.crypt = '🔒'
-" " let g:airline_symbols.linenr = '␊'
-" " let g:airline_symbols.linenr = '␤'
-" let g:airline_symbols.linenr = '¶'
-" " let g:airline_symbols.branch = '⎇'
-" let g:airline_symbols.paste = 'ρ'
-" " let g:airline_symbols.paste = 'Þ'
-" " let g:airline_symbols.paste = '∥'
-" let g:airline_symbols.whitespace = 'Ξ'
-
-"" display open buffers in tabline
-"let g:airline#extensions#tabline#enabled = 1
 
 "----- RAINBOW PARENTHESES!!!-----
-"au VimEnter * RainbowParenthesesToggle
-"au Syntax * RainbowParenthesesLoadRound
-"au Syntax * RainbowParenthesesLoadSquare
-"au Syntax * RainbowParenthesesLoadBraces
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces
 
 "-----Makes CtrlP look in the current NERDTree dir-----
 "let g:NERDTreeChDirMode       = 2

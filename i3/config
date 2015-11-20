@@ -1,78 +1,150 @@
-# i3 config file (v4)
+
+# Set mod key.
+set $mod        Mod1
+
+# -----------------------------------------
+# - Main
+# -----------------------------------------
+
+# Window border multiplier.
+set $borders    1
+
+# Number of pixels to resize by in resize mode.
+set $resize     5
+
+# Set gap sizes. Keep 'gapso' set to 0.
+set $gapso      0
+set $gapsi      12
+set $pgapsi		8
+set $pgapso     32
+
+# Set terminal.
+set $term gnome-terminal --hide-menubar
+
+# exit i3 (logs you out of your X session)
+bindsym Mod1+Shift+e exec "i3-nagbar -t warning -m 'Woah there buddy! Are you sure you want to bail on this i3 and X sesh?' -b 'Cheah brah' 'i3-msg exit'"
+
+# Window options.
+#focus_follows_mouse             true
+popup_during_fullscreen         smart
+
+# Workspace options.
+workspace_layout                default
+workspace_auto_back_and_forth   true
+
+# -----------------------------------------
+# - Aesthetics
+# -----------------------------------------
+
+# Font for window titles and bar. Check bar{} for overrides.
+font  pango: Source Code Pro Semibold 9
+
+# Window borders:
+hide_edge_borders   true
+new_float           pixel $borders
+new_window          pixel $borders
+smart_borders       no_gaps
 #
-# Please see http://i3wm.org/docs/userguide.html for a complete reference!
+# Set initial gaps.
+gaps inner   $gapsi
+gaps outer   $gapso
 #
-# This config file uses keycodes (bindsym) and was written for the QWERTY
-# layout.
-#
-# To get a config file with the same key positions, but for your current
-# layout, use the i3-config-wizard
-#
+# -----------------------------------------
+# - General Bindings
+# -----------------------------------------
+# Restart i3.
+bindsym $mod+Shift+r    restart
+# Disable and enable gaps.
+bindsym $mod+n          gaps inner current set 0; gaps outer current set 0
+bindsym $mod+m          gaps inner current set $gapsi; gaps outer current set $gapso
+bindsym $mod+Shift+m	gaps inner current set $pgapsi; gaps outer current set $pgapso
 
-# Font for window titles. Will also be used by the bar unless a different font
-# is used in the bar {} block below.
+#make gaps bigger and smaller
+#bindsym $mod+Shift+period gaps inner current plus 1; gaps outer current plus 1
+#bindsym $mod+Shift+comma gaps inner current minus 1; gaps outer current minus 1
 
-font pango:Source Code Pro Semibold 9
+# Kill focused window.
+bindsym $mod+Shift+q    kill
 
+# Focus parent/child.
+bindsym $mod+a 			focus parent
+bindsym $mod+b 			focus child
 
-# font: ProogyCleanTTSZBP
-# This font is widely installed, provides lots of unicode glyphs, right-to-left
-# text rendering and scalability on retina/hidpi displays (thanks to pango).
-#font pango:DejaVu Sans Mono 8
+# Focus bindings.
+bindsym $mod+h 			focus left
+bindsym $mod+j 			focus down
+bindsym $mod+k 			focus up
+bindsym $mod+l 	        focus right
 
-# Before i3 v4.8, we used to recommend this one as the default:
-# font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
-# The font above is very space-efficient, that is, it looks good, sharp and
-# clear in small sizes. However, its unicode glyph coverage is limited, the old
-# X core fonts rendering does not support right-to-left and this being a bitmap
-# font, it doesn’t scale on retina/hidpi displays.
+bindsym $mod+d          exec j4-dmenu-desktop
 
-# use these keys for focus, movement, and resize directions when reaching for
-# the arrows is not convenient
-set $up k
-set $down j
-set $left h
-set $right l
+# -----------------------------------------
+# - Workspace
+# -----------------------------------------
 
-# use Mouse+Mod1 to drag floating windows to their wanted position
-floating_modifier Mod1
+# Set workspace names.
+set $ws1    "1"
+set $ws2    "2"
+set $ws3    "3"
+set $ws4    "4"
+set $ws5    "5"
+set $ws6    "6"
+set $ws7    "7"
+set $ws8    "8"
+set $ws9    "9"
+set $ws0    "0"
 
-# start a terminal
-bindsym Mod1+Return exec gnome-terminal --hide-menubar
+# Switch to certain workspaces.
+bindsym $mod+comma      workspace prev
+bindsym $mod+period     workspace next
+bindsym $mod+1 			workspace $ws1
+bindsym $mod+2 			workspace $ws2
+bindsym $mod+3 			workspace $ws3
+bindsym $mod+4 			workspace $ws4
+bindsym $mod+5 			workspace $ws5
+bindsym $mod+6 			workspace $ws6
+bindsym $mod+7 			workspace $ws7
+bindsym $mod+8 			workspace $ws8
+bindsym $mod+9 			workspace $ws9
 
-# kill focused window
-bindsym Mod1+Shift+q kill
+# Move to certain workspaces.
+bindsym $mod+Shift+comma    move container to workspace prev
+bindsym $mod+Shift+period   move container to workspace next
+bindsym $mod+Shift+1        move container to workspace $ws1
+bindsym $mod+Shift+2        move container to workspace $ws2
+bindsym $mod+Shift+3        move container to workspace $ws3
+bindsym $mod+Shift+4        move container to workspace $ws4
+bindsym $mod+Shift+5        move container to workspace $ws5
+bindsym $mod+Shift+6        move container to workspace $ws6
+bindsym $mod+Shift+7        move container to workspace $ws7
+bindsym $mod+Shift+8        move container to workspace $ws8
+bindsym $mod+Shift+9        move container to workspace $ws9
 
-# start dmenu (a program launcher)
-# bindsym Mod1+d exec dmenu_run
-# There also is the (new) i3-dmenu-desktop which only displays applications
-# shipping a .desktop file. It is a wrapper around dmenu, so you need that
-# installed.
-bindsym Mod1+d exec --no-startup-id i3-dmenu-desktop
+# -----------------------------------------
+# - Movement
+# -----------------------------------------
 
-exec # change focus
-bindsym Mod1+$left focus left
-bindsym Mod1+$down focus down
-bindsym Mod1+$up focus up
-bindsym Mod1+$right focus right
+# Move tiled/floating window.
+bindsym $mod+Shift+h 			move left
+bindsym $mod+Shift+j 			move down
+bindsym $mod+Shift+k 			move up
+bindsym $mod+Shift+l         	move right
 
-# alternatively, you can use the cursor keys:
-bindsym Mod1+Left focus left
-bindsym Mod1+Down focus down
-bindsym Mod1+Up focus up
-bindsym Mod1+Right focus right
+# Same, but with cursor keys.
+#bindsym $mod+Shift+Left 		move left
+#bindsym $mod+Shift+Down 		move down
+#bindsym $mod+Shift+Up 			move up
+#bindsym $mod+Shift+Right 		move right
 
-# move focused window
-bindsym Mod1+Shift+$left move left
-bindsym Mod1+Shift+$down move down
-bindsym Mod1+Shift+$up move up
-bindsym Mod1+Shift+$right move right
+# -----------------------------------------
+# - Layout
+# -----------------------------------------
 
-# alternatively, you can use the cursor keys:
-bindsym Mod1+Shift+Left move left
-bindsym Mod1+Shift+Down move down
-bindsym Mod1+Shift+Up move up
-bindsym Mod1+Shift+Right move right
+# Change layouts.
+bindsym $mod+t              layout tabbed
+bindsym $mod+e 			    layout toggle split
+bindsym $mod+f			    fullscreen
+bindsym $mod+w    			floating toggle
 
 # split in horizontal orientation
 # this is a vertical split in vim
@@ -82,135 +154,129 @@ bindsym Mod1+backslash split h
 # this is a horizontal split in vim
 bindsym Mod1+minus split v
 
-# enter fullscreen mode for the focused container
-bindsym Mod1+f fullscreen toggle
-
-# change container layout (stacked, tabbed, toggle split)
-bindsym Mod1+s layout stacking
-bindsym Mod1+w layout tabbed
-bindsym Mod1+e layout toggle split
-
-# toggle tiling / floating
-bindsym Mod1+Shift+space floating toggle
-
-# change focus between tiling / floating windows
-bindsym Mod1+space focus mode_toggle
-
-# focus the parent container
-bindsym Mod1+a focus parent
-
-# focus the child container
-#bindsym Mod1+d focus child
+# Floating mode.
+floating_modifier 	$mod
+bindsym $mod+p		exec pcmanfm
+bindsym $mod+x		exec lxappearance
+#bindsym $mod+b		exec google-chrome-beta
+# Sticky a window.
+bindsym $mod+Shift+S sticky toggle
 
 # move the currently focused window to the scratchpad
-bindsym Mod1+Shift+equals move scratchpad
+bindsym $mod+Shift+equals move scratchpad
 
 # Show the next scratchpad window or hide the focused scratchpad window.
 # If there are multiple scratchpad windows, this command cycles through them.
-bindsym Mod1+equals scratchpad show
+bindsym $mod+equals scratchpad show
 
-# switch to workspace
-bindsym Mod1+1 workspace 1
-bindsym Mod1+2 workspace 2
-bindsym Mod1+3 workspace 3
-bindsym Mod1+4 workspace 4
-bindsym Mod1+5 workspace 5
-bindsym Mod1+6 workspace 6
-bindsym Mod1+7 workspace 7
-bindsym Mod1+8 workspace 8
-bindsym Mod1+9 workspace 9
-bindsym Mod1+0 workspace 10
+# Start a terminal window.
+bindsym $mod+Return	exec $term
 
-# move focused container to workspace
-bindsym Mod1+Shift+1 move container to workspace 1
-bindsym Mod1+Shift+2 move container to workspace 2
-bindsym Mod1+Shift+3 move container to workspace 3
-bindsym Mod1+Shift+4 move container to workspace 4
-bindsym Mod1+Shift+5 move container to workspace 5
-bindsym Mod1+Shift+6 move container to workspace 6
-bindsym Mod1+Shift+7 move container to workspace 7
-bindsym Mod1+Shift+8 move container to workspace 8
-bindsym Mod1+Shift+9 move container to workspace 9
-bindsym Mod1+Shift+0 move container to workspace 10
+# -----------------------------------------
+# - Modes
+# -----------------------------------------
 
-# reload the configuration file
-bindsym Mod1+Shift+c reload
-# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym Mod1+Shift+r restart
-# exit i3 (logs you out of your X session)
-bindsym Mod1+Shift+e exec "i3-nagbar -t warning -m 'Woah there buddy! Are you sure you want to bail on this i3 and X sesh?' -b 'Cheah brah' 'i3-msg exit'"
+# Gaps mode. Press Mod+Shift+G and - and + to change gap sizes.
+set $mode_gaps Gaps: (o) outer, (i) inner
+set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
+set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
+bindsym $mod+Shift+g mode "$mode_gaps"
 
-# resize window (you can also use the mouse for that)
+mode "$mode_gaps" {
+    bindsym o      mode "$mode_gaps_outer"
+    bindsym i      mode "$mode_gaps_inner"
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+mode "$mode_gaps_inner" {
+    bindsym plus  gaps inner current plus 5
+    bindsym minus gaps inner current minus 5
+    bindsym 0     gaps inner current set 0
+
+    bindsym Shift+plus  gaps inner all plus 5
+    bindsym Shift+minus gaps inner all minus 5
+    bindsym Shift+0     gaps inner all set 0
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+mode "$mode_gaps_outer" {
+    bindsym plus  gaps outer current plus 5
+    bindsym minus gaps outer current minus 5
+    bindsym 0     gaps outer current set 0
+
+    bindsym Shift+plus  gaps outer all plus 5
+    bindsym Shift+minus gaps outer all minus 5
+    bindsym Shift+0     gaps outer all set 0
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+# Resize mode. Press Mod + R to resize windows.
+
 mode "resize" {
-        # These bindings trigger as soon as you enter the resize mode
-
-        # Pressing left will shrink the window’s width.
-        # Pressing right will grow the window’s width.
-        # Pressing up will shrink the window’s height.
-        # Pressing down will grow the window’s height.
-        bindsym $left       resize shrink width 10 px or 10 ppt
-        bindsym $down       resize grow height 10 px or 10 ppt
-        bindsym $up         resize shrink height 10 px or 10 ppt
-        bindsym $right      resize grow width 10 px or 10 ppt
-
-        # same bindings, but for the arrow keys
-        bindsym Left        resize shrink width 10 px or 10 ppt
-        bindsym Down        resize grow height 10 px or 10 ppt
-        bindsym Up          resize shrink height 10 px or 10 ppt
-        bindsym Right       resize grow width 10 px or 10 ppt
-
-        # back to normal: Enter or Escape
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
+   # Pressing right will grow the window’s width.
+   # Pressing up will shrink the window’s height.
+   # Pressing down will grow the window’s height.
+   bindsym h       resize shrink width 10 px or 10 ppt
+   bindsym j       resize grow height 10 px or 10 ppt
+   bindsym k         resize shrink height 10 px or 10 ppt
+   bindsym l      resize grow width 10 px or 10 ppt
+   
+   # same bindings, but for the arrow keys
+   bindsym Left        resize shrink width 10 px or 10 ppt
+   bindsym Down        resize grow height 10 px or 10 ppt
+   bindsym Up          resize shrink height 10 px or 10 ppt
+   bindsym Right       resize grow width 10 px or 10 ppt
+   bindsym Return mode "default"
+   bindsym Escape mode "default"
 }
 
-bindsym Mod1+r mode "resize"
 
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
+# Ignore mode. Press Mod + Shift + i to ignore most keypresses.
+mode "Ignore" {
+    bindsym Return mode default
+    bindsym Escape mode default
+}
+bindsym $mod+Shift+i mode Ignore
+
+# Start i3bar.
 bar {
-	colors{
-		separator	#666666
-		statusline	#ffffff
-		background	#000000
+   strip_workspace_numbers no
+   position bottom
+   #status_command i3blocks
+   separator_symbol " "
+   tray_output none
+   font pango: Source Code Pro Light 9
+   status_command i3status -c ~/.i3/i3status.conf
+   separator_symbol "∥"
 
-		# Type             border  background font
-		focused_workspace  #008fff #007fff #ffffff
-		active_workspace   #333333 #5f676a #ffffff
-		inactive_workspace #333333 #222222 #888888
-		urgent_workspace   #aa0000 #990000 #ffffff
-	}
-
-	position bottom
-	status_command i3status -c ~/.i3/i3status.conf
-        separator_symbol "∥"
-        font pango:Source Code Pro Light 9
+   colors {
+      background #121212
+      statusline #ffffff
+      separator #ffffff
+      focused_workspace #12fee7 #221d3b #ffffff
+      active_workspace #12fee7 #221d3b #ffffff
+      inactive_workspace #221d3b #221d3b #ffffff
+      urgent_workspace #bf616a #65737e #ffffff
+   }
 }
 
-#Some additional mouse stuff i'm adding
-# The middle button over a titlebar kills the window
-bindsym --release button2 kill
+# Window colours:
 
-# The middle button and a modifer over any part of the window kills the window
-# bindsym --whole-window $mod+button2 kill
-
-# The right button toggles floating
-# bindsym button3 floating toggle
-bindsym Mod1+button1 floating toggle
-
-# The side buttons move the window around
-bindsym button9 move left
-bindsym button8 move right
-
-bindsym --release Mod1+Shift+b exec google-chrome
-
-# New stuff here!
-set $borders 4
-set $resize 5
+client.focused              #12fee7 #12fee7 #ebdbb2 #12fee7 
+client.focused_inactive     #382449 #382449 #ebdbb2 #382449
+client.unfocused            #382449 #382449 #ebdbb2 #382449
+client.urgent               #bf616a #bf616a #ee0000 #bf616a
 
 
-
-
+## Startup Stuff
 exec xset r rate 250 25
 exec nitrogen --save --set-tiled /home/john/.i3/pattern.gif
-exec setxkbmap -option ctrl:nocaps
+exec setxkbmap -option ctrl:nocap
+exec compton -b -c --config ~/.config/compton.conf
