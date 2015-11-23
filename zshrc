@@ -7,8 +7,8 @@
 # time that oh-my-zsh is loaded.
 # ZSH_THEME="robbyrussell"
 # good ones:
-# bira, half-life, crunch, strug
-ZSH_THEME="strug"
+# bira, half-life, crunch, strug, dst
+ZSH_THEME="dst"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -64,11 +64,7 @@ source $ZSH/oh-my-zsh.sh
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='vim'
-else
-  export EDITOR='gvim'
-fi
+export EDITOR='vim'
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -88,9 +84,9 @@ fi
 #########################
 ##### MY STUFF HERE #####
 #########################
-HIST_IGNORE_DUPS="true"
+source ~/.aliases
+setopt HIST_IGNORE_DUPS
 
-bindkey "^?" backward-delete-char
 # The following lines were added by compinstall
 
 zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate
@@ -117,17 +113,55 @@ promptinit
 #ignore repeated commands in history
 setopt HIST_IGNORE_DUPS
 
-#insert symbols: ✍  ✎ ✏  ✐  ✑  ✒  
-#normal symbols: Ⓐ Ⓑ Ⓒ Ⓓ Ⓔ Ⓕ Ⓖ Ⓗ Ⓘ Ⓙ Ⓛ Ⓜ Ⓝ Ⓞ Ⓟ Ⓠ Ⓡ Ⓢ Ⓣ
-# Ⓘ Ⓝ Ⓢ Ⓔ Ⓡ Ⓣ
-#function zle-line-init zle-keymap-select {
-#    RPS1="${${KEYMAP/vicmd/⇉ Ⓝ Ⓞ Ⓡ Ⓜ Ⓐ Ⓛ ⇇}/(main|viins)/ ✍ }"
-#    RPS2=$RPS1
-#    zle reset-prompt
-#}
-#
-#zle -N zle-line-init
-#zle -N zle-keymap-select
-
 COMPLETION_WAITING_DOTS="true"
+
+
+function zle-line-init zle-keymap-select {
+    VIM_PROMPT="%{$fg_bold[yellow]%} [% NORMAL]%  %{$reset_color%}"
+    RPS1="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/} $EPS1"
+    zle reset-prompt
+}
+
+zle -N zle-line-init
+zle -N zle-keymap-select
+
+bindkey '^P' up-history
+bindkey '^N' down-history
+bindkey '^?' backward-delete-char
+bindkey '^h' backward-delete-char
+bindkey '^w' backward-kill-word
+bindkey '^r' history-incremental-search-backward
+
+#These two functions make timestamps
+strlen () {
+    FOO=$1
+    local zero='%([BSUbfksu]|([FB]|){*})'
+    LEN=${#${(S%%)FOO//$~zero/}}
+    echo $LEN
+}
+
+# show right prompt with date ONLY when command is executed
+preexec () {
+    DATE=$( date +"[%H:%M:%S]" )
+    local len_right=$( strlen "$DATE" )
+    len_right=$(( $len_right+1 ))
+    local right_start=$(($COLUMNS - $len_right))
+
+    local len_cmd=$( strlen "$@" )
+    local len_prompt=$(strlen "$PROMPT" )
+    local len_left=$(($len_cmd+$len_prompt))
+
+    RDATE="\033[${right_start}C ${DATE}"
+
+    if [ $len_left -lt $right_start ]; then
+        # command does not overwrite right prompt
+        # ok to move up one line
+        echo -e $fg_no_bold[yellow]"\033[1A${RDATE}"$reset_color
+    else
+        echo -e "${RDATE}"
+    fi
+
+}
+export KEYTIMEOUT=1
+
 
