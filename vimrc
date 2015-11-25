@@ -71,7 +71,7 @@ set nocompatible
 "Use mouse features if possible
 set mouse=a
 set pastetoggle=<F2>
-set clipboard=unnamesplus
+set clipboard=unnamedplus
 
 "----------Colors and Eyecandy. Includes plugin colorschemes----------
 syntax on
@@ -132,6 +132,7 @@ set wrap linebreak nolist
 " line up soft-wrap prefix with the line numbers
 " DONT REMOVE TRAILING WHITESPACE
 set showbreak====»
+
 " start soft-wrap lines (and any prefix) in the line-number area
 set cpoptions+=n
 
@@ -149,8 +150,8 @@ autocmd FileType * setlocal formatoptions-=o formatoptions -=c
 au FileType javascript call JavaScriptFold()
 
 "Automatic paste mode (hopefully)
-let &t_SI .= "\<Esc>[?2004h"
-let &t_EI .= "\<Esc>[?2004l"
+"let &t_SI .= "\<Esc>[?2004h"
+"let &t_EI .= "\<Esc>[?2004l"
 
 inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 
@@ -301,8 +302,8 @@ au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
 
 "-----Makes CtrlP look in the current NERDTree dir-----
-"let g:NERDTreeChDirMode       = 2
-"let g:ctrlp_working_path_mode = 'rw'
+let g:NERDTreeChDirMode       = 2
+let g:ctrlp_working_path_mode = 'rw'
 
 "-----Refresh CtrlP with NERDTree (hopefully)-----
 "nnoremap <Leader>r :CtrlPClearCache<cr>call NERDTreeMapRefreshRoot()<cr>

@@ -251,7 +251,7 @@ bar {
    position bottom
    #status_command i3blocks
    tray_output none
-   font pango: Source Code Pro Light 9
+   font pango: Meslo LG S for Powerline RegularForPowerline 10
    status_command i3status -c ~/.i3/i3status.conf
    separator_symbol "∥"
 

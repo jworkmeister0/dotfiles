@@ -1,3 +1,13 @@
+#function zle-line-init zle-keymap-select {
+#    VIM_PROMPT="%{$fg_bold[yellow]%} [% NORMAL]%  %{$reset_color%}"
+#    RPS1="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/} $EPS1"
+#    zle reset-prompt
+#}
+#
+#zle -N zle-line-init
+#zle -N zle-keymap-select
+
+
 # Path to your oh-my-zsh installation.
   export ZSH=/home/john/.oh-my-zsh
 
@@ -51,7 +61,8 @@ ENABLE_CORRECTION="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+# NOTE: zsh-syntax-highlighting MUST be the last plugin!
+plugins=(git extract zsh-syntax-highlighting)
 
 # User configuration
 
@@ -59,6 +70,7 @@ plugins=(git)
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
+source ~/.aliases
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -116,15 +128,6 @@ setopt HIST_IGNORE_DUPS
 COMPLETION_WAITING_DOTS="true"
 
 
-function zle-line-init zle-keymap-select {
-    VIM_PROMPT="%{$fg_bold[yellow]%} [% NORMAL]%  %{$reset_color%}"
-    RPS1="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/} $EPS1"
-    zle reset-prompt
-}
-
-zle -N zle-line-init
-zle -N zle-keymap-select
-
 bindkey '^P' up-history
 bindkey '^N' down-history
 bindkey '^?' backward-delete-char
@@ -132,36 +135,16 @@ bindkey '^h' backward-delete-char
 bindkey '^w' backward-kill-word
 bindkey '^r' history-incremental-search-backward
 
-#These two functions make timestamps
-strlen () {
-    FOO=$1
-    local zero='%([BSUbfksu]|([FB]|){*})'
-    LEN=${#${(S%%)FOO//$~zero/}}
-    echo $LEN
-}
 
-# show right prompt with date ONLY when command is executed
-preexec () {
-    DATE=$( date +"[%H:%M:%S]" )
-    local len_right=$( strlen "$DATE" )
-    len_right=$(( $len_right+1 ))
-    local right_start=$(($COLUMNS - $len_right))
-
-    local len_cmd=$( strlen "$@" )
-    local len_prompt=$(strlen "$PROMPT" )
-    local len_left=$(($len_cmd+$len_prompt))
-
-    RDATE="\033[${right_start}C ${DATE}"
-
-    if [ $len_left -lt $right_start ]; then
-        # command does not overwrite right prompt
-        # ok to move up one line
-        echo -e $fg_no_bold[yellow]"\033[1A${RDATE}"$reset_color
-    else
-        echo -e "${RDATE}"
+zle-keymap-select () {
+    if [ "$TERM" = "xterm-256color" ]; then
+        if [ $KEYMAP = vicmd ]; then
+            # the command mode for vi
+            echo -ne "\e[2 q"
+        else
+            # the insert mode for vi
+            echo -ne "\e[4 q"
+        fi
     fi
-
 }
 export KEYTIMEOUT=1
-
-
