@@ -1,18 +1,15 @@
-﻿"----------------------------------------------
-"DONT REMOVE TRAILING WHITESPACE IN THIS FILE!!
-"----------------------------------------------
-
-"----------Prepare plugins----------
+﻿"----------Prepare plugins----------
 set nocompatible
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
-Plugin 'Shougo/neocomplete.vim'
+"Plugin 'Shougo/neocomplete.vim'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'bkad/CamelCaseMotion'
 "Plugin 'Raimondi/delimitMate'
+Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'jelera/vim-javascript-syntax'
 Plugin 'othree/javascript-libraries-syntax.vim'
 Plugin 'kien/rainbow_parentheses.vim'
@@ -33,6 +30,8 @@ Plugin 'PotatoesMaster/i3-vim-syntax'
 Plugin 'tpope/vim-sleuth'
 Plugin 'tpope/vim-fugitive'
 call vundle#end()
+set omnifunc=syntaxcomplete#Complete
+
 
 "----------Gvim Options----------
 "encoding stuff. A very hack-y way to get special chars working property
@@ -81,7 +80,7 @@ set background=dark
 let g:airline_theme='jellybeans'
 colorscheme jellybeans
 " when to use bolds and italics
-highlight Comment cterm=italic gui=italic
+" highlight Comment cterm=italic gui=italic
 "highlight Folded gui=bold
 set foldmethod=indent
 
@@ -176,46 +175,46 @@ endif
 "----------------------------------------
 
 "----------NeoComplete / autocomplete stuff!----------
-imap <c-j> <c-x><c-o>
-inoremap <expr> <c-k> pumvisible()?"\<Up>":"\<c-k>"
-inoremap <expr> <c-j> pumvisible()?"\<Down>":"\<c-j>"
-let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#enable_smart_case = 1
-let g:neocomplete#enable_camel_case = 1
-let g:neocomplete#enable_auto_select = 1
-" Recommended key-mappings.
-" <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-  " For no inserting <CR> key.
-  "return pumvisible() ? "\<C-y>" : "\<CR>"
-endfunction
-" <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <silent> <CR> <C-r>=neocomplete#smart_close_popup()<CR><CR>
-" <TAB>: completion.
-inoremap <expr> <Tab> pumvisible() ? "\<C-y>" : "\<Tab>"
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr> <C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr> <BS>  neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr> <C-y> neocomplete#close_popup()
-inoremap <expr> <C-e> neocomplete#cancel_popup()
-" Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-" Enable heavy omni completion.
-if !exists('g:neocomplete#sources#omni#input_patterns')
-  let g:neocomplete#sources#omni#input_patterns = {}
-endif
-inoremap <expr> <C-g> neocomplete#undo_completion()
-inoremap <expr> <C-l> neocomplete#complete_common_string()
+"imap <c-j> <c-x><c-o>
+"inoremap <expr> <c-k> pumvisible()?"\<Up>":"\<c-k>"
+"inoremap <expr> <c-j> pumvisible()?"\<Down>":"\<c-j>"
+"let g:neocomplete#enable_at_startup = 1
+"let g:neocomplete#enable_smart_case = 1
+"let g:neocomplete#enable_camel_case = 1
+"let g:neocomplete#enable_auto_select = 1
+"" Recommended key-mappings.
+"" <CR>: close popup and save indent.
+"inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+"function! s:my_cr_function()
+"  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+"  " For no inserting <CR> key.
+"  "return pumvisible() ? "\<C-y>" : "\<CR>"
+"endfunction
+"" <TAB>: completion.
+"inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+"" <C-h>, <BS>: close popup and delete backword char.
+"inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+"inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+"inoremap <silent> <CR> <C-r>=neocomplete#smart_close_popup()<CR><CR>
+"" <TAB>: completion.
+"inoremap <expr> <Tab> pumvisible() ? "\<C-y>" : "\<Tab>"
+"" <C-h>, <BS>: close popup and delete backword char.
+"inoremap <expr> <C-h> neocomplete#smart_close_popup()."\<C-h>"
+"inoremap <expr> <BS>  neocomplete#smart_close_popup()."\<C-h>"
+"inoremap <expr> <C-y> neocomplete#close_popup()
+"inoremap <expr> <C-e> neocomplete#cancel_popup()
+"" Enable omni completion.
+"autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+"autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+"autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+"autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+"autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+"" Enable heavy omni completion.
+"if !exists('g:neocomplete#sources#omni#input_patterns')
+"  let g:neocomplete#sources#omni#input_patterns = {}
+"endif
+"inoremap <expr> <C-g> neocomplete#undo_completion()
+"inoremap <expr> <C-l> neocomplete#complete_common_string()
 
 ""----------VimFilter Stuff----------
 "let g:vimfiler_as_default_explorer = 1
@@ -339,5 +338,3 @@ let g:airline_powerline_fonts=1
 let b:syntastic_skip_checks = 0
 "au BufRead * normal zR
 au BufWinEnter * normal zR
-
-let g:syntastic_always_populate_loc_list = 1
