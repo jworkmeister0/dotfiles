@@ -38,8 +38,7 @@ set omnifunc=syntaxcomplete#Complete
 filetype plugin indent on
 set fileencodings=utf-8,latin1
 scriptencoding utf-8,latin1
-set encoding=utf-8
-"set guifontwide=MingLiU:h11
+set encoding=utf-8 "set guifontwide=MingLiU:h11
 "Fixes some issues with special chars
 set list
 "set listchars=trail:·,precedes:«,extends:»,eol:↲
@@ -70,7 +69,7 @@ set nocompatible
 "Use mouse features if possible
 set mouse=a
 set pastetoggle=<F2>
-set clipboard=unnamedplus
+set clipboard=unnamed
 
 "----------Colors and Eyecandy. Includes plugin colorschemes----------
 syntax on

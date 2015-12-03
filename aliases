@@ -1,5 +1,3 @@
-alias del=trash-put
 alias ra=ranger
-alias t='mv --verbose -f --backup=numbered --target-directory ~/.Trash/'
-alias trash='mv --verbose -f --backup=numbered --target-directory ~/.Trash/'
-alias trashcan='cd ~/.Trash'
+alias trash='gvfs-trash'
+alias del='gvfs-trash'
