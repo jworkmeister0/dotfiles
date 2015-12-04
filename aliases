@@ -1,3 +1,4 @@
 alias ra=ranger
 alias trash='gvfs-trash'
 alias del='gvfs-trash'
+alias lock='gnome-screensaver-command --activate'

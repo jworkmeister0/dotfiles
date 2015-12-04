@@ -4,6 +4,44 @@ set -g prefix C-a
 unbind C-b
 bind C-a send-prefix
 
+set -g default-terminal "screen-256color"
+
+new true
+set set-remain-on-exit on
+new -n one ls
+neww -n two ls
+# default statusbar colors
+set-option -g status-bg colour16 #black
+set-option -g status-fg white
+set-option -g status-attr white
+
+# center windows
+set -g status-justify centre
+
+# default window title colors
+set-window-option -g window-status-fg white
+set-window-option -g window-status-bg default
+#set-window-option -g window-status-attr dim
+
+# active window title colors
+set-window-option -g window-status-current-fg white
+set-window-option -g window-status-current-bg default
+#set-window-option -g window-status-current-attr bright
+
+# pane border
+set-option -g pane-border-fg colour16 #base02
+set-option -g pane-active-border-fg colour16 #base01
+
+# message text
+set-option -g message-bg default
+set-option -g message-fg white
+
+# pane number display
+set-option -g display-panes-active-colour blue
+set-option -g display-panes-colour red
+
+# clock
+set-window-option -g clock-mode-colour white
 # force a reload of the config file
 unbind r
 bind r source-file ~/.tmux.conf
@@ -13,20 +51,16 @@ unbind ^A
 bind ^A select-pane -t :.+
 
 set-window-option -g mode-keys vi
-set-window-option -g mode-keys vi
 # Mouse support - set to on if you want to use the mouse
 setw -g mode-mouse on
 set -g mouse-select-pane on
 set -g mouse-resize-pane on
 set -g mouse-select-window on
 
-# # Set the default terminal mode to 256color mode
-set -g default-terminal "xterm-256"
-
 # # enable activity alerts
 setw -g monitor-activity on
 set -g visual-activity on
-
+setw -g window-status-format "#{pane_current_path}".
 # # Center the window list
 set -g status-justify centre
 #
@@ -38,9 +72,13 @@ set -g status-justify centre
 bind-key -t vi-copy 'v' begin-selection
 bind-key -t vi-copy 'y' copy-selection
 
-set -g default-terminal "screen-256color"
+set -g history-limit 20000
+set -g status-left "#{pane_current_path}"
+
 set -g status-bg '#222222'
 set -g status-fg '#aaaaaa'
+
+
 # smart pane switching with awareness of vim splits
 bind -n C-h run "(tmux display-message -p '#{pane_current_command}' | grep -iq vim && tmux send-keys C-h) || tmux select-pane -L"
 bind -n C-j run "(tmux display-message -p '#{pane_current_command}' | grep -iq vim && tmux send-keys C-j) || tmux select-pane -D"

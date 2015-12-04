@@ -17,6 +17,7 @@ Plugin 'scrooloose/syntastic'
 Plugin 'scrooloose/nerdtree'
 Plugin 'mbbill/undotree'
 Plugin 'bling/vim-airline'
+Plugin 'chriskempson/base16-vim'
 Plugin 'flazz/vim-colorschemes'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'easymotion/vim-easymotion'
@@ -72,12 +73,13 @@ set pastetoggle=<F2>
 set clipboard=unnamed
 
 "----------Colors and Eyecandy. Includes plugin colorschemes----------
+let base16colorspace=256
 syntax on
 let g:solarized_termcolors=16
 let g:solarized_contrast="high"
 set background=dark
 let g:airline_theme='jellybeans'
-colorscheme jellybeans
+colorscheme base16-default
 " when to use bolds and italics
 " highlight Comment cterm=italic gui=italic
 "highlight Folded gui=bold
@@ -103,10 +105,12 @@ map R "_dP
 nnoremap <silent> <F8> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 "Remap NERDTree to ctrl+n
 map <C-n> :NERDTreeToggle<CR>
+vnoremap // y/<C-R>"<CR>"
+
 
 "----------Editor behavior----------
 set hlsearch
-set foldmethod=indent
+set smartindent
 set number
 set relativenumber
 "set laststatus=2
@@ -161,13 +165,16 @@ endfunction
 
  " leave insert mode quickly
 if ! has('gui_running')
-  set ttimeoutlen=10
+  set timeoutlen=10
   augroup FastEscape
     autocmd!
     au InsertEnter * set timeoutlen=0
-    au InsertLeave * set timeoutlen=1000
+    au InsertLeave * set timeoutlen=10
   augroup END
 endif
+hi CursorLine   cterm=NONE ctermbg=235
+hi CursorColumn cterm=NONE ctermbg=235
+nnoremap x :set cursorline! cursorcolumn!
 
 "----------------------------------------
 "---------Plugin Settings Below----------

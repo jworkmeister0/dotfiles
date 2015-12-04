@@ -6,6 +6,9 @@
 #
 #zle -N zle-line-init
 #zle -N zle-keymap-select
+# Base16 Shell
+BASE16_SHELL="$HOME/.config/base16-shell/base16-default.dark.sh"
+[[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
 if [ "$COLORTERM" = "gnome-terminal" ] || [ "$COLORTERM" = "xfce4-terminal" ]
 then
     export TERM=xterm-256color
