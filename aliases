@@ -1,4 +1,6 @@
-alias ra=ranger
-alias trash='gvfs-trash'
-alias del='gvfs-trash'
-alias lock='gnome-screensaver-command --activate'
+alias trash=gvfs-trash
+alias del=gvfs-trash
+alias lock=gnome-screensaver-command --activate
+alias vim=vimx
+alias :q=exit
+alias dnf=yum

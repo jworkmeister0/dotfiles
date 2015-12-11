@@ -8,7 +8,8 @@ Plugin 'VundleVim/Vundle.vim'
 "Plugin 'Shougo/neocomplete.vim'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'bkad/CamelCaseMotion'
-"Plugin 'Raimondi/delimitMate'
+Plugin 'Raimondi/delimitMate'
+Plugin 'wookiehangover/jshint.vim'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'jelera/vim-javascript-syntax'
 Plugin 'othree/javascript-libraries-syntax.vim'
@@ -30,6 +31,8 @@ Plugin 'jszakmeister/vim-togglecursor'
 Plugin 'PotatoesMaster/i3-vim-syntax'
 Plugin 'tpope/vim-sleuth'
 Plugin 'tpope/vim-fugitive'
+"Plugin 'ervandew/supertab'
+Plugin 'Valloric/YouCompleteMe'
 call vundle#end()
 set omnifunc=syntaxcomplete#Complete
 
@@ -44,7 +47,7 @@ set encoding=utf-8 "set guifontwide=MingLiU:h11
 set list
 "set listchars=trail:·,precedes:«,extends:»,eol:↲
 "set listchars=tab:\▸\
-set guifont=DejaVu\ Sans\ Mono:h11
+set guifont=Source\ Code\ Pro\ for\ Powerline
 set lines=50 columns=130
 "Visual feedback is better than audio
 set visualbell
@@ -83,8 +86,6 @@ colorscheme base16-default
 " when to use bolds and italics
 " highlight Comment cterm=italic gui=italic
 "highlight Folded gui=bold
-set foldmethod=indent
-
 
 "----------Editor Remaps. Mostly personal preferance----------
 let mapleader = " "
@@ -113,7 +114,6 @@ set hlsearch
 set smartindent
 set number
 set relativenumber
-"set laststatus=2
 set tabstop=4
 set shiftwidth=4
 "keeps the cursor off the bottom-most and top-most line if possible
@@ -133,7 +133,7 @@ set wrap linebreak nolist
 
 " line up soft-wrap prefix with the line numbers
 " DONT REMOVE TRAILING WHITESPACE
-set showbreak====»
+set showbreak=┗━━━━━━
 
 " start soft-wrap lines (and any prefix) in the line-number area
 set cpoptions+=n
@@ -164,14 +164,22 @@ function! XTermPasteBegin()
 endfunction
 
  " leave insert mode quickly
-if ! has('gui_running')
-  set timeoutlen=10
+set timeout         " Do time out on mappings and others
+set timeoutlen=2000 " Wait {num} ms before timing out a mapping
+
+" When you’re pressing Escape to leave insert mode in the terminal, it will by
+" default take a second or another keystroke to leave insert mode completely
+" and update the statusline. This fixes that. I got this from:
+" https://powerline.readthedocs.org/en/latest/tipstricks.html#vim
+if !has('gui_running')
+  set ttimeoutlen=10
   augroup FastEscape
     autocmd!
-    au InsertEnter * set timeoutlen=0
-    au InsertLeave * set timeoutlen=10
+    au InsertEnter * set timeoutlen=10
+    au InsertLeave * set timeoutlen=1000
   augroup END
 endif
+
 hi CursorLine   cterm=NONE ctermbg=235
 hi CursorColumn cterm=NONE ctermbg=235
 nnoremap x :set cursorline! cursorcolumn!

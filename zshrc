@@ -1,14 +1,8 @@
-#function zle-line-init zle-keymap-select {
-#    VIM_PROMPT="%{$fg_bold[yellow]%} [% NORMAL]%  %{$reset_color%}"
-#    RPS1="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/} $EPS1"
-#    zle reset-prompt
-#}
-#
-#zle -N zle-line-init
-#zle -N zle-keymap-select
+
 # Base16 Shell
 BASE16_SHELL="$HOME/.config/base16-shell/base16-default.dark.sh"
 [[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
+
 if [ "$COLORTERM" = "gnome-terminal" ] || [ "$COLORTERM" = "xfce4-terminal" ]
 then
     export TERM=xterm-256color
@@ -41,7 +35,7 @@ ENABLE_CORRECTION="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 # NOTE: zsh-syntax-highlighting MUST be the last plugin!
-plugins=(git extract zsh-syntax-highlighting)
+plugins=(git yum opp extract zsh-syntax-highlighting)
 
 # User configuration
 
@@ -90,6 +84,9 @@ promptinit
 setopt HIST_IGNORE_DUPS
 
 COMPLETION_WAITING_DOTS="true"
+precmd () {
+  tmux set -g status-left "$(pwd)"
+}
 
 
 bindkey '^P' up-history
@@ -99,16 +96,26 @@ bindkey '^h' backward-delete-char
 bindkey '^w' backward-kill-word
 bindkey '^r' history-incremental-search-backward
 
+vim_ins_mode="%{$fg[cyan]%}%{$reset_color%}"
+vim_cmd_mode="%{$fg[cyan]%}--COMMAND-- %{$reset_color%}"
+vim_mode=$vim_ins_mode
 
-zle-keymap-select () {
-    if [ "$TERM" = "xterm-256color" ]; then
-        if [ $KEYMAP = vicmd ]; then
-            # the command mode for vi
-            echo -ne "\e[2 q"
-        else
-            # the insert mode for vi
-            echo -ne "\e[4 q"
-        fi
-    fi
+function zle-keymap-select {
+  vim_mode="${${KEYMAP/vicmd/${vim_cmd_mode}}/(main|viins)/${vim_ins_mode}}"
+  zle reset-prompt
 }
-export KEYTIMEOUT=1
+zle -N zle-keymap-select
+
+function zle-line-finish {
+  vim_mode=$vim_ins_mode
+}
+zle -N zle-line-finish
+
+# Fix a bug when you C-c in CMD mode and you'd be prompted with CMD mode indicator, while in fact you would be in INS mode
+# Fixed by catching SIGINT (C-c), set vim_mode to INS and then repropagate the SIGINT, so if anything else depends on it, we will not break it
+# Thanks Ron! (see comments)
+function TRAPINT() {
+  vim_mode=$vim_ins_mode
+  return $(( 128 + $1 ))
+} 
+ export KEYTIMEOUT=1
