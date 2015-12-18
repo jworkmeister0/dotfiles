@@ -1,6 +1,8 @@
 alias trash=gvfs-trash
 alias del=gvfs-trash
 alias lock=gnome-screensaver-command --activate
-alias vim=vimx
+alias ra=ranger
+alias vim=vim
 alias :q=exit
 alias dnf=yum
+alias electro='electron main.js'

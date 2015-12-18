@@ -5,19 +5,21 @@ BASE16_SHELL="$HOME/.config/base16-shell/base16-default.dark.sh"
 
 if [ "$COLORTERM" = "gnome-terminal" ] || [ "$COLORTERM" = "xfce4-terminal" ]
 then
-    export TERM=xterm-256color
+  export TERM=xterm-256color
 elif [ "$COLORTERM" = "rxvt-xpm" ]
 then
-    export TERM=rxvt-256color
+  export TERM=rxvt-256color
 fi
 
 # Path to your oh-my-zsh installation.
 export ZSH=/home/john/.oh-my-zsh
 export CF_COLOR=true
+export LC_ALL="en_US.UTF-8"
 
 # good ones:
 # bira, half-life, crunch, strug, dst
 ZSH_THEME="dst"
+
 
 # CASE_SENSITIVE="true"
 # HYPHEN_INSENSITIVE="true"
@@ -39,7 +41,7 @@ plugins=(git yum opp extract zsh-syntax-highlighting)
 
 # User configuration
 
-  export PATH="/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/home/john/.local/bin:/home/john/.webstorm/bin:/usr/local/git/bin"
+export PATH="/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/home/john/.local/bin:/home/john/.webstorm/bin:/usr/local/git/bin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
@@ -86,6 +88,7 @@ setopt HIST_IGNORE_DUPS
 COMPLETION_WAITING_DOTS="true"
 precmd () {
   tmux set -g status-left "$(pwd)"
+
 }
 
 
@@ -101,13 +104,13 @@ vim_cmd_mode="%{$fg[cyan]%}--COMMAND-- %{$reset_color%}"
 vim_mode=$vim_ins_mode
 
 function zle-keymap-select {
-  vim_mode="${${KEYMAP/vicmd/${vim_cmd_mode}}/(main|viins)/${vim_ins_mode}}"
-  zle reset-prompt
+vim_mode="${${KEYMAP/vicmd/${vim_cmd_mode}}/(main|viins)/${vim_ins_mode}}"
+zle reset-prompt
 }
 zle -N zle-keymap-select
 
 function zle-line-finish {
-  vim_mode=$vim_ins_mode
+vim_mode=$vim_ins_mode
 }
 zle -N zle-line-finish
 
@@ -115,7 +118,7 @@ zle -N zle-line-finish
 # Fixed by catching SIGINT (C-c), set vim_mode to INS and then repropagate the SIGINT, so if anything else depends on it, we will not break it
 # Thanks Ron! (see comments)
 function TRAPINT() {
-  vim_mode=$vim_ins_mode
-  return $(( 128 + $1 ))
+vim_mode=$vim_ins_mode
+return $(( 128 + $1 ))
 } 
- export KEYTIMEOUT=1
+export KEYTIMEOUT=1

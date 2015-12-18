@@ -3,10 +3,10 @@
 echo "install git, vim and oh-my-zsh first!"
 
 echo "vim stuff"
-mkdir .vim
-mkdir .vim/backup
-mkdir .vim/undos
-mkdir .vim/swap
+mkdir ~/.vim
+mkdir ~/.vim/backup
+mkdir ~/.vim/undos
+mkdir ~/.vim/swap
 
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 

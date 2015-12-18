@@ -5,8 +5,9 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
-"Plugin 'Shougo/neocomplete.vim'
+Plugin 'Shougo/neocomplete.vim'
 Plugin 'ctrlpvim/ctrlp.vim'
+" Plugin 'junegunn/fzf'
 Plugin 'bkad/CamelCaseMotion'
 Plugin 'Raimondi/delimitMate'
 Plugin 'wookiehangover/jshint.vim'
@@ -31,11 +32,8 @@ Plugin 'jszakmeister/vim-togglecursor'
 Plugin 'PotatoesMaster/i3-vim-syntax'
 Plugin 'tpope/vim-sleuth'
 Plugin 'tpope/vim-fugitive'
-"Plugin 'ervandew/supertab'
-Plugin 'Valloric/YouCompleteMe'
 call vundle#end()
 set omnifunc=syntaxcomplete#Complete
-
 
 "----------Gvim Options----------
 "encoding stuff. A very hack-y way to get special chars working property
@@ -48,7 +46,7 @@ set list
 "set listchars=trail:·,precedes:«,extends:»,eol:↲
 "set listchars=tab:\▸\
 set guifont=Source\ Code\ Pro\ for\ Powerline
-set lines=50 columns=130
+" set lines=50 columns=130
 "Visual feedback is better than audio
 set visualbell
 "remove toolbar
@@ -86,18 +84,30 @@ colorscheme base16-default
 " when to use bolds and italics
 " highlight Comment cterm=italic gui=italic
 "highlight Folded gui=bold
+if exists('$TMUX')
+    let &t_SI = "\<Esc>Ptmux;\<Esc>\e[5 q\<Esc>\\"
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\e[2 q\<Esc>\\"
+else
+    let &t_SI = "\e[5 q"
+    let &t_EI = "\e[2 q"
+endif
+" Disable all blinking:
+set guicursor+=a:blinkon0
+" Remove previous setting:
+set guicursor-=a:blinkon0
+" Restore default setting:
+set guicursor&
 
-"----------Editor Remaps. Mostly personal preferance----------
+"----------Editor remaps. Mostly personal preferance----------
 let mapleader = " "
-nnoremap <Leader> @q
+" nnoremap <Leader> @q
 " W will save file just like w. For when you fatfinger W after hitting :
 command W w
 map L $
 map H ^
-" Use q for Visual Block mode...
+" switch q and ctrl+v functionality
 noremap	q <C-V>
-" ... and Q for macros
-nnoremap Q q
+nnoremap <C-V> q
 "repace selection with current register: hit r when text is selected
 map R "_dP
 " Map Ctrl-Backspace to delete the previous word in insert mode.
@@ -107,6 +117,8 @@ nnoremap <silent> <F8> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 "Remap NERDTree to ctrl+n
 map <C-n> :NERDTreeToggle<CR>
 vnoremap // y/<C-R>"<CR>"
+" Easy swap passive mode
+nmap <leader>s :SyntasticToggleMode
 
 
 "----------Editor behavior----------
@@ -117,7 +129,7 @@ set relativenumber
 set tabstop=4
 set shiftwidth=4
 "keeps the cursor off the bottom-most and top-most line if possible
-set scrolloff=5
+set scrolloff=30
 "allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 set history=100		" keep 50 lines of command line history
@@ -189,46 +201,46 @@ nnoremap x :set cursorline! cursorcolumn!
 "----------------------------------------
 
 "----------NeoComplete / autocomplete stuff!----------
-"imap <c-j> <c-x><c-o>
-"inoremap <expr> <c-k> pumvisible()?"\<Up>":"\<c-k>"
-"inoremap <expr> <c-j> pumvisible()?"\<Down>":"\<c-j>"
-"let g:neocomplete#enable_at_startup = 1
-"let g:neocomplete#enable_smart_case = 1
-"let g:neocomplete#enable_camel_case = 1
-"let g:neocomplete#enable_auto_select = 1
-"" Recommended key-mappings.
-"" <CR>: close popup and save indent.
-"inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-"function! s:my_cr_function()
-"  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-"  " For no inserting <CR> key.
-"  "return pumvisible() ? "\<C-y>" : "\<CR>"
-"endfunction
-"" <TAB>: completion.
-"inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-"" <C-h>, <BS>: close popup and delete backword char.
-"inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-"inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-"inoremap <silent> <CR> <C-r>=neocomplete#smart_close_popup()<CR><CR>
-"" <TAB>: completion.
-"inoremap <expr> <Tab> pumvisible() ? "\<C-y>" : "\<Tab>"
-"" <C-h>, <BS>: close popup and delete backword char.
-"inoremap <expr> <C-h> neocomplete#smart_close_popup()."\<C-h>"
-"inoremap <expr> <BS>  neocomplete#smart_close_popup()."\<C-h>"
-"inoremap <expr> <C-y> neocomplete#close_popup()
-"inoremap <expr> <C-e> neocomplete#cancel_popup()
-"" Enable omni completion.
-"autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-"autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-"autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-"autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-"autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-"" Enable heavy omni completion.
-"if !exists('g:neocomplete#sources#omni#input_patterns')
-"  let g:neocomplete#sources#omni#input_patterns = {}
-"endif
-"inoremap <expr> <C-g> neocomplete#undo_completion()
-"inoremap <expr> <C-l> neocomplete#complete_common_string()
+imap <c-j> <c-x><c-o>
+inoremap <expr> <c-k> pumvisible()?"\<Up>":"\<c-k>"
+inoremap <expr> <c-j> pumvisible()?"\<Down>":"\<c-j>"
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_smart_case = 1
+let g:neocomplete#enable_camel_case = 1
+let g:neocomplete#enable_auto_select = 1
+" Recommended key-mappings.
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+  " For no inserting <CR> key.
+  "return pumvisible() ? "\<C-y>" : "\<CR>"
+endfunction
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <silent> <CR> <C-r>=neocomplete#smart_close_popup()<CR><CR>
+" <TAB>: completion.
+inoremap <expr> <Tab> pumvisible() ? "\<C-y>" : "\<Tab>"
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr> <C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr> <BS>  neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr> <C-y> neocomplete#close_popup()
+inoremap <expr> <C-e> neocomplete#cancel_popup()
+" Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+" Enable heavy omni completion.
+if !exists('g:neocomplete#sources#omni#input_patterns')
+  let g:neocomplete#sources#omni#input_patterns = {}
+endif
+inoremap <expr> <C-g> neocomplete#undo_completion()
+inoremap <expr> <C-l> neocomplete#complete_common_string()
 
 ""----------VimFilter Stuff----------
 "let g:vimfiler_as_default_explorer = 1
@@ -315,19 +327,19 @@ au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
 
 "-----Makes CtrlP look in the current NERDTree dir-----
-let g:NERDTreeChDirMode       = 2
-let g:ctrlp_working_path_mode = 'rw'
+"let g:NERDTreeChDirMode       = 2
+"let g:ctrlp_working_path_mode = 'rw'
 
 "-----Refresh CtrlP with NERDTree (hopefully)-----
-"nnoremap <Leader>r :CtrlPClearCache<cr>call NERDTreeMapRefreshRoot()<cr>
-"function! NERDTreeMapRefreshRoot()
-"    if nerdtree#isTreeOpen()
-"        call nerdtree#putCursorInTreeWin()
-"        call nerdtree#invokeKeyMap('R')
-"        " Go back to previous window.
-"        wincmd p
-"    endif
-"endfunction
+nnoremap <Leader>r :CtrlPClearCache<cr>call NERDTreeMapRefreshRoot()<cr>
+function! NERDTreeMapRefreshRoot()
+    if nerdtree#isTreeOpen()
+        call nerdtree#putCursorInTreeWin()
+        call nerdtree#invokeKeyMap('R')
+        " Go back to previous window.
+        wincmd p
+    endif
+endfunction
 
 "----------Vim (NON GUI) Options----------
 " if !has("gui_running")
