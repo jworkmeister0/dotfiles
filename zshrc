@@ -86,10 +86,10 @@ promptinit
 setopt HIST_IGNORE_DUPS
 
 COMPLETION_WAITING_DOTS="true"
-precmd () {
-  tmux set -g status-left "$(pwd)"
-
-}
+# precmd () {
+#   tmux set -g status-left "$(pwd)"
+# 
+# }
 
 
 bindkey '^P' up-history
@@ -122,3 +122,4 @@ vim_mode=$vim_ins_mode
 return $(( 128 + $1 ))
 } 
 export KEYTIMEOUT=1
+export TERM=xterm-256color-italic

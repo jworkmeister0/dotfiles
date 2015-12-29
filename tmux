@@ -22,6 +22,11 @@ set -g default-terminal "screen-256color"
 unbind r
 bind r source-file ~/.tmux.conf
 
+# border colours
+set -g pane-border-fg magenta
+set -g pane-active-border-fg green
+set -g pane-active-border-bg default
+
 # # quick pane cycling
 unbind ^A
 bind ^A select-pane -t :.+
@@ -30,7 +35,7 @@ set-window-option -g mode-keys vi
 # # Mouse support - set to on if you want to use the mouse
 # setw -g mode-mouse on
 # set -g mouse-select-pane on
-# set -g mouse-resize-pane on
+set -g mouse-resize-pane on
 # set -g mouse-select-window on
 
 # # Maximize and restore a pane
@@ -72,7 +77,7 @@ set-option -g quiet on
 set -g status-utf8 on                  # set utf-8 for the status bar
 set -g status-interval 5               # set update frequencey (default 15 seconds)
 set -g status-justify centre           # center window list for clarity
-set-option -g status-position top    # position the status bar at top of screen
+set-option -g status-position bottom    # position the status bar at top of screen
 
 # visual notification of activity in other windows
 setw -g monitor-activity on

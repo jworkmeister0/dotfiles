@@ -6,3 +6,4 @@ alias vim=vim
 alias :q=exit
 alias dnf=yum
 alias electro='electron main.js'
+alias capp='chromiumify run .'

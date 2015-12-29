@@ -6,36 +6,42 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'Shougo/neocomplete.vim'
-Plugin 'ctrlpvim/ctrlp.vim'
-" Plugin 'junegunn/fzf'
 Plugin 'bkad/CamelCaseMotion'
-Plugin 'Raimondi/delimitMate'
 Plugin 'wookiehangover/jshint.vim'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'jelera/vim-javascript-syntax'
 Plugin 'othree/javascript-libraries-syntax.vim'
-Plugin 'kien/rainbow_parentheses.vim'
+" Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'scrooloose/nerdtree'
 Plugin 'mbbill/undotree'
 Plugin 'bling/vim-airline'
 Plugin 'chriskempson/base16-vim'
 Plugin 'flazz/vim-colorschemes'
-Plugin 'altercation/vim-colors-solarized'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'digitaltoad/vim-jade'
 Plugin 'pangloss/vim-javascript'
+Plugin 'dkprice/vim-easygrep'
+" Plugin 'jszakmeister/vim-togglecursor'
+Plugin 'PotatoesMaster/i3-vim-syntax'
 Plugin 'tpope/vim-sensible'
 Plugin 'tpope/vim-surround'
-Plugin 'dkprice/vim-easygrep'
-Plugin 'jszakmeister/vim-togglecursor'
-Plugin 'PotatoesMaster/i3-vim-syntax'
 Plugin 'tpope/vim-sleuth'
+Plugin 'tpope/vim-markdown'
 Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-repeat'
+Plugin 'wincent/command-t'
+Plugin 'jiangmiao/auto-pairs'
+" Plugin 'ternjs/tern_for_vim'
+Plugin 'lilydjwg/colorizer'
+Plugin 'justinmk/vim-gtfo'
+Plugin 'Shutnik/jshint2.vim'
+Plugin 'wesQ3/vim-windowswap'
+
 call vundle#end()
 set omnifunc=syntaxcomplete#Complete
 
-"----------Gvim Options----------
+"----------General Options----------
 "encoding stuff. A very hack-y way to get special chars working property
 filetype plugin indent on
 set fileencodings=utf-8,latin1
@@ -56,6 +62,11 @@ set guioptions-=T
 "aren't nesessary
 set guioptions-=r
 set guioptions-=L
+set smartcase
+set ttyfast
+set title
+"this is for ctrlspace
+set hidden
 
 "----------File I/O, shell and platform-specific behavior and settings----------
 set dir=~/.vim/swap
@@ -66,12 +77,12 @@ set undolevels=5000
 set undoreload=5000
 " set swapfile
 set backup
-set nocompatible
-"behave mswin
+set nocompatible "behave mswin
 "Use mouse features if possible
 set mouse=a
-set pastetoggle=<F2>
+set pastetoggle=<F6>
 set clipboard=unnamed
+" lololo
 
 "----------Colors and Eyecandy. Includes plugin colorschemes----------
 let base16colorspace=256
@@ -82,27 +93,23 @@ set background=dark
 let g:airline_theme='jellybeans'
 colorscheme base16-default
 " when to use bolds and italics
-" highlight Comment cterm=italic gui=italic
+highlight Comment cterm=italic gui=italic
+
 "highlight Folded gui=bold
 if exists('$TMUX')
     let &t_SI = "\<Esc>Ptmux;\<Esc>\e[5 q\<Esc>\\"
-    let &t_EI = "\<Esc>Ptmux;\<Esc>\e[2 q\<Esc>\\"
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\e[4 q\<Esc>\\"
 else
     let &t_SI = "\e[5 q"
-    let &t_EI = "\e[2 q"
+    let &t_EI = "\e[4 q"
 endif
-" Disable all blinking:
-set guicursor+=a:blinkon0
-" Remove previous setting:
-set guicursor-=a:blinkon0
-" Restore default setting:
-set guicursor&
+
 
 "----------Editor remaps. Mostly personal preferance----------
 let mapleader = " "
 " nnoremap <Leader> @q
 " W will save file just like w. For when you fatfinger W after hitting :
-command W w
+command! W w
 map L $
 map H ^
 " switch q and ctrl+v functionality
@@ -111,25 +118,42 @@ nnoremap <C-V> q
 "repace selection with current register: hit r when text is selected
 map R "_dP
 " Map Ctrl-Backspace to delete the previous word in insert mode.
-:imap <C-BS> <C-W>
-"F5 removes trailing whitespace
+noremap! <C-BS> <C-w>
+noremap! <C-h> <C-w>
+imap <C-BS> <C-W>
+"F8 removes trailing whitespace
 nnoremap <silent> <F8> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 "Remap NERDTree to ctrl+n
 map <C-n> :NERDTreeToggle<CR>
 vnoremap // y/<C-R>"<CR>"
 " Easy swap passive mode
-nmap <leader>s :SyntasticToggleMode
+nmap <leader>st :SyntasticToggleMode
 
+if !exists("*ReloadConfigs")
+  function! ReloadConfigs()
+      :source ~/.vimrc
+      if has("gui_running")
+          :source ~/.gvimrc
+      endif
+  endfunction
+  command! Recfg call ReloadConfigs()
+endif
+
+nmap <leader>r :call ReloadConfigs()
+
+map <leader>vrc :vsp ~/.vimrc<cr>
+
+nnoremap x :set cursorline! cursorcolumn! <CR>
 
 "----------Editor behavior----------
 set hlsearch
 set smartindent
 set number
-set relativenumber
+" set relativenumber
 set tabstop=4
 set shiftwidth=4
 "keeps the cursor off the bottom-most and top-most line if possible
-set scrolloff=30
+set scrolloff=20
 "allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 set history=100		" keep 50 lines of command line history
@@ -151,7 +175,7 @@ set showbreak=┗━━━━━━
 set cpoptions+=n
 
 " Turns off annoying comment insertion
-autocmd FileType * setlocal formatoptions-=o formatoptions -=c 
+autocmd FileType * setlocal formatoptions-=o formatoptions -=c
 
 "saves and loads folds automaticallys
 "autocmd BufWinLeave *.* mkview!
@@ -194,7 +218,6 @@ endif
 
 hi CursorLine   cterm=NONE ctermbg=235
 hi CursorColumn cterm=NONE ctermbg=235
-nnoremap x :set cursorline! cursorcolumn!
 
 "----------------------------------------
 "---------Plugin Settings Below----------
@@ -264,82 +287,91 @@ let g:syntastic_php_checkers = ['phplint']
 "----------Syntastic Behavior----------
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 let g:syntastic_enable_signs=1
 let g:syntastic_loc_list_height=5
 let g:syntastic_warning_symbol = '--'
 let b:syntastic_skip_checks = 0
-function s:find_jshintrc(dir)
-    let l:found = globpath(a:dir, '.jshintrc')
-    if filereadable(l:found)
-        return l:found
-    endif
+function! s:find_jshintrc(dir)
+     let l:found = globpath(a:dir, '.jshintrc')
+     if filereadable(l:found)
+         return l:found
+     endif
 
-    let l:parent = fnamemodify(a:dir, ':h')
-    if l:parent != a:dir
-        return s:find_jshintrc(l:parent)
-    endif
+     let l:parent = fnamemodify(a:dir, ':h')
+     if l:parent != a:dir
+         return s:find_jshintrc(l:parent)
+     endif
 
-    return "~/.jshintrc"
-endfunction
+     return "~/.jshintrc"
+ endfunction
 
-"----------Ignore angular directive warnings----------
+"Ignore angular directive warnings
 let g:syntastic_html_tidy_ignore_errors=['proprietary attribute', 'trimming empty']
 
 "----------Syntastic Warnings----------
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+if !exists("*ReloadConfigs")
+    set statusline+=%#warningmsg#
+    set statusline+=%{SyntasticStatuslineFlag()}
+    set statusline+=%*
+endif
 
 "----------EasyMotion behavior. This is a work in progress----------
 let g:EasyMotion_smartcase = 1
 let g:EasyMotion_do_mapping = 0 " Disable default mappings
+map <Leader> <Plug>(easymotion-prefix)
 " Bi-directional find motion
 " Jump to anywhere you want with minimal keystrokes, with just one key b i nding .
 " `s{char}{label}`
 nmap s <Plug>(easymotion-s)
-" or
-" `s{char}{char}{label}`
-" Need one more keystroke, but on average, it may be more comfortable.
+" " or
+" " `s{char}{char}{label}`
+" " Need one more keystroke, but on average, it may be more comfortable.
 nmap s <Plug>(easymotion-s2)
+map <Leader>l <Plug>(easymotion-lineforward)
+map <Leader>j <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
+map <Leader>h <Plug>(easymotion-linebackward)
 
-"----------EasyMotion case insensitive feature----------
+let g:EasyMotion_startofline = 0 " keep cursor column when JK motion
+
 let g:EasyMotion_smartcase = 1
+let g:EasyMotion_use_smartsign_us = 1
 
 "----------EasyMotion Line motions----------
 map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
 
 "----------ctrlp mappings----------
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
+"let g:ctrlp_map = '<c-p>'
+"let g:ctrlp_cmd = 'CtrlP'
 
 "----------NERDTree on startup with focus on the editor (ONLY GVIM)----------
 "Set NERDTree arrow chars
-let g:NERDTreeDirArrows = 1
+let g:NERDTreeDirArrows = 0
 
 
 "----- RAINBOW PARENTHESES!!!-----
-au VimEnter * RainbowParenthesesToggle
-au Syntax * RainbowParenthesesLoadRound
-au Syntax * RainbowParenthesesLoadSquare
-au Syntax * RainbowParenthesesLoadBraces
+" au VimEnter * RainbowParenthesesToggle
+" au Syntax * RainbowParenthesesLoadRound
+" au Syntax * RainbowParenthesesLoadSquare
+" au Syntax * RainbowParenthesesLoadBraces
 
 "-----Makes CtrlP look in the current NERDTree dir-----
 "let g:NERDTreeChDirMode       = 2
 "let g:ctrlp_working_path_mode = 'rw'
 
 "-----Refresh CtrlP with NERDTree (hopefully)-----
-nnoremap <Leader>r :CtrlPClearCache<cr>call NERDTreeMapRefreshRoot()<cr>
-function! NERDTreeMapRefreshRoot()
-    if nerdtree#isTreeOpen()
-        call nerdtree#putCursorInTreeWin()
-        call nerdtree#invokeKeyMap('R')
-        " Go back to previous window.
-        wincmd p
-    endif
-endfunction
+" nnoremap <Leader>r :CtrlPClearCache<cr>call NERDTreeMapRefreshRoot()<cr>
+" function! NERDTreeMapRefreshRoot()
+"     if nerdtree#isTreeOpen()
+"         call nerdtree#putCursorInTreeWin()
+"         call nerdtree#invokeKeyMap('R')
+"         " Go back to previous window.
+"         wincmd p
+"     endif
+" endfunction
 
 "----------Vim (NON GUI) Options----------
 " if !has("gui_running")
@@ -358,8 +390,13 @@ endfunction
 " 	let g:airline_theme='base16'
 " endif
 
+"----------Airline Config----------
 let g:airline_powerline_fonts=1
-
+let g:airline#extensions#syntastic#enabled = 1
+let g:airline#extensions#tmuxline#enabled = 1
+let g:airline#extensions#windowswap#enabled = 1
+let g:airline#extensions#windowswap#indicator_text = '♻ WINDOW SWAP ♻'
+let g:airline#extensions#ctrlspace#enabled = 1
 
 let b:syntastic_skip_checks = 0
 "au BufRead * normal zR
