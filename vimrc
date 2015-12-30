@@ -7,11 +7,10 @@ Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'Shougo/neocomplete.vim'
 Plugin 'bkad/CamelCaseMotion'
-Plugin 'wookiehangover/jshint.vim'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'jelera/vim-javascript-syntax'
 Plugin 'othree/javascript-libraries-syntax.vim'
-" Plugin 'kien/rainbow_parentheses.vim'
+Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'scrooloose/nerdtree'
 Plugin 'mbbill/undotree'
@@ -20,9 +19,8 @@ Plugin 'chriskempson/base16-vim'
 Plugin 'flazz/vim-colorschemes'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'digitaltoad/vim-jade'
-Plugin 'pangloss/vim-javascript'
 Plugin 'dkprice/vim-easygrep'
-" Plugin 'jszakmeister/vim-togglecursor'
+Plugin 'jszakmeister/vim-togglecursor'
 Plugin 'PotatoesMaster/i3-vim-syntax'
 Plugin 'tpope/vim-sensible'
 Plugin 'tpope/vim-surround'
@@ -30,13 +28,16 @@ Plugin 'tpope/vim-sleuth'
 Plugin 'tpope/vim-markdown'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-repeat'
-Plugin 'wincent/command-t'
+Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'jiangmiao/auto-pairs'
-" Plugin 'ternjs/tern_for_vim'
+Plugin 'ternjs/tern_for_vim'
 Plugin 'lilydjwg/colorizer'
 Plugin 'justinmk/vim-gtfo'
 Plugin 'Shutnik/jshint2.vim'
 Plugin 'wesQ3/vim-windowswap'
+Plugin 'yegappan/grep'
+Plugin 'Yggdroot/indentLine'
+
 
 call vundle#end()
 set omnifunc=syntaxcomplete#Complete
@@ -80,7 +81,7 @@ set backup
 set nocompatible "behave mswin
 "Use mouse features if possible
 set mouse=a
-set pastetoggle=<F6>
+set pastetoggle=<F2>
 set clipboard=unnamed
 " lololo
 
@@ -98,10 +99,10 @@ highlight Comment cterm=italic gui=italic
 "highlight Folded gui=bold
 if exists('$TMUX')
     let &t_SI = "\<Esc>Ptmux;\<Esc>\e[5 q\<Esc>\\"
-    let &t_EI = "\<Esc>Ptmux;\<Esc>\e[4 q\<Esc>\\"
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\e[2 q\<Esc>\\"
 else
     let &t_SI = "\e[5 q"
-    let &t_EI = "\e[4 q"
+    let &t_EI = "\e[2 q"
 endif
 
 
@@ -128,6 +129,11 @@ map <C-n> :NERDTreeToggle<CR>
 vnoremap // y/<C-R>"<CR>"
 " Easy swap passive mode
 nmap <leader>st :SyntasticToggleMode
+nmap <leader>rc :call ReloadConfigs()
+map <leader>vrc :vsp ~/.vimrc<cr>
+nnoremap x :set cursorline! cursorcolumn! <CR>
+nmap <leader>tt :TagbarToggle<CR>
+map <leader>rg :Rgrep<CR>
 
 if !exists("*ReloadConfigs")
   function! ReloadConfigs()
@@ -138,13 +144,6 @@ if !exists("*ReloadConfigs")
   endfunction
   command! Recfg call ReloadConfigs()
 endif
-
-nmap <leader>r :call ReloadConfigs()
-
-map <leader>vrc :vsp ~/.vimrc<cr>
-
-nnoremap x :set cursorline! cursorcolumn! <CR>
-
 "----------Editor behavior----------
 set hlsearch
 set smartindent
@@ -185,11 +184,7 @@ autocmd FileType * setlocal formatoptions-=o formatoptions -=c
 "set foldlevel=99
 "set nofoldenable
 "Javascript folding
-au FileType javascript call JavaScriptFold()
-
-"Automatic paste mode (hopefully)
-"let &t_SI .= "\<Esc>[?2004h"
-"let &t_EI .= "\<Esc>[?2004l"
+" au FileType javascript call JavaScriptFold()
 
 inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 
@@ -222,6 +217,32 @@ hi CursorColumn cterm=NONE ctermbg=235
 "----------------------------------------
 "---------Plugin Settings Below----------
 "----------------------------------------
+
+"----------Indent guides!----------
+let g:indentLine_char = '¦'
+let g:indentLine_color_term = 8
+
+
+"----------Javascript stuff!----------
+let g:javascript_conceal_function   = "ƒ"
+let g:javascript_conceal_null       = "ø"
+let g:javascript_conceal_this       = "@"
+let g:javascript_conceal_return     = "⇚"
+let g:javascript_conceal_undefined  = "¿"
+let g:javascript_conceal_NaN        = "ℕ"
+let g:javascript_conceal_prototype  = "¶"
+let g:javascript_conceal_static     = "•"
+let g:javascript_conceal_super      = "Ω"
+let g:javascript_enable_domhtmlcss  = 1
+
+"----------Tagging!----------
+let g:easytags_async=1
+let g:easytags_cmd='/usr/bin/ctags'
+let g:easytags_file = '~/.vim/tags'
+let g:easytags_autorecurse = 1
+map <leader>ut :UpdateTags<CR>
+map <leader>ht :HighlightTags<CR>
+
 
 "----------NeoComplete / autocomplete stuff!----------
 imap <c-j> <c-x><c-o>
@@ -265,8 +286,6 @@ endif
 inoremap <expr> <C-g> neocomplete#undo_completion()
 inoremap <expr> <C-l> neocomplete#complete_common_string()
 
-""----------VimFilter Stuff----------
-"let g:vimfiler_as_default_explorer = 1
 "----------CamelCase Stuff----------
 map <silent> W <Plug>CamelCaseMotion_w
 map <silent> B <Plug>CamelCaseMotion_b
@@ -310,7 +329,6 @@ function! s:find_jshintrc(dir)
 "Ignore angular directive warnings
 let g:syntastic_html_tidy_ignore_errors=['proprietary attribute', 'trimming empty']
 
-"----------Syntastic Warnings----------
 if !exists("*ReloadConfigs")
     set statusline+=%#warningmsg#
     set statusline+=%{SyntasticStatuslineFlag()}
@@ -335,60 +353,27 @@ map <Leader>k <Plug>(easymotion-k)
 map <Leader>h <Plug>(easymotion-linebackward)
 
 let g:EasyMotion_startofline = 0 " keep cursor column when JK motion
-
 let g:EasyMotion_smartcase = 1
 let g:EasyMotion_use_smartsign_us = 1
 
-"----------EasyMotion Line motions----------
-map <Leader>j <Plug>(easymotion-j)
-map <Leader>k <Plug>(easymotion-k)
+"----------ctrlp settings----------
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_by_filename = 1
+let g:ctrlp_root_markers = ['.ctrlp']
+let g:ctrlp_max_files=0
+let g:ctrlp_max_depth=40
+let g:ctrlp_follow_symlinks=1
+let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_match_window = ''
+let g:ctrlp_show_hidden=1
+let g:ctrlp_reuse_window = 'netrw'
 
-"----------ctrlp mappings----------
-"let g:ctrlp_map = '<c-p>'
-"let g:ctrlp_cmd = 'CtrlP'
 
-"----------NERDTree on startup with focus on the editor (ONLY GVIM)----------
+"----------NERDTree Config-----------
 "Set NERDTree arrow chars
 let g:NERDTreeDirArrows = 0
 
-
-"----- RAINBOW PARENTHESES!!!-----
-" au VimEnter * RainbowParenthesesToggle
-" au Syntax * RainbowParenthesesLoadRound
-" au Syntax * RainbowParenthesesLoadSquare
-" au Syntax * RainbowParenthesesLoadBraces
-
-"-----Makes CtrlP look in the current NERDTree dir-----
-"let g:NERDTreeChDirMode       = 2
-"let g:ctrlp_working_path_mode = 'rw'
-
-"-----Refresh CtrlP with NERDTree (hopefully)-----
-" nnoremap <Leader>r :CtrlPClearCache<cr>call NERDTreeMapRefreshRoot()<cr>
-" function! NERDTreeMapRefreshRoot()
-"     if nerdtree#isTreeOpen()
-"         call nerdtree#putCursorInTreeWin()
-"         call nerdtree#invokeKeyMap('R')
-"         " Go back to previous window.
-"         wincmd p
-"     endif
-" endfunction
-
-"----------Vim (NON GUI) Options----------
-" if !has("gui_running")
-"    let g:NERDTreeDirArrows = 0
-" 	set term=xterm
-" 	set t_Co=256
-" 	let &t_AB="\e[48;5;%dm"
-" 	let &t_AF="\e[38;5;%dm"
-" 	inoremap <Esc>[62~ <C-X><C-E>
-" 	inoremap <Esc>[63~ <C-X><C-Y>
-" 	nnoremap <Esc>[62~ <C-E>
-" 	nnoremap <Esc>[63~ <C-Y>
-" 	let g:airline_left_sep = ''
-" 	let g:airline_right_sep = ''
-" 	set shell=powershell
-" 	let g:airline_theme='base16'
-" endif
 
 "----------Airline Config----------
 let g:airline_powerline_fonts=1
@@ -397,6 +382,7 @@ let g:airline#extensions#tmuxline#enabled = 1
 let g:airline#extensions#windowswap#enabled = 1
 let g:airline#extensions#windowswap#indicator_text = '♻ WINDOW SWAP ♻'
 let g:airline#extensions#ctrlspace#enabled = 1
+let g:airline#extensions#tagbar#enabled = 1
 
 let b:syntastic_skip_checks = 0
 "au BufRead * normal zR

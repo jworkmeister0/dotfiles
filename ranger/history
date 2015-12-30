@@ -1,2 +1,7 @@
 open_with 
 open_with vim
+
+delete
+rename Desktop
+rename test
+hidden

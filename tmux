@@ -22,6 +22,7 @@ set -g default-terminal "screen-256color"
 unbind r
 bind r source-file ~/.tmux.conf
 
+set -g @shell_mode 'vi'
 # border colours
 set -g pane-border-fg magenta
 set -g pane-active-border-fg green
@@ -104,4 +105,5 @@ set-window-option -g window-status-current-attr bright
 set -g status-right-length 60
 set -g status-right "%d %b %Y #[fg=green]  %l:%M %p  #(date -u  ')"
 
-# run-shell ~/.config/tmux-yank
+run-shell ~/.config/tmux-yank/yank.tmux
+
