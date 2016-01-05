@@ -7,6 +7,7 @@ Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'Shougo/neocomplete.vim'
 Plugin 'bkad/CamelCaseMotion'
+Plugin 'wookiehangover/jshint.vim'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'jelera/vim-javascript-syntax'
 Plugin 'othree/javascript-libraries-syntax.vim'
@@ -66,8 +67,10 @@ set guioptions-=L
 set smartcase
 set ttyfast
 set title
-"this is for ctrlspace
 set hidden
+set breakindent
+set tw=79
+
 
 "----------File I/O, shell and platform-specific behavior and settings----------
 set dir=~/.vim/swap
@@ -83,7 +86,6 @@ set nocompatible "behave mswin
 set mouse=a
 set pastetoggle=<F2>
 set clipboard=unnamed
-" lololo
 
 "----------Colors and Eyecandy. Includes plugin colorschemes----------
 let base16colorspace=256
@@ -124,6 +126,10 @@ noremap! <C-h> <C-w>
 imap <C-BS> <C-W>
 "F8 removes trailing whitespace
 nnoremap <silent> <F8> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
+"this is magic! it allows a two-column view to see more lines in the file
+"you can get like 400 lines on one screen. its cray cray
+"<leader>bm is a mnemonic for BookMode
+noremap <silent> <Leader>bm :<C-u>let @z=&so<CR>:set so=0 noscb<CR>:bo vs<CR>Ljzt:setl scb<CR><C-w>p:setl scb<CR>:let &so=@z<CR>
 "Remap NERDTree to ctrl+n
 map <C-n> :NERDTreeToggle<CR>
 vnoremap // y/<C-R>"<CR>"
@@ -134,16 +140,32 @@ map <leader>vrc :vsp ~/.vimrc<cr>
 nnoremap x :set cursorline! cursorcolumn! <CR>
 nmap <leader>tt :TagbarToggle<CR>
 map <leader>rg :Rgrep<CR>
+"Coarse resizing
+nnoremap <Left>  :vertical resize -3<cr>
+nnoremap <Right> :vertical resize +3<cr>
+nnoremap <Down>  :resize +3<cr>
+nnoremap <Up>    :resize -3<cr>
+"Fine resizing
+nnoremap <leader>L :vertical resize +1<CR>
+nnoremap <leader>H :vertical resize -1<CR>
+nnoremap <leader>K :resize +1<CR>
+nnoremap <leader>J :resize -1<CR>
+"for easier copying and pasting to/from clipboard
+vmap <leader>c "+y <CR>
+vmap <leader>C "+y <CR>
+noremap <leader>p "+p <ENTER><CR>
+noremap <leader>P "+P <ENTER><CR>
 
 if !exists("*ReloadConfigs")
   function! ReloadConfigs()
       :source ~/.vimrc
       if has("gui_running")
-          :source ~/.gvimrc
+        :source ~/.gvimrc
       endif
   endfunction
   command! Recfg call ReloadConfigs()
 endif
+
 "----------Editor behavior----------
 set hlsearch
 set smartindent
@@ -151,6 +173,9 @@ set number
 " set relativenumber
 set tabstop=4
 set shiftwidth=4
+set softtabstop=4
+set smarttab
+set expandtab
 "keeps the cursor off the bottom-most and top-most line if possible
 set scrolloff=20
 "allow backspacing over everything in insert mode
@@ -164,11 +189,13 @@ set incsearch		" do incremental searching
 "Margin guide. 80 is standard
 set colorcolumn=80
 "hi ColorColumn ctermbg=233
-set wrap linebreak nolist
+set wrap
+set linebreak
+set nolist
 
 " line up soft-wrap prefix with the line numbers
 " DONT REMOVE TRAILING WHITESPACE
-set showbreak=┗━━━━━━
+set showbreak=┗━━━
 
 " start soft-wrap lines (and any prefix) in the line-number area
 set cpoptions+=n
@@ -210,7 +237,6 @@ if !has('gui_running')
     au InsertLeave * set timeoutlen=1000
   augroup END
 endif
-
 hi CursorLine   cterm=NONE ctermbg=235
 hi CursorColumn cterm=NONE ctermbg=235
 
@@ -221,7 +247,6 @@ hi CursorColumn cterm=NONE ctermbg=235
 "----------Indent guides!----------
 let g:indentLine_char = '¦'
 let g:indentLine_color_term = 8
-
 
 "----------Javascript stuff!----------
 let g:javascript_conceal_function   = "ƒ"
@@ -373,7 +398,7 @@ let g:ctrlp_reuse_window = 'netrw'
 "----------NERDTree Config-----------
 "Set NERDTree arrow chars
 let g:NERDTreeDirArrows = 0
-
+let g:NERDTreeDirArrows=0
 
 "----------Airline Config----------
 let g:airline_powerline_fonts=1
@@ -387,3 +412,6 @@ let g:airline#extensions#tagbar#enabled = 1
 let b:syntastic_skip_checks = 0
 "au BufRead * normal zR
 au BufWinEnter * normal zR
+
+let g:NERDTreeDirArrows=0
+au FileType javascript call JavaScriptFold()

@@ -35,9 +35,9 @@ bind ^A select-pane -t :.+
 set-window-option -g mode-keys vi
 # # Mouse support - set to on if you want to use the mouse
 # setw -g mode-mouse on
-# set -g mouse-select-pane on
+set -g mouse-select-pane on
 set -g mouse-resize-pane on
-# set -g mouse-select-window on
+set -g mouse-select-window on
 
 # # Maximize and restore a pane
 #unbind Up bind Up new-window -d -n tmp \; swap-pane -s tmp.1 \; select-window -t tmp
@@ -53,6 +53,11 @@ bind h resize-pane -L 10
 bind j resize-pane -D 10
 bind k resize-pane -U 10
 bind l resize-pane -R 10
+
+bind -n M-h resize-pane -L 5
+bind -n M-j resize-pane -D 5
+bind -n M-k resize-pane -U 5
+bind -n M-l resize-pane -R 5
 
 set -g history-limit 20000
 

@@ -1,7 +1,10 @@
 open_with 
 open_with vim
-
 delete
 rename Desktop
 rename test
 hidden
+
+cut
+paste
+open_with llhhhhhhhhhhhhh
