@@ -70,6 +70,7 @@ set title
 set hidden
 set breakindent
 set tw=79
+set t_Co=256
 
 
 "----------File I/O, shell and platform-specific behavior and settings----------
@@ -87,16 +88,19 @@ set mouse=a
 set pastetoggle=<F2>
 set clipboard=unnamed
 
-"----------Colors and Eyecandy. Includes plugin colorschemes----------
+"----------Colors and eyecandy. Includes plugin colorschemes----------
+colorscheme base16-default
+let g:airline_theme='jellybeans'
+" when to use bolds and italics
+highlight Comment cterm=italic gui=italic
 let base16colorspace=256
 syntax on
 let g:solarized_termcolors=16
 let g:solarized_contrast="high"
 set background=dark
-let g:airline_theme='jellybeans'
-colorscheme base16-default
-" when to use bolds and italics
-highlight Comment cterm=italic gui=italic
+
+" highlight NonText ctermbg=none
+" hi Normal ctermbg=none
 
 "highlight Folded gui=bold
 if exists('$TMUX')

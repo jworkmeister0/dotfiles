@@ -12,7 +12,7 @@ set -g default-terminal "screen-256color"
 # set-window-option -g window-status-fg white
 # set-window-option -g window-status-bg default
 # #set-window-option -g window-status-attr dim
-# 
+#
 # # message text
 # set-option -g message-bg default
 # set-option -g message-fg white
@@ -38,6 +38,9 @@ set-window-option -g mode-keys vi
 set -g mouse-select-pane on
 set -g mouse-resize-pane on
 set -g mouse-select-window on
+
+set -g set-titles on
+set -g set-titles-string '#T'
 
 # # Maximize and restore a pane
 #unbind Up bind Up new-window -d -n tmp \; swap-pane -s tmp.1 \; select-window -t tmp
@@ -71,7 +74,7 @@ bind -n C-j run "(tmux display-message -p '#{pane_current_command}' | grep -iq v
 bind -n C-k run "(tmux display-message -p '#{pane_current_command}' | grep -iq vim && tmux send-keys C-k) || tmux select-pane -U"
 bind -n C-l run "(tmux display-message -p '#{pane_current_command}' | grep -iq vim && tmux send-keys C-l) || tmux select-pane -R"
 bind -n C-\ run "(tmux display-message -p '#{pane_current_command}' | grep -iq vim && tmux send-keys 'C-\\') || tmux select-pane -l"
-# 
+#
 bind \ split-window -h # Split panes horizontal
 bind - split-window -v # Split panes vertically
 
@@ -92,19 +95,19 @@ set -g visual-activity on
 # set color for status bar
 set-option -g status-bg colour235 #base02
 set-option -g status-fg yellow #yellow
-set-option -g status-attr dim 
-# 
+set-option -g status-attr dim
+#
 # # set window list colors - red for active and cyan for inactive
 set-window-option -g window-status-fg brightblue #base0
-set-window-option -g window-status-bg colour236 
+set-window-option -g window-status-bg colour236
 set-window-option -g window-status-attr dim
 
 set-window-option -g window-status-current-fg brightred #orange
 set-window-option -g window-status-current-bg colour235
 set-window-option -g window-status-current-attr bright
-# 
+#
 # set -g status-left-length 70
-# 
+#
 # show session name, window & pane number, date and time on right side of
 # status bar
 set -g status-right-length 60

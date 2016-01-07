@@ -88,7 +88,7 @@ setopt HIST_IGNORE_DUPS
 COMPLETION_WAITING_DOTS="true"
 # precmd () {
 #   tmux set -g status-left "$(pwd)"
-# 
+#
 # }
 
 
@@ -120,6 +120,8 @@ zle -N zle-line-finish
 function TRAPINT() {
 vim_mode=$vim_ins_mode
 return $(( 128 + $1 ))
-} 
+}
 export KEYTIMEOUT=1
 export TERM=xterm-256color-italic
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
