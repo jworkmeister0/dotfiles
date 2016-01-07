@@ -403,6 +403,8 @@ let g:ctrlp_reuse_window = 'netrw'
 "Set NERDTree arrow chars
 let g:NERDTreeDirArrows = 0
 let g:NERDTreeDirArrows=0
+let g:NERDTreeMinimalUI=1
+let NERDTreeMinimalUI=1
 
 "----------Airline Config----------
 let g:airline_powerline_fonts=1
