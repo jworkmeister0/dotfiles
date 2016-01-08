@@ -6,4 +6,4 @@ alias vim=vim
 alias :q=exit
 alias dnf=yum
 alias electro='electron main.js'
-alias capp='chromiumify run .'
+alias capp='google-chrome --load-and-launch-app=/home/john/projects/chrome-app-first-discovery'

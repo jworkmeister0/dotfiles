@@ -41,6 +41,9 @@ Plugin 'wesQ3/vim-windowswap'
 Plugin 'yegappan/grep'
 Plugin 'Yggdroot/indentLine'
 Plugin 'svermeulen/vim-NotableFt'
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
+
 
 
 call vundle#end()
@@ -342,7 +345,8 @@ let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 let g:syntastic_enable_signs=1
 let g:syntastic_loc_list_height=5
-let g:syntastic_warning_symbol = '--'
+let g:syntastic_warning_symbol = '☡'
+let g:syntastic_error_symbol = '⚠'
 let b:syntastic_skip_checks = 0
 function! s:find_jshintrc(dir)
      let l:found = globpath(a:dir, '.jshintrc')
@@ -408,6 +412,12 @@ let g:NERDTreeDirArrows = 0
 let g:NERDTreeDirArrows=0
 let g:NERDTreeMinimalUI=1
 let NERDTreeMinimalUI=1
+
+"----------utilisnips Config-----------
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+let g:UltiSnipsEditSplit="vertical"
 
 "----------Airline Config----------
 let g:airline_powerline_fonts=1
