@@ -6,6 +6,8 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'Shougo/neocomplete.vim'
+"Plugin 'Shougo/unite.vim'
+"Plugin 'Shougo/vimfiler.vim'
 Plugin 'bkad/CamelCaseMotion'
 Plugin 'wookiehangover/jshint.vim'
 Plugin 'christoomey/vim-tmux-navigator'
@@ -38,6 +40,7 @@ Plugin 'Shutnik/jshint2.vim'
 Plugin 'wesQ3/vim-windowswap'
 Plugin 'yegappan/grep'
 Plugin 'Yggdroot/indentLine'
+Plugin 'svermeulen/vim-NotableFt'
 
 
 call vundle#end()
@@ -353,7 +356,7 @@ function! s:find_jshintrc(dir)
      endif
 
      return "~/.jshintrc"
- endfunction
+endfunction
 
 "Ignore angular directive warnings
 let g:syntastic_html_tidy_ignore_errors=['proprietary attribute', 'trimming empty']

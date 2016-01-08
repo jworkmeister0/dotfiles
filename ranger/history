@@ -1,11 +1,18 @@
 open_with 
 open_with vim
-delete
 rename Desktop
 rename test
 hidden
 
 cut
-paste
 open_with llhhhhhhhhhhhhh
 q
+search Down	
+find Dow
+find pop 
+find ico
+copy
+find pr
+open_with j
+paste
+delete
