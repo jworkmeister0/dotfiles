@@ -1,9 +1,7 @@
-open_with 
 open_with vim
 rename Desktop
 rename test
 hidden
-
 cut
 open_with llhhhhhhhhhhhhh
 q
@@ -15,4 +13,8 @@ copy
 find pr
 open_with j
 paste
+
+open_with 
 delete
+move
+rename He

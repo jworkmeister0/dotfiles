@@ -9,7 +9,7 @@ Plugin 'Shougo/neocomplete.vim'
 "Plugin 'Shougo/unite.vim'
 "Plugin 'Shougo/vimfiler.vim'
 Plugin 'bkad/CamelCaseMotion'
-Plugin 'wookiehangover/jshint.vim'
+"Plugin 'wookiehangover/jshint.vim'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'jelera/vim-javascript-syntax'
 Plugin 'othree/javascript-libraries-syntax.vim'
@@ -23,7 +23,7 @@ Plugin 'flazz/vim-colorschemes'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'digitaltoad/vim-jade'
 Plugin 'dkprice/vim-easygrep'
-Plugin 'jszakmeister/vim-togglecursor'
+"Plugin 'jszakmeister/vim-togglecursor'
 Plugin 'PotatoesMaster/i3-vim-syntax'
 Plugin 'tpope/vim-sensible'
 Plugin 'tpope/vim-surround'
@@ -36,13 +36,12 @@ Plugin 'jiangmiao/auto-pairs'
 Plugin 'ternjs/tern_for_vim'
 Plugin 'lilydjwg/colorizer'
 Plugin 'justinmk/vim-gtfo'
-Plugin 'Shutnik/jshint2.vim'
+"Plugin 'Shutnik/jshint2.vim'
 Plugin 'wesQ3/vim-windowswap'
 Plugin 'yegappan/grep'
-Plugin 'Yggdroot/indentLine'
 Plugin 'svermeulen/vim-NotableFt'
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
+"Plugin 'SirVer/ultisnips'
+"Plugin 'honza/vim-snippets'
 
 
 
@@ -96,7 +95,7 @@ set clipboard=unnamed
 
 "----------Colors and eyecandy. Includes plugin colorschemes----------
 colorscheme base16-default
-let g:airline_theme='jellybeans'
+let g:airline_theme='base16'
 " when to use bolds and italics
 highlight Comment cterm=italic gui=italic
 let base16colorspace=256
@@ -105,16 +104,18 @@ let g:solarized_termcolors=16
 let g:solarized_contrast="high"
 set background=dark
 
-" highlight NonText ctermbg=none
-" hi Normal ctermbg=none
+"highlight NonText ctermbg=none
+"hi Normal ctermbg=none
+set cursorline!
+set cursorcolumn!
 
 "highlight Folded gui=bold
 if exists('$TMUX')
     let &t_SI = "\<Esc>Ptmux;\<Esc>\e[5 q\<Esc>\\"
-    let &t_EI = "\<Esc>Ptmux;\<Esc>\e[2 q\<Esc>\\"
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\e[3 q\<Esc>\\"
 else
     let &t_SI = "\e[5 q"
-    let &t_EI = "\e[2 q"
+    let &t_EI = "\e[3 q"
 endif
 
 
@@ -147,7 +148,7 @@ vnoremap // y/<C-R>"<CR>"
 nmap <leader>st :SyntasticToggleMode
 nmap <leader>rc :call ReloadConfigs()
 map <leader>vrc :vsp ~/.vimrc<cr>
-nnoremap x :set cursorline! cursorcolumn! <CR>
+nnoremap x :set cursorcolumn! <CR>
 nmap <leader>tt :TagbarToggle<CR>
 map <leader>rg :Rgrep<CR>
 "Coarse resizing
@@ -414,10 +415,10 @@ let g:NERDTreeMinimalUI=1
 let NERDTreeMinimalUI=1
 
 "----------utilisnips Config-----------
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-let g:UltiSnipsEditSplit="vertical"
+"let g:UltiSnipsExpandTrigger="<tab>"
+"let g:UltiSnipsJumpForwardTrigger="<c-b>"
+"let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+"let g:UltiSnipsEditSplit="vertical"
 
 "----------Airline Config----------
 let g:airline_powerline_fonts=1
