@@ -6,12 +6,10 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'Shougo/neocomplete.vim'
-"Plugin 'Shougo/unite.vim'
-"Plugin 'Shougo/vimfiler.vim'
 Plugin 'bkad/CamelCaseMotion'
-"Plugin 'wookiehangover/jshint.vim'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'jelera/vim-javascript-syntax'
+Plugin 'pangloss/vim-javascript'
 Plugin 'othree/javascript-libraries-syntax.vim'
 Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'scrooloose/syntastic'
@@ -23,7 +21,6 @@ Plugin 'flazz/vim-colorschemes'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'digitaltoad/vim-jade'
 Plugin 'dkprice/vim-easygrep'
-"Plugin 'jszakmeister/vim-togglecursor'
 Plugin 'PotatoesMaster/i3-vim-syntax'
 Plugin 'tpope/vim-sensible'
 Plugin 'tpope/vim-surround'
@@ -32,18 +29,13 @@ Plugin 'tpope/vim-markdown'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-repeat'
 Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'jiangmiao/auto-pairs'
 Plugin 'ternjs/tern_for_vim'
 Plugin 'lilydjwg/colorizer'
 Plugin 'justinmk/vim-gtfo'
-"Plugin 'Shutnik/jshint2.vim'
 Plugin 'wesQ3/vim-windowswap'
 Plugin 'yegappan/grep'
 Plugin 'svermeulen/vim-NotableFt'
-"Plugin 'SirVer/ultisnips'
-"Plugin 'honza/vim-snippets'
-
-
+Plugin 'airblade/vim-gitgutter'
 
 call vundle#end()
 set omnifunc=syntaxcomplete#Complete
@@ -130,11 +122,12 @@ map H ^
 noremap	q <C-V>
 nnoremap <C-V> q
 "repace selection with current register: hit r when text is selected
-map R "_dP
+"map R "_dP
 " Map Ctrl-Backspace to delete the previous word in insert mode.
 noremap! <C-BS> <C-w>
 noremap! <C-h> <C-w>
 imap <C-BS> <C-W>
+:inoremap kj <ESC>
 "F8 removes trailing whitespace
 nnoremap <silent> <F8> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 "this is magic! it allows a two-column view to see more lines in the file
@@ -148,7 +141,7 @@ vnoremap // y/<C-R>"<CR>"
 nmap <leader>st :SyntasticToggleMode
 nmap <leader>rc :call ReloadConfigs()
 map <leader>vrc :vsp ~/.vimrc<cr>
-nnoremap x :set cursorcolumn! <CR>
+nnoremap x :set cursorcolumn! cursorline!<CR>
 nmap <leader>tt :TagbarToggle<CR>
 map <leader>rg :Rgrep<CR>
 "Coarse resizing
@@ -188,7 +181,7 @@ set softtabstop=4
 set smarttab
 set expandtab
 "keeps the cursor off the bottom-most and top-most line if possible
-set scrolloff=20
+set scrolloff=10
 "allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 set history=100		" keep 50 lines of command line history
@@ -241,10 +234,10 @@ set timeoutlen=2000 " Wait {num} ms before timing out a mapping
 " and update the statusline. This fixes that. I got this from:
 " https://powerline.readthedocs.org/en/latest/tipstricks.html#vim
 if !has('gui_running')
-  set ttimeoutlen=10
+  set ttimeoutlen=100
   augroup FastEscape
     autocmd!
-    au InsertEnter * set timeoutlen=10
+    au InsertEnter * set timeoutlen=100
     au InsertLeave * set timeoutlen=1000
   augroup END
 endif
