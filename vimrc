@@ -36,6 +36,7 @@ Plugin 'wesQ3/vim-windowswap'
 Plugin 'yegappan/grep'
 Plugin 'svermeulen/vim-NotableFt'
 Plugin 'airblade/vim-gitgutter'
+Plugin 'jiangmiao/auto-pairs'
 
 call vundle#end()
 set omnifunc=syntaxcomplete#Complete
@@ -66,8 +67,9 @@ set ttyfast
 set title
 set hidden
 set breakindent
-set tw=79
+"set tw=79
 set t_Co=256
+set formatoptions-=t
 
 
 "----------File I/O, shell and platform-specific behavior and settings----------
@@ -181,7 +183,7 @@ set softtabstop=4
 set smarttab
 set expandtab
 "keeps the cursor off the bottom-most and top-most line if possible
-set scrolloff=10
+set scrolloff=20
 "allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 set history=100		" keep 50 lines of command line history
@@ -386,6 +388,19 @@ let g:EasyMotion_startofline = 0 " keep cursor column when JK motion
 let g:EasyMotion_smartcase = 1
 let g:EasyMotion_use_smartsign_us = 1
 
+" <Leader>f{char} to move to {char}
+map  <Leader>f <Plug>(easymotion-bd-f)
+nmap <Leader>f <Plug>(easymotion-overwin-f)
+
+" s{char}{char} to move to {char}{char}
+nmap s <Plug>(easymotion-overwin-f2)
+
+" Move to line
+map <Leader>L <Plug>(easymotion-bd-jk)
+nmap <Leader>L <Plug>(easymotion-overwin-line)
+
+" Move to word
+map  <Leader>w <Plug>(easymotion-bd-w)
 "----------ctrlp settings----------
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'

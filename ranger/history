@@ -18,3 +18,7 @@ open_with
 delete
 move
 rename He
+rename chrome-extension-first-discovery
+search 
+rename derby.log
+show_hidden
