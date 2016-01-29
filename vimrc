@@ -15,9 +15,9 @@ Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'scrooloose/nerdtree'
 Plugin 'mbbill/undotree'
-Plugin 'bling/vim-airline'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 Plugin 'chriskempson/base16-vim'
-Plugin 'flazz/vim-colorschemes'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'digitaltoad/vim-jade'
 Plugin 'dkprice/vim-easygrep'
@@ -28,15 +28,22 @@ Plugin 'tpope/vim-sleuth'
 Plugin 'tpope/vim-markdown'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-commentary'
+Plugin 'tpope/vim-rhubarb'
 Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'ternjs/tern_for_vim'
 Plugin 'lilydjwg/colorizer'
 Plugin 'justinmk/vim-gtfo'
 Plugin 'wesQ3/vim-windowswap'
 Plugin 'yegappan/grep'
 Plugin 'svermeulen/vim-NotableFt'
 Plugin 'airblade/vim-gitgutter'
+Plugin 'ternjs/tern_for_vim'
 Plugin 'jiangmiao/auto-pairs'
+Plugin 'alvan/vim-closetag'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
+Plugin 'jszakmeister/vim-togglecursor'
+Plugin 'nanotech/jellybeans.vim'
+Plugin 'dsolstad/vim-wombat256i'
 
 call vundle#end()
 set omnifunc=syntaxcomplete#Complete
@@ -70,6 +77,7 @@ set breakindent
 "set tw=79
 set t_Co=256
 set formatoptions-=t
+set smartcase
 
 
 "----------File I/O, shell and platform-specific behavior and settings----------
@@ -88,29 +96,42 @@ set pastetoggle=<F2>
 set clipboard=unnamed
 
 "----------Colors and eyecandy. Includes plugin colorschemes----------
-colorscheme base16-default
-let g:airline_theme='base16'
-" when to use bolds and italics
-highlight Comment cterm=italic gui=italic
-let base16colorspace=256
-syntax on
-let g:solarized_termcolors=16
-let g:solarized_contrast="high"
-set background=dark
-
-"highlight NonText ctermbg=none
 "hi Normal ctermbg=none
-set cursorline!
-set cursorcolumn!
+syntax on
+"let base16colorspace=256
+
+
+"--DARK--
+:set background=dark
+":hi ColorColumn ctermbg=233
+let g:airline_theme='jellybeans'
+":colorscheme base16-default
+":colorscheme jellybeans
+:colorscheme jellybeans
+let g:jellybeans_use_lowcolor_black = 1
+":hi CursorLine   ctermbg=235
+":hi CursorColumn ctermbg=235
+"hi Normal ctermbg=none
+set cursorline
+set cursorcolumn
+"256ctermbg=none
+
+"--LIGHT--
+":hi ColorColumn ctermbg=253
+":AirlineTheme sol
+":set background=light
+":colorscheme solarized
+":hi CursorLine    ctermbg=254
+":hi CursorColumn  ctermbg=254
 
 "highlight Folded gui=bold
-if exists('$TMUX')
-    let &t_SI = "\<Esc>Ptmux;\<Esc>\e[5 q\<Esc>\\"
-    let &t_EI = "\<Esc>Ptmux;\<Esc>\e[3 q\<Esc>\\"
-else
-    let &t_SI = "\e[5 q"
-    let &t_EI = "\e[3 q"
-endif
+" if exists('$TMUX')
+"     let &t_SI = "\<Esc>Ptmux;\<Esc>\e[5 q\<Esc>\\"
+"     let &t_EI = "\<Esc>Ptmux;\<Esc>\e[3 q\<Esc>\\"
+" else
+"     let &t_SI = "\e[5 q"
+"     let &t_EI = "\e[3 q"
+" endif
 
 
 "----------Editor remaps. Mostly personal preferance----------
@@ -141,7 +162,6 @@ map <C-n> :NERDTreeToggle<CR>
 vnoremap // y/<C-R>"<CR>"
 " Easy swap passive mode
 nmap <leader>st :SyntasticToggleMode
-nmap <leader>rc :call ReloadConfigs()
 map <leader>vrc :vsp ~/.vimrc<cr>
 nnoremap x :set cursorcolumn! cursorline!<CR>
 nmap <leader>tt :TagbarToggle<CR>
@@ -159,9 +179,40 @@ nnoremap <leader>J :resize -1<CR>
 "for easier copying and pasting to/from clipboard
 vmap <leader>c "+y <CR>
 vmap <leader>C "+y <CR>
+vmap <leader>y "+y <CR>
+vmap <leader>Y "+y <CR>
 noremap <leader>p "+p <ENTER><CR>
 noremap <leader>P "+P <ENTER><CR>
 
+
+" easy theme switching
+"nmap <leader>udt :call UseDark() <CR>
+"nmap <leader>1 :call UseDark() <CR>
+"function! UseDark()
+"    :let base16colorspace=256
+"    :hi ColorColumn ctermbg=233
+"    :AirlineTheme base16
+"    :set background=dark
+"    :colorscheme base16-default
+"    :hi CursorLine   ctermbg=235
+"    :hi CursorColumn ctermbg=235
+"endfunction
+"
+"nmap <leader>ult :call UseLight() <CR>
+"nmap <leader>2 :call UseLight() <CR>
+"function! UseLight()
+"    :let base16colorspace=256
+"    :hi ColorColumn ctermbg=253
+"    :AirlineTheme sol
+"    :set background=light
+"    :colorscheme solarized
+"    :hi CursorLine    ctermbg=254
+"    :hi CursorColumn  ctermbg=254
+"endfunction
+
+
+"Reload Configs
+nmap <leader>rc :call ReloadConfigs()
 if !exists("*ReloadConfigs")
   function! ReloadConfigs()
       :source ~/.vimrc
@@ -183,7 +234,7 @@ set softtabstop=4
 set smarttab
 set expandtab
 "keeps the cursor off the bottom-most and top-most line if possible
-set scrolloff=20
+set scrolloff=15
 "allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 set history=100		" keep 50 lines of command line history
@@ -243,8 +294,6 @@ if !has('gui_running')
     au InsertLeave * set timeoutlen=1000
   augroup END
 endif
-hi CursorLine   cterm=NONE ctermbg=235
-hi CursorColumn cterm=NONE ctermbg=235
 
 "----------------------------------------
 "---------Plugin Settings Below----------
@@ -421,6 +470,17 @@ let g:NERDTreeDirArrows = 0
 let g:NERDTreeDirArrows=0
 let g:NERDTreeMinimalUI=1
 let NERDTreeMinimalUI=1
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "⛏",
+    \ "Staged"    : "✚",
+    \ "Untracked" : "✭",
+    \ "Renamed"   : "➜",
+    \ "Unmerged"  : "═",
+    \ "Deleted"   : "✖",
+    \ "Dirty"     : "⚑",
+    \ "Clean"     : "✔︎",
+    \ "Unknown"   : "?"
+    \ }
 
 "----------utilisnips Config-----------
 "let g:UltiSnipsExpandTrigger="<tab>"
@@ -436,6 +496,12 @@ let g:airline#extensions#windowswap#enabled = 1
 let g:airline#extensions#windowswap#indicator_text = '♻ WINDOW SWAP ♻'
 let g:airline#extensions#ctrlspace#enabled = 1
 let g:airline#extensions#tagbar#enabled = 1
+
+"----------autopairs Config----------
+"let g:AutoPairs = {'(':')', '[':']', '{':'}'}
+
+"----------gitgutter Config----------
+set updatetime=1000
 
 let b:syntastic_skip_checks = 0
 "au BufRead * normal zR

@@ -8,25 +8,25 @@ set -s escape-time 0
 
 set -g default-terminal "screen-256color"
 
-# default window title colors
-# set-window-option -g window-status-fg white
-# set-window-option -g window-status-bg default
-# #set-window-option -g window-status-attr dim
-#
-# # message text
-# set-option -g message-bg default
-# set-option -g message-fg white
+# Start numbering at 1
+set -g base-index 1
+
+
+set-option -g message-bg black
+set-option -g message-fg colour226
 
 # clock
 # force a reload of the config file
 unbind r
-bind r source-file ~/.tmux.conf
+bind r source-file ~/.tmux.conf \; display-message "Config reloaded..."
 
 set -g @shell_mode 'vi'
 # border colours
-set -g pane-border-fg magenta
-set -g pane-active-border-fg green
+set -g pane-border-fg colour236
+set -g pane-active-border-fg colour245
 set -g pane-active-border-bg default
+# set-option -g pane-border-fg colour26 #base02
+# set-option -g pane-active-border-fg colour7 #base01
 
 # # quick pane cycling
 unbind ^A
@@ -34,9 +34,9 @@ bind ^A select-pane -t :.+
 
 set-window-option -g mode-keys vi
 # # Mouse support - set to on if you want to use the mouse
-# setw -g mode-mouse on
+setw -g mode-mouse on
 set -g mouse-select-pane on
-set -g mouse-resize-pane on
+set -g mouse-resize-pane off
 set -g mouse-select-window on
 
 set -g set-titles on
@@ -90,28 +90,37 @@ set-option -g status-position bottom    # position the status bar at top of scre
 
 # visual notification of activity in other windows
 setw -g monitor-activity on
+set-window-option -g monitor-activity on
 set -g visual-activity on
+set-option -g visual-bell on
 
 # set color for status bar
 set-option -g status-bg colour235 #base02
 set-option -g status-fg yellow #yellow
 set-option -g status-attr dim
-#
-# # set window list colors - red for active and cyan for inactive
-set-window-option -g window-status-fg brightblue #base0
-set-window-option -g window-status-bg colour236
+
+
+# default window title colors
+set-window-option -g window-status-fg colour240
+set-window-option -g window-status-bg default
 set-window-option -g window-status-attr dim
 
-set-window-option -g window-status-current-fg brightred #orange
-set-window-option -g window-status-current-bg colour235
+# active window title colors
+set-window-option -g window-status-current-fg yellow
+set-window-option -g window-status-current-bg default
 set-window-option -g window-status-current-attr bright
-#
-# set -g status-left-length 70
+
+
+set -g status-left-length 70
+set -g status-right "#(/usr/local/bin/tmux-cpu)"
+
+
 #
 # show session name, window & pane number, date and time on right side of
 # status bar
 set -g status-right-length 60
-set -g status-right "%d %b %Y #[fg=green]  %l:%M %p  #(date -u  ')"
+set -g status-right "%b %d, %Y #[fg=green] %l:%M %p #(date -u  ')"
+# set -g status-right '#[fg=green,bg=default,bright]#(tmux-mem-cpu-load) #[fg=red,dim,bg=default]#(uptime | cut -f 4-5 -d " " | cut -f 1 -d ",") #[fg=white,bg=default]%a%l:%M:%S %p#[default] #[fg=blue]%Y-%m-%d'
 
 run-shell ~/.config/tmux-yank/yank.tmux
 

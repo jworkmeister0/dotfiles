@@ -1,15 +1,16 @@
 
 # Base16 Shell
-BASE16_SHELL="$HOME/.config/base16-shell/base16-default.dark.sh"
-[[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
+# BASE16_SHELL="$HOME/.config/base16-shell/base16-summerfruit.light.sh"
+# BASE16_SHELL="$HOME/.config/base16-shell/base16-default.dark.sh"
+# [[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
 
-if [ "$COLORTERM" = "gnome-terminal" ] || [ "$COLORTERM" = "xfce4-terminal" ]
-then
-  export TERM=xterm-256color
-elif [ "$COLORTERM" = "rxvt-xpm" ]
-then
-  export TERM=rxvt-256color
-fi
+# if [ "$COLORTERM" = "gnome-terminal" ] || [ "$COLORTERM" = "xfce4-terminal" ]
+# then
+#   export TERM=xterm-256color
+# elif [ "$COLORTERM" = "rxvt-xpm" ]
+# then
+#   export TERM=rxvt-256color
+# fi
 
 # Path to your oh-my-zsh installation.
 export ZSH=/home/john/.oh-my-zsh

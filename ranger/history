@@ -22,3 +22,4 @@ rename chrome-extension-first-discovery
 search 
 rename derby.log
 show_hidden
+open_with hh
