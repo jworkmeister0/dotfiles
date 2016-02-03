@@ -11,7 +11,7 @@ Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'jelera/vim-javascript-syntax'
 Plugin 'pangloss/vim-javascript'
 Plugin 'othree/javascript-libraries-syntax.vim'
-Plugin 'kien/rainbow_parentheses.vim'
+"Plugin 'luochen1990/rainbow'
 Plugin 'scrooloose/syntastic'
 Plugin 'scrooloose/nerdtree'
 Plugin 'mbbill/undotree'
@@ -21,10 +21,11 @@ Plugin 'chriskempson/base16-vim'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'digitaltoad/vim-jade'
 Plugin 'dkprice/vim-easygrep'
-Plugin 'PotatoesMaster/i3-vim-syntax'
+"Plugin 'PotatoesMaster/i3-vim-syntax'
 Plugin 'tpope/vim-sensible'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-sleuth'
+"Plugin 'luochen1990/indent-detector.vim'
 Plugin 'tpope/vim-markdown'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-repeat'
@@ -36,7 +37,7 @@ Plugin 'justinmk/vim-gtfo'
 Plugin 'wesQ3/vim-windowswap'
 Plugin 'yegappan/grep'
 Plugin 'svermeulen/vim-NotableFt'
-Plugin 'airblade/vim-gitgutter'
+"Plugin 'airblade/vim-gitgutter'
 Plugin 'ternjs/tern_for_vim'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'alvan/vim-closetag'
@@ -44,6 +45,12 @@ Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'jszakmeister/vim-togglecursor'
 Plugin 'nanotech/jellybeans.vim'
 Plugin 'dsolstad/vim-wombat256i'
+Plugin 'morhetz/gruvbox'
+Plugin 'w0ng/vim-hybrid'
+Plugin 'reedes/vim-colors-pencil'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'godlygeek/csapprox'
+Plugin 'mhinz/vim-signify'
 
 call vundle#end()
 set omnifunc=syntaxcomplete#Complete
@@ -69,16 +76,14 @@ set guioptions-=T
 "aren't nesessary
 set guioptions-=r
 set guioptions-=L
-set smartcase
 set ttyfast
 set title
 set hidden
 set breakindent
 "set tw=79
-set t_Co=256
 set formatoptions-=t
+set ignorecase
 set smartcase
-
 
 "----------File I/O, shell and platform-specific behavior and settings----------
 set dir=~/.vim/swap
@@ -96,33 +101,33 @@ set pastetoggle=<F2>
 set clipboard=unnamed
 
 "----------Colors and eyecandy. Includes plugin colorschemes----------
-"hi Normal ctermbg=none
+set t_Co=256
 syntax on
 "let base16colorspace=256
 
-
 "--DARK--
-:set background=dark
-":hi ColorColumn ctermbg=233
-let g:airline_theme='jellybeans'
-":colorscheme base16-default
-":colorscheme jellybeans
-:colorscheme jellybeans
+set background=dark
 let g:jellybeans_use_lowcolor_black = 1
-":hi CursorLine   ctermbg=235
-":hi CursorColumn ctermbg=235
-"hi Normal ctermbg=none
-set cursorline
+colorscheme pencil
 set cursorcolumn
-"256ctermbg=none
+set cursorline
+highlight Normal    ctermbg=none
+highlight nonText   ctermbg=none
+highlight CursorLine    ctermbg=235
+highlight CursorColumn  ctermbg=235
+highlight ColorColumn   ctermbg=234
+let g:airline_theme='distinguished'
+
+let g:pencil_gutter_color = 1
+let g:pencil_spell_undercurl = 1
 
 "--LIGHT--
-":hi ColorColumn ctermbg=253
-":AirlineTheme sol
-":set background=light
-":colorscheme solarized
-":hi CursorLine    ctermbg=254
-":hi CursorColumn  ctermbg=254
+" :hi ColorColumn ctermbg=253
+" let g:airline_theme='sol'
+" :set background=light
+" :colorscheme Tomorrow
+" :hi CursorLine    ctermbg=254
+" :hi CursorColumn  ctermbg=254
 
 "highlight Folded gui=bold
 " if exists('$TMUX')
@@ -144,6 +149,7 @@ map H ^
 " switch q and ctrl+v functionality
 noremap	q <C-V>
 nnoremap <C-V> q
+nnoremap Q q
 "repace selection with current register: hit r when text is selected
 "map R "_dP
 " Map Ctrl-Backspace to delete the previous word in insert mode.
@@ -183,33 +189,7 @@ vmap <leader>y "+y <CR>
 vmap <leader>Y "+y <CR>
 noremap <leader>p "+p <ENTER><CR>
 noremap <leader>P "+P <ENTER><CR>
-
-
-" easy theme switching
-"nmap <leader>udt :call UseDark() <CR>
-"nmap <leader>1 :call UseDark() <CR>
-"function! UseDark()
-"    :let base16colorspace=256
-"    :hi ColorColumn ctermbg=233
-"    :AirlineTheme base16
-"    :set background=dark
-"    :colorscheme base16-default
-"    :hi CursorLine   ctermbg=235
-"    :hi CursorColumn ctermbg=235
-"endfunction
-"
-"nmap <leader>ult :call UseLight() <CR>
-"nmap <leader>2 :call UseLight() <CR>
-"function! UseLight()
-"    :let base16colorspace=256
-"    :hi ColorColumn ctermbg=253
-"    :AirlineTheme sol
-"    :set background=light
-"    :colorscheme solarized
-"    :hi CursorLine    ctermbg=254
-"    :hi CursorColumn  ctermbg=254
-"endfunction
-
+"Easier large movement based on the key row above home on right hand
 
 "Reload Configs
 nmap <leader>rc :call ReloadConfigs()
@@ -259,16 +239,6 @@ set cpoptions+=n
 
 " Turns off annoying comment insertion
 autocmd FileType * setlocal formatoptions-=o formatoptions -=c
-
-"saves and loads folds automaticallys
-"autocmd BufWinLeave *.* mkview!
-"autocmd BufWinEnter *.* silent loadview
-"set viewoptions-=options
-
-"set foldlevel=99
-"set nofoldenable
-"Javascript folding
-" au FileType javascript call JavaScriptFold()
 
 inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 
@@ -497,11 +467,11 @@ let g:airline#extensions#windowswap#indicator_text = '♻ WINDOW SWAP ♻'
 let g:airline#extensions#ctrlspace#enabled = 1
 let g:airline#extensions#tagbar#enabled = 1
 
-"----------autopairs Config----------
-"let g:AutoPairs = {'(':')', '[':']', '{':'}'}
+"----------rainbow Config----------
+let g:rainbow_active = 1
 
 "----------gitgutter Config----------
-set updatetime=1000
+set updatetime=500
 
 let b:syntastic_skip_checks = 0
 "au BufRead * normal zR

@@ -64,8 +64,8 @@ bind -n M-l resize-pane -R 5
 
 set -g history-limit 20000
 
-set -g status-bg '#222222'
-set -g status-fg '#aaaaaa'
+set -g status-bg colour0
+set -g status-fg colour3
 
 
 # smart pane switching with awareness of vim splits
@@ -84,7 +84,7 @@ bind - split-window -v # Split panes vertically
 # set-option -g status on                # turn the status bar on
 set-option -g quiet on
 set -g status-utf8 on                  # set utf-8 for the status bar
-set -g status-interval 5               # set update frequencey (default 15 seconds)
+set -g status-interval 1               # set update frequencey (default 15 seconds)
 set -g status-justify centre           # center window list for clarity
 set-option -g status-position bottom    # position the status bar at top of screen
 
@@ -95,7 +95,7 @@ set -g visual-activity on
 set-option -g visual-bell on
 
 # set color for status bar
-set-option -g status-bg colour235 #base02
+set-option -g status-bg colour234 #base02
 set-option -g status-fg yellow #yellow
 set-option -g status-attr dim
 
@@ -103,23 +103,21 @@ set-option -g status-attr dim
 # default window title colors
 set-window-option -g window-status-fg colour240
 set-window-option -g window-status-bg default
-set-window-option -g window-status-attr dim
+#set-window-option -g window-status-attr dim
 
 # active window title colors
 set-window-option -g window-status-current-fg yellow
 set-window-option -g window-status-current-bg default
 set-window-option -g window-status-current-attr bright
 
+set -g status-left-length 60
+#       order params: wired, active, cached, inactive, free
+set -g status-left '#(rainbarf --width 30 --noloadavg --nobattery --bright --order wacf)'
+#set -g status-left "#[fg=yellow,bg=colour234]#(tmux-mem-cpu-load --interval 1 -g 5)#[default]"
 
-set -g status-left-length 70
-set -g status-right "#(/usr/local/bin/tmux-cpu)"
 
-
-#
-# show session name, window & pane number, date and time on right side of
-# status bar
 set -g status-right-length 60
-set -g status-right "%b %d, %Y #[fg=green] %l:%M %p #(date -u  ')"
+set -g status-right "#[fg=yellow] %a  #[fg=yellow]%b %d, %Y #[fg=green] %l:%M %p #(date -u  ')"
 # set -g status-right '#[fg=green,bg=default,bright]#(tmux-mem-cpu-load) #[fg=red,dim,bg=default]#(uptime | cut -f 4-5 -d " " | cut -f 1 -d ",") #[fg=white,bg=default]%a%l:%M:%S %p#[default] #[fg=blue]%Y-%m-%d'
 
 run-shell ~/.config/tmux-yank/yank.tmux

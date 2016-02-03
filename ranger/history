@@ -4,7 +4,6 @@ rename test
 hidden
 cut
 open_with llhhhhhhhhhhhhh
-q
 search Down	
 find Dow
 find pop 
@@ -15,7 +14,6 @@ open_with j
 paste
 
 open_with 
-delete
 move
 rename He
 rename chrome-extension-first-discovery
@@ -23,3 +21,8 @@ search
 rename derby.log
 show_hidden
 open_with hh
+mv
+rename derp.sh bluemix-deploy.sh
+rename blumix-deploy.sh
+delete
+q
