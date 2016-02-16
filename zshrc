@@ -62,10 +62,10 @@ export EDITOR='vim'
 source ~/.aliases
 setopt HIST_IGNORE_DUPS
 
-zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate
-zstyle ':completion:*' max-errors 2 numeric
-zstyle ':completion:*' prompt 'That isn'\''t a thing. These are things:'
-zstyle :compinstall filename '/home/john/.zshrc'
+#zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate
+#zstyle ':completion:*' max-errors 2 numeric
+#zstyle ':completion:*' prompt 'That isn'\''t a thing. These are things:'
+#zstyle :compinstall filename '/home/john/.zshrc'
 
 autoload -Uz compinit
 compinit

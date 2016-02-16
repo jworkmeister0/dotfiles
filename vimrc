@@ -17,7 +17,6 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'mbbill/undotree'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
-Plugin 'chriskempson/base16-vim'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'digitaltoad/vim-jade'
 Plugin 'dkprice/vim-easygrep'
@@ -37,7 +36,7 @@ Plugin 'justinmk/vim-gtfo'
 Plugin 'wesQ3/vim-windowswap'
 Plugin 'yegappan/grep'
 Plugin 'svermeulen/vim-NotableFt'
-"Plugin 'airblade/vim-gitgutter'
+Plugin 'airblade/vim-gitgutter'
 Plugin 'ternjs/tern_for_vim'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'alvan/vim-closetag'
@@ -50,7 +49,9 @@ Plugin 'w0ng/vim-hybrid'
 Plugin 'reedes/vim-colors-pencil'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'godlygeek/csapprox'
-Plugin 'mhinz/vim-signify'
+Plugin 'rking/ag.vim'
+Plugin 'junegunn/vim-easy-align'
+
 
 call vundle#end()
 set omnifunc=syntaxcomplete#Complete
@@ -99,15 +100,18 @@ set nocompatible "behave mswin
 set mouse=a
 set pastetoggle=<F2>
 set clipboard=unnamed
+let g:signify_vcs_list = ['git']
 
 "----------Colors and eyecandy. Includes plugin colorschemes----------
 set t_Co=256
 syntax on
 "let base16colorspace=256
+let g:pencil_gutter_color = 1
+let g:pencil_spell_undercurl = 1
+let g:jellybeans_use_lowcolor_black = 1
 
 "--DARK--
 set background=dark
-let g:jellybeans_use_lowcolor_black = 1
 colorscheme pencil
 set cursorcolumn
 set cursorline
@@ -118,8 +122,15 @@ highlight CursorColumn  ctermbg=235
 highlight ColorColumn   ctermbg=234
 let g:airline_theme='distinguished'
 
-let g:pencil_gutter_color = 1
-let g:pencil_spell_undercurl = 1
+"""--light--
+" set background=light
+" colorscheme pencil
+" set cursorcolumn
+" set cursorline
+" highlight CursorLine    ctermbg=7
+" highlight CursorColumn  ctermbg=7
+" highlight ColorColumn   ctermbg=7
+" let g:airline_theme='sol'
 
 "--LIGHT--
 " :hi ColorColumn ctermbg=253
@@ -189,7 +200,16 @@ vmap <leader>y "+y <CR>
 vmap <leader>Y "+y <CR>
 noremap <leader>p "+p <ENTER><CR>
 noremap <leader>P "+P <ENTER><CR>
-"Easier large movement based on the key row above home on right hand
+map <leader>ag :Ag '
+map <leader>ai :Ag --ignore '
+
+noremap <F2> :UndotreeToggle <CR>
+noremap <F3> :AirlineToggle <CR>
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
 
 "Reload Configs
 nmap <leader>rc :call ReloadConfigs()
@@ -472,6 +492,12 @@ let g:rainbow_active = 1
 
 "----------gitgutter Config----------
 set updatetime=500
+
+"-------------ack Config-------------
+let g:ag_working_path_mode="r"
+let g:ag_highlight=1
+let g:ag_prg="ag --vimgrep --smart-case"
+
 
 let b:syntastic_skip_checks = 0
 "au BufRead * normal zR

@@ -96,8 +96,8 @@ set-option -g visual-bell on
 
 # set color for status bar
 set-option -g status-bg colour234 #base02
-set-option -g status-fg yellow #yellow
-set-option -g status-attr dim
+set-option -g status-fg colour244
+#set-option -g status-attr dim
 
 
 # default window title colors
@@ -110,14 +110,18 @@ set-window-option -g window-status-current-fg yellow
 set-window-option -g window-status-current-bg default
 set-window-option -g window-status-current-attr bright
 
-set -g status-left-length 60
+set -g status-left-length 100
+
+#set -g status-left "#(/usr/bin/tmux-cpu)"
+# set-option -g status-left '#(/usr/bin/tmux-cpu --format ":percent")'
 #       order params: wired, active, cached, inactive, free
-set -g status-left '#(rainbarf --width 30 --noloadavg --nobattery --bright --order wacf)'
+# set -g status-left '#(rainbarf --norgb --width 45 --noloadavg --nobattery --bright --order wacfi) #(/usr/bin/tmux-cpu --format ":percent")'
+set -g status-left " %a, %b %d #(date -u  ')"
 #set -g status-left "#[fg=yellow,bg=colour234]#(tmux-mem-cpu-load --interval 1 -g 5)#[default]"
 
 
-set -g status-right-length 60
-set -g status-right "#[fg=yellow] %a  #[fg=yellow]%b %d, %Y #[fg=green] %l:%M %p #(date -u  ')"
+set -g status-right-length 100
+set -g status-right "%l:%M %p "
 # set -g status-right '#[fg=green,bg=default,bright]#(tmux-mem-cpu-load) #[fg=red,dim,bg=default]#(uptime | cut -f 4-5 -d " " | cut -f 1 -d ",") #[fg=white,bg=default]%a%l:%M:%S %p#[default] #[fg=blue]%Y-%m-%d'
 
 run-shell ~/.config/tmux-yank/yank.tmux
