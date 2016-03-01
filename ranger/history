@@ -1,5 +1,4 @@
 open_with vim
-rename Desktop
 rename test
 hidden
 cut
@@ -12,19 +11,28 @@ copy
 find pr
 open_with j
 paste
-
-open_with 
 move
 rename He
 rename chrome-extension-first-discovery
 search 
 rename derby.log
-show_hidden
 open_with hh
-mv
 rename derp.sh bluemix-deploy.sh
 rename blumix-deploy.sh
-delete
 q
 rename jjkettle
 open_with h
+mv
+find irr
+open_with 
+find .confi
+search ranger
+find pro
+
+delete
+find e
+find et
+find X
+rename Desktop
+show_hidden
+rename projects

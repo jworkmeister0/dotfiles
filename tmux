@@ -1,5 +1,6 @@
 # set-option -g default-command "reattach-to-user-namespace -l zsh"
 # use C-a instead og C-b
+set-option -g destroy-unattached on
 set -g prefix C-a
 unbind C-b
 bind C-a send-prefix
