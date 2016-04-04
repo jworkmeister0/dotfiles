@@ -7,6 +7,7 @@ Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'Shougo/neocomplete.vim'
 Plugin 'bkad/CamelCaseMotion'
+Plugin 'digitaltoad/vim-pug'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'jelera/vim-javascript-syntax'
 Plugin 'pangloss/vim-javascript'
@@ -18,8 +19,7 @@ Plugin 'mbbill/undotree'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'easymotion/vim-easymotion'
-Plugin 'digitaltoad/vim-jade'
-Plugin 'dkprice/vim-easygrep'
+"Plugin 'dkprice/vim-easygrep'
 "Plugin 'PotatoesMaster/i3-vim-syntax'
 Plugin 'tpope/vim-sensible'
 Plugin 'tpope/vim-surround'
@@ -29,30 +29,26 @@ Plugin 'tpope/vim-markdown'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-commentary'
-Plugin 'tpope/vim-rhubarb'
 Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'lilydjwg/colorizer'
 Plugin 'justinmk/vim-gtfo'
 Plugin 'wesQ3/vim-windowswap'
 Plugin 'yegappan/grep'
-Plugin 'svermeulen/vim-NotableFt'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'ternjs/tern_for_vim'
-"Plugin 'jiangmiao/auto-pairs'
+Plugin 'jiangmiao/auto-pairs'
 "Plugin 'alvan/vim-closetag'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'jszakmeister/vim-togglecursor'
 Plugin 'nanotech/jellybeans.vim'
-Plugin 'dsolstad/vim-wombat256i'
-Plugin 'morhetz/gruvbox'
-Plugin 'w0ng/vim-hybrid'
 Plugin 'reedes/vim-colors-pencil'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'godlygeek/csapprox'
+"Plugin 'godlygeek/csapprox'
 Plugin 'rking/ag.vim'
 Plugin 'junegunn/vim-easy-align'
 Plugin 'wellle/targets.vim'
-
+"Plugin 'Raimondi/delimitMate'
+Plugin 'Valloric/MatchTagAlways'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'mattn/emmet-vim'
 
 call vundle#end()
 set omnifunc=syntaxcomplete#Complete
@@ -118,20 +114,20 @@ set cursorcolumn
 set cursorline
 highlight Normal    ctermbg=none
 highlight nonText   ctermbg=none
-highlight CursorLine    ctermbg=235
-highlight CursorColumn  ctermbg=235
-highlight ColorColumn   ctermbg=234
+highlight CursorLine    ctermbg=234
+highlight CursorColumn  ctermbg=234
+highlight ColorColumn   ctermbg=233
 let g:airline_theme='distinguished'
 
 """--light--
-" set background=light
-" colorscheme pencil
-" set cursorcolumn
-" set cursorline
-" highlight CursorLine    ctermbg=7
-" highlight CursorColumn  ctermbg=7
-" highlight ColorColumn   ctermbg=7
-" let g:airline_theme='sol'
+"set background=light
+"colorscheme pencil
+"set cursorcolumn
+"set cursorline
+"highlight CursorLine    ctermbg=7
+"highlight CursorColumn  ctermbg=7
+"highlight ColorColumn   ctermbg=7
+"let g:airline_theme='sol'
 
 "--LIGHT--
 " :hi ColorColumn ctermbg=253
@@ -208,6 +204,8 @@ noremap <F3> :AirlineToggle <CR>
 noremap <leader>aw :AirlineToggleWhitespace <CR>
 " Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
+
+noremap <leader>fr :%s/f/r/gc
 
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)

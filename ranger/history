@@ -1,4 +1,3 @@
-open_with vim
 rename test
 hidden
 cut
@@ -19,20 +18,23 @@ rename derby.log
 open_with hh
 rename derp.sh bluemix-deploy.sh
 rename blumix-deploy.sh
-q
 rename jjkettle
 open_with h
 mv
 find irr
-open_with 
 find .confi
 search ranger
 find pro
 
-delete
 find e
 find et
 find X
 rename Desktop
-show_hidden
 rename projects
+open_with 
+set show_hidden
+delete
+w
+q
+open_with vim
+show_hidden

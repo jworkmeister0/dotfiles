@@ -1,13 +1,12 @@
 # set-option -g default-command "reattach-to-user-namespace -l zsh"
 # use C-a instead og C-b
-set-option -g destroy-unattached on
 set -g prefix C-a
 unbind C-b
 bind C-a send-prefix
 
 set -s escape-time 0
 
-set -g default-terminal "screen-256color"
+# set -g default-terminal "screen-256color"
 
 # Start numbering at 1
 set -g base-index 1
@@ -35,8 +34,8 @@ bind ^A select-pane -t :.+
 
 set-window-option -g mode-keys vi
 # # Mouse support - set to on if you want to use the mouse
-setw -g mode-mouse on
-set -g mouse-select-pane on
+setw -g mode-mouse off
+set -g mouse-select-pane off
 set -g mouse-resize-pane off
 set -g mouse-select-window on
 
@@ -93,7 +92,7 @@ set-option -g status-position bottom    # position the status bar at top of scre
 setw -g monitor-activity on
 set-window-option -g monitor-activity on
 set -g visual-activity on
-set-option -g visual-bell on
+# set-option -g visual-bell on
 
 # set color for status bar
 set-option -g status-bg colour234 #base02
