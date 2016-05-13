@@ -6,12 +6,15 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'Shougo/neocomplete.vim'
+Plugin 'sheerun/vim-polyglot'
 Plugin 'bkad/CamelCaseMotion'
 Plugin 'digitaltoad/vim-pug'
 Plugin 'christoomey/vim-tmux-navigator'
-Plugin 'jelera/vim-javascript-syntax'
+"Plugin 'gavocanov/vim-js-indent'
 Plugin 'pangloss/vim-javascript'
-Plugin 'othree/javascript-libraries-syntax.vim'
+"Plugin 'othree/javascript-libraries-syntax.vim'
+Plugin 'crusoexia/vim-javascript-lib'
+"Plugin 'burnettk/vim-angular'
 "Plugin 'luochen1990/rainbow'
 Plugin 'scrooloose/syntastic'
 Plugin 'scrooloose/nerdtree'
@@ -49,6 +52,21 @@ Plugin 'wellle/targets.vim'
 Plugin 'Valloric/MatchTagAlways'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'mattn/emmet-vim'
+Plugin 'tmux-plugins/vim-tmux-focus-events'
+Plugin 'nathanaelkane/vim-indent-guides'
+
+Plugin 'ciaranm/inkpot'
+Plugin 'zeis/vim-kolor'
+Plugin 'tomasr/molokai'
+Plugin 'nickburlett/vim-colors-stylus'
+
+Plugin 'w0ng/vim-hybrid'
+Plugin 'junegunn/seoul256.vim'
+Plugin 'crusoexia/vim-monokai'
+
+Plugin 'jaxbot/semantic-highlight.vim'
+
+Plugin 'othree/html5.vim'
 
 call vundle#end()
 set omnifunc=syntaxcomplete#Complete
@@ -66,7 +84,7 @@ set list
 set guifont=Source\ Code\ Pro\ for\ Powerline
 " set lines=50 columns=130
 "Visual feedback is better than audio
-set visualbell
+"set visualbell
 "remove toolbar
 set guioptions-=T
 "These two options remove the scrollbars. Since airline displays
@@ -74,6 +92,7 @@ set guioptions-=T
 "aren't nesessary
 set guioptions-=r
 set guioptions-=L
+set lazyredraw
 set ttyfast
 set title
 set hidden
@@ -82,10 +101,13 @@ set breakindent
 set formatoptions-=t
 set ignorecase
 set smartcase
+set noerrorbells
+set nojoinspaces
 
 "----------File I/O, shell and platform-specific behavior and settings----------
-set dir=~/.vim/swap
-set backupdir=~/.vim/backup
+set noswapfile
+set dir=~/.vim/swap//
+set backupdir=~/.vim/backup//
 set undofile
 set undodir=~/.vim/undos
 set undolevels=5000
@@ -97,7 +119,9 @@ set nocompatible "behave mswin
 set mouse=a
 set pastetoggle=<F2>
 set clipboard=unnamed
-let g:signify_vcs_list = ['git']
+" ejs syntax highlighting
+au BufNewFile,BufRead *.ejs set filetype=html
+"set tags+=~/.ctaggg
 
 "----------Colors and eyecandy. Includes plugin colorschemes----------
 set t_Co=256
@@ -106,18 +130,26 @@ syntax on
 let g:pencil_gutter_color = 1
 let g:pencil_spell_undercurl = 1
 let g:jellybeans_use_lowcolor_black = 1
+let g:kolor_alternative_matchparen=0 
+"let g:hybrid_reduced_contrast = 1
 
 "--DARK--
 set background=dark
-colorscheme pencil
+colorscheme seoul256
 set cursorcolumn
 set cursorline
+hi IndentGuidesOdd  ctermbg=232
+hi IndentGuidesEven ctermbg=233
 highlight Normal    ctermbg=none
 highlight nonText   ctermbg=none
+highlight Comment   ctermbg=none ctermfg=239
+highlight CursorLineNr ctermfg=4
 highlight CursorLine    ctermbg=234
 highlight CursorColumn  ctermbg=234
 highlight ColorColumn   ctermbg=233
+highlight LineNr ctermbg=233
 let g:airline_theme='distinguished'
+
 
 """--light--
 "set background=light
@@ -158,6 +190,8 @@ map H ^
 noremap	q <C-V>
 nnoremap <C-V> q
 nnoremap Q q
+nnoremap j gj
+nnoremap k gk
 "repace selection with current register: hit r when text is selected
 "map R "_dP
 " Map Ctrl-Backspace to delete the previous word in insert mode.
@@ -199,6 +233,8 @@ noremap <leader>p "+p <ENTER><CR>
 noremap <leader>P "+P <ENTER><CR>
 map <leader>ag :Ag '
 map <leader>ai :Ag --ignore '
+map <leader>ss :setlocal spell!<cr>
+nnoremap <Leader>s :SemanticHighlightToggle<cr>
 
 noremap <F3> :AirlineToggle <CR>
 noremap <leader>aw :AirlineToggleWhitespace <CR>
@@ -206,6 +242,12 @@ noremap <leader>aw :AirlineToggleWhitespace <CR>
 xmap ga <Plug>(EasyAlign)
 
 noremap <leader>fr :%s/f/r/gc
+noremap <leader>fm :set foldmethod=indent
+" Fix tabbing
+noremap <leader>ta :set tabstop=4 softtabstop=0 noexpandtab shiftwidth=4
+noremap <leader>] :GitGutterNextHunk <CR>
+noremap <leader>[ :GitGutterPrevHunk <CR>
+noremap <leader>u :GitGutterUndoHunk <CR>
 
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
@@ -261,6 +303,13 @@ autocmd FileType * setlocal formatoptions-=o formatoptions -=c
 
 inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 
+
+" augroup BgHighlight
+"     autocmd!
+"     autocmd WinEnter * set cul
+"     autocmd WinLeave * set nocul
+" augroup END
+
 function! XTermPasteBegin()
   set pastetoggle=<Esc>[201~
   set paste
@@ -288,6 +337,11 @@ endif
 "---------Plugin Settings Below----------
 "----------------------------------------
 
+"----------Snippets?----------
+
+"----------Diminactive----------
+let g:diminactive_enable_focus = 1
+
 "----------Indent guides!----------
 let g:indentLine_char = '¦'
 let g:indentLine_color_term = 8
@@ -303,6 +357,8 @@ let g:javascript_conceal_prototype  = "¶"
 let g:javascript_conceal_static     = "•"
 let g:javascript_conceal_super      = "Ω"
 let g:javascript_enable_domhtmlcss  = 1
+
+let g:used_javascript_libs = 'angularjs'
 
 "----------Tagging!----------
 let g:easytags_async=1
@@ -344,7 +400,7 @@ inoremap <expr> <C-y> neocomplete#close_popup()
 inoremap <expr> <C-e> neocomplete#cancel_popup()
 " Enable omni completion.
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType html,markdown,ejs setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
@@ -362,6 +418,8 @@ map <silent> E <Plug>CamelCaseMotion_e
 sunmap W
 sunmap B
 sunmap E
+
+"----------HTML5 Stuff----------
 
 "----------Syntastic Checkers----------
 let g:syntastic_java_checkers = ['javac']
@@ -397,7 +455,14 @@ function! s:find_jshintrc(dir)
 endfunction
 
 "Ignore angular directive warnings
-let g:syntastic_html_tidy_ignore_errors=['proprietary attribute', 'trimming empty']
+let g:syntastic_html_tidy_ignore_errors=[
+    \"proprietary attribute",
+    \"trimming empty",
+    \" proprietary attribute \"ng-",
+    \"<input> proprietary attribute \"autocomplete\"",
+    \"proprietary attribute \"role\"",
+    \"proprietary attribute \"hidden\"",
+    \]
 
 if !exists("*ReloadConfigs")
     set statusline+=%#warningmsg#
@@ -617,3 +682,8 @@ au BufWinEnter * normal zR
 
 let g:NERDTreeDirArrows=0
 "au FileType javascript call JavaScriptFold()
+set cursorcolumn
+set cursorline
+
+
+let g:semanticTermColors = [28,1,2,3,4,5,6,7,25,9,10,34,12,13,14,15,125,124]

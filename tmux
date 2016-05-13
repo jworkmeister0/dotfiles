@@ -35,7 +35,7 @@ bind ^A select-pane -t :.+
 set-window-option -g mode-keys vi
 # # Mouse support - set to on if you want to use the mouse
 setw -g mode-mouse off
-set -g mouse-select-pane off
+set -g mouse-select-pane on
 set -g mouse-resize-pane off
 set -g mouse-select-window on
 
@@ -64,8 +64,8 @@ bind -n M-l resize-pane -R 5
 
 set -g history-limit 20000
 
-set -g status-bg colour0
-set -g status-fg colour3
+#set -g status-bg colour0
+#set -g status-fg colour3
 
 
 # smart pane switching with awareness of vim splits
@@ -84,15 +84,15 @@ bind - split-window -v # Split panes vertically
 # set-option -g status on                # turn the status bar on
 set-option -g quiet on
 set -g status-utf8 on                  # set utf-8 for the status bar
-set -g status-interval 1               # set update frequencey (default 15 seconds)
+set -g status-interval 15               # set update frequency (default 15 seconds)
 set -g status-justify centre           # center window list for clarity
 set-option -g status-position bottom    # position the status bar at top of screen
 
 # visual notification of activity in other windows
-setw -g monitor-activity on
-set-window-option -g monitor-activity on
-set -g visual-activity on
-# set-option -g visual-bell on
+setw -g monitor-activity off
+set-window-option -g monitor-activity off
+set -g visual-activity off
+set-option -g visual-bell off
 
 # set color for status bar
 set-option -g status-bg colour234 #base02
@@ -102,12 +102,13 @@ set-option -g status-fg colour244
 
 # default window title colors
 set-window-option -g window-status-fg colour240
-set-window-option -g window-status-bg default
+set-window-option -g window-status-bg colour234
 #set-window-option -g window-status-attr dim
 
 # active window title colors
+# set-window-option -g window-status-current-fg colour255
 set-window-option -g window-status-current-fg yellow
-set-window-option -g window-status-current-bg default
+set-window-option -g window-status-current-bg colour232
 set-window-option -g window-status-current-attr bright
 
 set -g status-left-length 100

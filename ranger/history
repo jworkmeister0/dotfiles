@@ -20,12 +20,10 @@ rename derp.sh bluemix-deploy.sh
 rename blumix-deploy.sh
 rename jjkettle
 open_with h
-mv
 find irr
 find .confi
 search ranger
 find pro
-
 find e
 find et
 find X
@@ -33,8 +31,11 @@ rename Desktop
 rename projects
 open_with 
 set show_hidden
-delete
-w
 q
 open_with vim
 show_hidden
+cd  
+mv
+
+w
+delete
