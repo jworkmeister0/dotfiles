@@ -95,21 +95,21 @@ set -g visual-activity off
 set-option -g visual-bell off
 
 # set color for status bar
-set-option -g status-bg colour234 #base02
-set-option -g status-fg colour244
+set-option -g status-bg colour233 #base02
+set-option -g status-fg colour8
 #set-option -g status-attr dim
 
 
 # default window title colors
-set-window-option -g window-status-fg colour240
-set-window-option -g window-status-bg colour234
+set-window-option -g window-status-fg colour8
+set-window-option -g window-status-bg colour233
 #set-window-option -g window-status-attr dim
 
 # active window title colors
 # set-window-option -g window-status-current-fg colour255
-set-window-option -g window-status-current-fg yellow
-set-window-option -g window-status-current-bg colour232
 set-window-option -g window-status-current-attr bright
+set-window-option -g window-status-current-fg colour11
+set-window-option -g window-status-current-bg colour232
 
 set -g status-left-length 100
 
