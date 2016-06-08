@@ -10,19 +10,20 @@
 let s:gray    = [7, '#8a8a8a']
 let s:golden  = [11, '#afaf5f']
 let s:pink    = [13, '#af5f5f']
-let s:red    = [1, '#5f87af']
-let s:orange  = [3, '#d75f00']
+let s:green    = [3, '#5f87af'] "actually orange
+let s:orange  = [10, '#d75f00'] "actually green
 let s:outerfg = [16, '#000000']
 let s:innerbg = [233, '#1c1c1c']
 let s:middle  = ['#bcbcbc', '#444444', 233, 240]
+
 
 " Normal mode
 let s:N1 = [s:outerfg[1], s:gray[1], s:outerfg[0], s:gray[0]]
 let s:N3 = [s:gray[1], s:innerbg[1], s:gray[0], s:innerbg[0]]
 
 " Insert mode
-let s:I1 = [s:outerfg[1], s:red[1], s:outerfg[0], s:red[0]]
-let s:I3 = [s:red[1], s:innerbg[1], s:red[0], s:innerbg[0]]
+let s:I1 = [s:outerfg[1], s:green[1], s:outerfg[0], s:green[0]]
+let s:I3 = [s:green[1], s:innerbg[1], s:green[0], s:innerbg[0]]
 
 " Visual mode
 let s:V1 = [s:outerfg[1], s:pink[1], s:outerfg[0], s:pink[0]]
@@ -37,7 +38,7 @@ let s:IA = [s:middle[1], s:innerbg[1], s:middle[3], s:innerbg[0]]
 
 let g:airline#themes#jack#palette = {}
 let g:airline#themes#jack#palette.accents = {
-    \ 'red': ['#d70000', '', 160, '', '']}
+    \ 'green': ['#d70000', '', 160, '', '']}
 
 let g:airline#themes#jack#palette.inactive = {
     \ 'airline_a': s:IA,

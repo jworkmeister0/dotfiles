@@ -562,7 +562,7 @@ let g:airline#extensions#whitespace#enabled = 0
 
 function! AirLineBlaenk()
   function! Modified()
-    return &modified ? "[+ +]" : ''
+    return &modified ? " [+++]" : ''
   endfunction
 
   call airline#parts#define_raw('filename', '%<%f')
