@@ -6,28 +6,25 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'Shougo/neocomplete.vim'
-Plugin 'sheerun/vim-polyglot'
 Plugin 'bkad/CamelCaseMotion'
-Plugin 'digitaltoad/vim-pug'
 Plugin 'christoomey/vim-tmux-navigator'
-"Plugin 'gavocanov/vim-js-indent'
+Plugin 'jelera/vim-javascript-syntax'
 Plugin 'pangloss/vim-javascript'
-"Plugin 'othree/javascript-libraries-syntax.vim'
-Plugin 'crusoexia/vim-javascript-lib'
+Plugin 'heavenshell/vim-jsdoc'
+Plugin 'moll/vim-node'
+"Plugin 'skammer/vim-css-color'
+Plugin 'mattn/emmet-vim'
+Plugin 'othree/javascript-libraries-syntax.vim'
 "Plugin 'burnettk/vim-angular'
-"Plugin 'luochen1990/rainbow'
 Plugin 'scrooloose/syntastic'
 Plugin 'scrooloose/nerdtree'
 Plugin 'mbbill/undotree'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'easymotion/vim-easymotion'
-"Plugin 'dkprice/vim-easygrep'
-"Plugin 'PotatoesMaster/i3-vim-syntax'
 Plugin 'tpope/vim-sensible'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-sleuth'
-"Plugin 'luochen1990/indent-detector.vim'
 Plugin 'tpope/vim-markdown'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-repeat'
@@ -38,31 +35,29 @@ Plugin 'wesQ3/vim-windowswap'
 Plugin 'yegappan/grep'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'ternjs/tern_for_vim'
-Plugin 'jiangmiao/auto-pairs'
-"Plugin 'alvan/vim-closetag'
+Plugin 'alvan/vim-closetag'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'jszakmeister/vim-togglecursor'
-Plugin 'nanotech/jellybeans.vim'
-Plugin 'reedes/vim-colors-pencil'
-"Plugin 'godlygeek/csapprox'
 Plugin 'rking/ag.vim'
 Plugin 'junegunn/vim-easy-align'
 Plugin 'wellle/targets.vim'
-"Plugin 'Raimondi/delimitMate'
 Plugin 'Valloric/MatchTagAlways'
 Plugin 'altercation/vim-colors-solarized'
-Plugin 'mattn/emmet-vim'
 Plugin 'tmux-plugins/vim-tmux-focus-events'
 Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'jiangmiao/auto-pairs'
 
+Plugin 'nanotech/jellybeans.vim'
+Plugin 'reedes/vim-colors-pencil'
+Plugin 'dsolstad/vim-wombat256i'
 Plugin 'ciaranm/inkpot'
 Plugin 'zeis/vim-kolor'
 Plugin 'tomasr/molokai'
 Plugin 'nickburlett/vim-colors-stylus'
-
 Plugin 'w0ng/vim-hybrid'
 Plugin 'junegunn/seoul256.vim'
 Plugin 'crusoexia/vim-monokai'
+Plugin 'noahfrederick/vim-noctu'
 
 Plugin 'jaxbot/semantic-highlight.vim'
 
@@ -112,6 +107,13 @@ set undofile
 set undodir=~/.vim/undos
 set undolevels=5000
 set undoreload=5000
+set autowrite
+set autowriteall
+au FocusLost * silent! wa
+augroup AutoWrite
+    autocmd Vimenter * call AirLineBlaenk()
+    autocmd! BufLeave * :update
+augroup END
 " set swapfile
 set backup
 set nocompatible "behave mswin
@@ -124,7 +126,7 @@ au BufNewFile,BufRead *.ejs set filetype=html
 "set tags+=~/.ctaggg
 
 "----------Colors and eyecandy. Includes plugin colorschemes----------
-set t_Co=256
+"set t_Co=256
 syntax on
 "let base16colorspace=256
 let g:pencil_gutter_color = 1
@@ -135,30 +137,33 @@ let g:kolor_alternative_matchparen=0
 
 "--DARK--
 set background=dark
-colorscheme seoul256
+"colorscheme seoul256
+colorscheme noctu
 set cursorcolumn
 set cursorline
-hi IndentGuidesOdd  ctermbg=232
-hi IndentGuidesEven ctermbg=233
-highlight Normal    ctermbg=none
+"highlight Normal    ctermbg=none ctermfg=15
+"highlight Normal    ctermbg=none
 highlight nonText   ctermbg=none
 highlight Comment   ctermbg=none ctermfg=239
-highlight CursorLineNr ctermfg=4
+" highlight Comment   ctermbg=none ctermfg=6
+highlight CursorLineNr ctermfg=15 ctermbg=none
 highlight CursorLine    ctermbg=234
 highlight CursorColumn  ctermbg=234
 highlight ColorColumn   ctermbg=233
-highlight LineNr ctermbg=233
-let g:airline_theme='distinguished'
+highlight LineNr ctermbg=none
+"let g:airline_theme='distinguished'
+let g:airline_theme='jack'
 
 
 """--light--
 "set background=light
-"colorscheme pencil
+"colorscheme solarized
 "set cursorcolumn
 "set cursorline
-"highlight CursorLine    ctermbg=7
-"highlight CursorColumn  ctermbg=7
-"highlight ColorColumn   ctermbg=7
+"highlight CursorLine    ctermbg=230
+"highlight CursorColumn  ctermbg=230
+"highlight ColorColumn   ctermbg=230
+"highlight Comment   ctermbg=none ctermfg=249
 "let g:airline_theme='sol'
 
 "--LIGHT--
@@ -186,10 +191,6 @@ let mapleader = " "
 command! W w
 map L $
 map H ^
-" switch q and ctrl+v functionality
-noremap	q <C-V>
-nnoremap <C-V> q
-nnoremap Q q
 nnoremap j gj
 nnoremap k gk
 "repace selection with current register: hit r when text is selected
@@ -248,6 +249,7 @@ noremap <leader>ta :set tabstop=4 softtabstop=0 noexpandtab shiftwidth=4
 noremap <leader>] :GitGutterNextHunk <CR>
 noremap <leader>[ :GitGutterPrevHunk <CR>
 noremap <leader>u :GitGutterUndoHunk <CR>
+noremap <leader>rn :set relativenumber! <CR>
 
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
@@ -555,12 +557,12 @@ let g:airline_mode_map = {}
 
 
 
-"let g:airline#extensions#hunks#enabled = 0
+let g:airline#extensions#hunks#enabled = 1
 let g:airline#extensions#whitespace#enabled = 0
 
 function! AirLineBlaenk()
   function! Modified()
-    return &modified ? " [+]" : ''
+    return &modified ? "[+ +]" : ''
   endfunction
 
   call airline#parts#define_raw('filename', '%<%f')
@@ -569,8 +571,8 @@ function! AirLineBlaenk()
   let g:airline_section_b = airline#section#create_left(['filename'])
   let g:airline_section_c = airline#section#create([''])
   let g:airline_section_gutter = airline#section#create(['modified', '%='])
-  let g:airline_section_x = airline#section#create_right([''])
-  let g:airline_section_y = airline#section#create(['branch'])
+  let g:airline_section_x = airline#section#create(['branch'])
+  let g:airline_section_y = airline#section#create(['hunks'])
   let g:airline_section_z = airline#section#create_right(['%c, %l  %p٪'])
 endfunction
 
@@ -580,10 +582,12 @@ let g:airline_theme_patch_func = 'AirLineBlaenkTheme'
 
 " 0,1: gfg, gbg; 2,3: tfg, tbg; 4: styles
 function! AirLineBlaenkTheme(palette)
+
   if g:airline_theme == 'solarized'
     let purple = ['#ffffff', '#5f5faf', 255, 13, '']
     let violet = ['#5f5faf', '#aeaed7', 13, 61, '']
     let inv_purple = ['#5f5faf', '#ffffff', 13, 255, '']
+
     let purple_violet = ['#5f5faf', '#aeaed7', 61, 13, '']
 
     " dark = middle
@@ -606,6 +610,12 @@ function! AirLineBlaenkTheme(palette)
     let green = ['#ffffff', '#859900', 255, 64, '']
     let red = ['#ffffff', '#dc322f', 255, 160, '']
     let orange = ['#ffffff', '#cb4b16', 255, 166, '']
+
+    " let magenta = ['#ffffff', '#d33682', 6, 14, '']
+    " let blue = ['#ffffff', '#268bd2', 4, 12, '']
+    " let green = ['#ffffff', '#859900', 2, 10, '']
+    " let red = ['#ffffff', '#dc322f', 1, 9, '']
+    " let orange = ['#ffffff', '#cb4b16', 3, 11, '']
 
     let modes = {
       \ 'normal': blue,
@@ -680,6 +690,7 @@ let b:syntastic_skip_checks = 0
 "au BufRead * normal zR
 au BufWinEnter * normal zR
 
+au Vimenter * call AirLineBlaenk()
 let g:NERDTreeDirArrows=0
 "au FileType javascript call JavaScriptFold()
 set cursorcolumn

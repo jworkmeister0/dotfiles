@@ -31,7 +31,6 @@ rename Desktop
 rename projects
 open_with 
 set show_hidden
-q
 open_with vim
 show_hidden
 cd  
@@ -39,3 +38,9 @@ mv
 
 w
 delete
+AliasCommand 
+search rog
+find .irre
+search projects
+q
+Q
