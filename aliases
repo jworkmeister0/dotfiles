@@ -2,13 +2,8 @@ alias trash=gvfs-trash
 alias del=gvfs-trash
 alias lock=gnome-screensaver-command --activate
 alias ra=ranger
-alias start-http='http-server ~/projects/workmeister-site/static'
-alias vim=vim
 alias :q=exit
 alias dnf=yum
-alias electro='electron main.js'
-alias capp='google-chrome --load-and-launch-app=/home/john/projects/chrome-app-first-discovery'
 alias gpom='git push origin master'
 alias gpomcf='git push origin master && cf push'
 alias gpo='git push origin'
-alias applogs='cf logs ABL-Visitor-Request'
