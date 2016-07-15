@@ -4,6 +4,5 @@ alias lock=gnome-screensaver-command --activate
 alias ra=ranger
 alias :q=exit
 alias dnf=yum
-alias gpom='git push origin master'
 alias gpomcf='git push origin master && cf push'
 alias gpo='git push origin'

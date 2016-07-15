@@ -19,3 +19,6 @@ ln prompt_super_setup ~/.zprezto/modules/prompt/functions/prompt_super_setup
 echo "installing vim plugins"
 vim +PluginInstall +qall
 
+cd ~/.vim/bundle/command-t/ruby/command-t
+ruby extconf.rb
+make

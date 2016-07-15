@@ -6,11 +6,11 @@ bind C-a send-prefix
 
 set -s escape-time 0
 
-# set -g default-terminal "screen-256color"
+# SEE: nerdyweekly.com/posts/enable-italic-text-vim-tmux-gnome-terminal/
+set -g default-terminal "xterm-256color-italic"
 
 # Start numbering at 1
 set -g base-index 1
-
 
 set-option -g message-bg black
 set-option -g message-fg colour226
@@ -95,14 +95,13 @@ set -g visual-activity off
 set-option -g visual-bell off
 
 # set color for status bar
-set-option -g status-bg colour233 #base02
+set-option -g status-bg colour232 #base02
 set-option -g status-fg colour8
-#set-option -g status-attr dim
 
 
 # default window title colors
 set-window-option -g window-status-fg colour8
-set-window-option -g window-status-bg colour233
+set-window-option -g window-status-bg colour232
 #set-window-option -g window-status-attr dim
 
 # active window title colors

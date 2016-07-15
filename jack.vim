@@ -12,8 +12,8 @@ let s:golden  = [11, '#afaf5f']
 let s:pink    = [13, '#af5f5f']
 let s:green    = [3, '#5f87af'] "actually orange
 let s:orange  = [10, '#d75f00'] "actually green
-let s:outerfg = [16, '#000000']
-let s:innerbg = [233, '#1c1c1c']
+let s:outerfg = [18, '#000000']
+let s:innerbg = [234, '#1c1c1c']
 let s:middle  = ['#bcbcbc', '#444444', 233, 240]
 
 
