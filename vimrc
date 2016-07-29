@@ -134,6 +134,7 @@ highlight Comment       ctermfg=244
 highlight LineNr        ctermbg=none ctermfg=240
 highlight ErrorMsg      ctermbg=240 ctermfg=none 
 highlight Search        cterm=italic ctermfg=3 ctermbg=0
+highlight SyntasticWarningLine  ctermbg=0
 " highlight Error         ctermbg=0 ctermfg=1
 hi VertSplit ctermbg=232
 
@@ -278,13 +279,15 @@ let g:syntastic_xml_checkers = ['plutil', 'xmllint']
 
 "----------Syntastic Behavior----------
 let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
+
+let g:syntastic_auto_loc_list = 0
+
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 let g:syntastic_enable_signs=1
 let g:syntastic_loc_list_height=5
-let g:syntastic_warning_symbol = '→'
-let g:syntastic_error_symbol = '☢'
+let g:syntastic_warning_symbol = '☡ '
+let g:syntastic_error_symbol = '☢ '
 let b:syntastic_skip_checks = 0
 function! s:find_jshintrc(dir)
   let l:found = globpath(a:dir, '.jshintrc')
