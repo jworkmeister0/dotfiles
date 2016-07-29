@@ -6,3 +6,4 @@ alias :q=exit
 alias dnf=yum
 alias gpomcf='git push origin master && cf push'
 alias gpo='git push origin'
+alias tmux='tmux -u'

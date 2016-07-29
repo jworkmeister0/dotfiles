@@ -1,4 +1,4 @@
-﻿"----------Prepare plugins----------
+"----------Prepare plugins----------
 set nocompatible
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -8,18 +8,17 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'Shougo/neocomplete.vim'
 Plugin 'bkad/CamelCaseMotion'
 Plugin 'christoomey/vim-tmux-navigator'
+Plugin 'scrooloose/nerdtree'
 Plugin 'pangloss/vim-javascript'
-Plugin 'heavenshell/vim-jsdoc'
 Plugin 'scrooloose/syntastic'
 Plugin 'moll/vim-node'
 Plugin 'mattn/emmet-vim'
 Plugin 'othree/javascript-libraries-syntax.vim'
-Plugin 'scrooloose/nerdtree'
 Plugin 'mbbill/undotree'
 Plugin 'tpope/vim-sensible'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
-Plugin 'easymotion/vim-easymotion'
+Plugin 'wellle/targets.vim'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-markdown'
 Plugin 'tpope/vim-fugitive'
@@ -31,14 +30,12 @@ Plugin 'justinmk/vim-gtfo'
 Plugin 'wesQ3/vim-windowswap'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'wincent/command-t'
-Plugin 'yegappan/grep'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'jszakmeister/vim-togglecursor'
 Plugin 'rking/ag.vim'
 Plugin 'junegunn/vim-easy-align'
 Plugin 'tmux-plugins/vim-tmux-focus-events'
-Plugin 'Raimondi/delimitMate'
 Plugin 'valloric/MatchTagAlways'
 Plugin 'tpope/vim-bundler'
 Plugin 'tpope/vim-rails'
@@ -46,6 +43,10 @@ Plugin 'noahfrederick/vim-noctu'
 Plugin 'chriskempson/base16-vim'
 Plugin 'jaxbot/semantic-highlight.vim'
 Plugin 'othree/html5.vim'
+Plugin 'vim-scripts/vim-auto-save'
+
+"Plugin 'jiangmiao/auto-pairs'
+Plugin 'kana/vim-smartinput'
 
 call vundle#end()
 "set omnifunc=syntaxcomplete#Complete
@@ -66,11 +67,12 @@ set encoding=utf-8 "set guifontwide=MingLiU:h11
 set fileencodings=utf-8,latin1
 set formatoptions-=t =-o
 set guioptions-=L
+set guioptions-=l
 set guioptions-=T
 set guioptions-=r
+set guioptions-=R
 set hidden
 set ignorecase
-set incsearch
 set iskeyword+=-
 set lazyredraw
 set list
@@ -99,38 +101,47 @@ set undolevels=5000
 set undoreload=5000
 set autowrite
 set autowriteall
-au FocusLost * silent! wa
+:au FocusLost * :wa
+"au FocusLost * silent! wa
 set backup
 set nocompatible "behave mswin
 set mouse=a
 set pastetoggle=<F2>
 set clipboard=unnamed
 au BufNewFile,BufRead *.ejs set filetype=html
+autocmd BufLeave,FocusLost * silent! wall
+:au FocusLost * :wa
+set autowrite
 
-"----------Colors and eyecandy. Includes plugin colorschemes----------
+"----------Visual Settings. Includes plugin colorschemes----------
 set t_Co=256
 syntax on
 let base16colorspace=256
-let g:mta_set_default_matchtag_color = 0
-let g:mta_use_matchparen_group = 0
+" let g:mta_set_default_matchtag_color = 0
+" let g:mta_use_matchparen_group = 0
 
 "--DARK--
 set background=dark
-colorscheme base16-default-dark
+colorscheme noctu
+set background=dark
 set cursorcolumn
 set cursorline
-highlight Normal ctermbg=none
-highlight CursorLineNr ctermfg=15 ctermbg=none
-"highlight CursorLine    ctermfg=none
-highlight CursorColumn  ctermfg=none
+highlight CursorLine    ctermbg=232
+highlight CursorColumn  ctermbg=232
 highlight ColorColumn   ctermbg=233
-highlight Comment   ctermfg=244
-highlight LineNr ctermbg=none ctermfg=240
-highlight Search cterm=italic ctermfg=226 ctermbg=0
+highlight CursorLineNr  ctermfg=15 ctermbg=none
+highlight Comment       ctermfg=244
+highlight LineNr        ctermbg=none ctermfg=240
+highlight ErrorMsg      ctermbg=240 ctermfg=none 
+highlight Search        cterm=italic ctermfg=3 ctermbg=0
+" highlight Error         ctermbg=0 ctermfg=1
+hi VertSplit ctermbg=232
+
+" highlight Conceal ctermbg=none ctermfg=none cterm=italic
 "let g:airline_theme='distinguished'
-highlight MatchTag ctermfg=white ctermbg=black cterm=underline
-highlight MatchParen ctermfg=4 ctermbg=232 cterm=underline
-highlight Folded ctermfg=8 ctermbg=233 
+" highlight MatchTag ctermfg=white ctermbg=black cterm=underline
+" highlight MatchParen ctermfg=4 ctermbg=232 cterm=underline
+" highlight Folded ctermfg=8 ctermbg=233 
 let g:airline_theme='jack'
 
 "----------Editor remaps. Mostly personal preferance----------
@@ -141,15 +152,14 @@ map H ^
 nnoremap j gj
 nnoremap k gk
 :inoremap kj <ESC>
-nnoremap <C-t> :CommandT <CR>
+nnoremap <C-t> :NERDTreeClose <bar> CommandT <CR>
 nnoremap <leader>q :noh <CR>
-"F8 removes trailing whitespace
-nnoremap <silent> <F8> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
-"this is magic! it allows a two-column view to see more lines in the file
+
+" Deletes trailing whitespace on all lines. Mnemonic: 'Delete White Space'
+nnoremap <leader> dtws :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
+" "this is magic! it allows a two-column view to see more lines in the file
 noremap <silent> <Leader>bm :<C-u>let @z=&so<CR>:set so=0 noscb<CR>:bo vs<CR>Ljzt:setl scb<CR><C-w>p:setl scb<CR>:let &so=@z<CR>
-"Remap NERDTree to ctrl+n
-map <C-n> :NERDTreeToggle<CR>
-vnoremap // y/<C-R>"<CR>"
+"//vnoremap // y/<C-R>"<CR>"
 " Easy swap passive mode
 nmap <leader>st :SyntasticToggleMode
 map <leader>vrc :vsp ~/.vimrc<cr>
@@ -168,10 +178,12 @@ nnoremap <leader>J :resize -1<CR>
 "for easier copying and pasting to/from clipboard
 vmap <leader>c "+y <CR>
 vmap <leader>C "+y <CR>
+vmap <c-C> "+y <CR>
 vmap <leader>y "+y <CR>
 vmap <leader>Y "+y <CR>
 noremap <leader>p "+p <ENTER><CR>
 noremap <leader>P "+P <ENTER><CR>
+noremap <leader>v "+P <ENTER><CR>
 map <leader>ag :Ag '
 map <leader>ai :Ag --ignore '
 map <leader>ss :setlocal spell!<cr>
@@ -196,14 +208,16 @@ nmap ga <Plug>(EasyAlign)
 "Reload Configs
 nmap <leader>rc :call ReloadConfigs()
 if !exists("*ReloadConfigs")
-    function! ReloadConfigs()
-        :source ~/.vimrc
-        if has("gui_running")
-            :source ~/.gvimrc
-        endif
-    endfunction
-    command! Recfg call ReloadConfigs()
+  function! ReloadConfigs()
+    :source ~/.vimrc
+    if has("gui_running")
+      :source ~/.gvimrc
+    endif
+  endfunction
+  command! Recfg call ReloadConfigs()
 endif
+
+map <silent> <C-N> :NERDTreeToggle <CR>
 
 "----------Editor behavior----------
 set relativenumber
@@ -216,14 +230,12 @@ set shiftwidth=4
 set softtabstop=4
 set smarttab
 set expandtab
-"keeps the cursor off the bottom-most and top-most line if possible
-set scrolloff=15
-"allow backspacing over everything in insert mode
-set backspace=indent,eol,start
-set history=100		" keep 50 lines of command line history
-set ruler		" show the cursor position all the time
-set showcmd		" display incomplete commands
-set incsearch		" do incremental searching
+set scrolloff=15  " keeps the cursor off the bottom-most and top-most line if possible
+set backspace=indent,eol,start " allow backspacing over everything in insert mode
+set history=100                " keep 50 lines of command line history
+set ruler                      " show the cursor position all the time
+set showcmd                    " display incomplete commands
+set incsearch                  " do incremental searching
 set colorcolumn=80
 set wrap
 set linebreak
@@ -233,7 +245,8 @@ set showbreak=┗━━━
 set cpoptions+=n
 " Turns off annoying comment insertion
 autocmd FileType * setlocal formatoptions -=c formatoptions -=o
-" leave insert mode quickly
+" Open help splits vertically
+autocmd FileType help wincmd L
 
 "----------------------------------------
 "---------Plugin Settings Below----------
@@ -241,6 +254,11 @@ autocmd FileType * setlocal formatoptions -=c formatoptions -=o
 
 "----------Javascript stuff!----------
 let g:used_javascript_libs = 'angularjs'
+let g:javascript_plugin_jsdoc = 1
+set conceallevel=0
+set concealcursor=
+let g:javascript_conceal_function       = "ƒ"
+let g:javascript_conceal_prototype      = "¶"
 
 "----------CamelCase Stuff----------
 map <silent> W <Plug>CamelCaseMotion_w
@@ -257,7 +275,6 @@ let g:syntastic_html_checkers = ['tidy']
 let g:syntastic_html_tidy_exec = '/usr/bin/tidy'
 let g:syntastic_json_checkers = ['jsonlint']
 let g:syntastic_xml_checkers = ['plutil', 'xmllint']
-let g:syntastic_php_checkers = ['phplint']
 
 "----------Syntastic Behavior----------
 let g:syntastic_always_populate_loc_list = 1
@@ -266,76 +283,52 @@ let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 let g:syntastic_enable_signs=1
 let g:syntastic_loc_list_height=5
-let g:syntastic_warning_symbol = '☡'
-let g:syntastic_error_symbol = '⚠'
+let g:syntastic_warning_symbol = '→'
+let g:syntastic_error_symbol = '☢'
 let b:syntastic_skip_checks = 0
 function! s:find_jshintrc(dir)
-    let l:found = globpath(a:dir, '.jshintrc')
-    if filereadable(l:found)
-        return l:found
-    endif
+  let l:found = globpath(a:dir, '.jshintrc')
+  if filereadable(l:found)
+    return l:found
+  endif
 
-    let l:parent = fnamemodify(a:dir, ':h')
-    if l:parent != a:dir
-        return s:find_jshintrc(l:parent)
-    endif
+  let l:parent = fnamemodify(a:dir, ':h')
+  if l:parent != a:dir
+    return s:find_jshintrc(l:parent)
+  endif
 
-    return "~/.jshintrc"
+  return "~/.jshintrc"
 endfunction
 
 "Ignore angular directive warnings
 let g:syntastic_html_tidy_ignore_errors=[
-            \"proprietary attribute",
-            \"unescaped & which should be written as &amp",
-            \"trimming empty <span>",
-            \" proprietary attribute \"ng-",
-            \"<input> proprietary attribute \"autocomplete\"",
-            \]
+      \"proprietary attribute",
+      \"unescaped & which should be written as &amp",
+      \"trimming empty <span>",
+      \" proprietary attribute \"ng-",
+      \"<input> proprietary attribute \"autocomplete\"",
+      \]
 
 if !exists("*ReloadConfigs")
-    set statusline+=%#warningmsg#
-    set statusline+=%{SyntasticStatuslineFlag()}
-    set statusline+=%*
+  set statusline+=%#warningmsg#
+  set statusline+=%{SyntasticStatuslineFlag()}
+  set statusline+=%*
 endif
-
-"----------EasyMotion behavior. This is a work in progress----------
-let g:EasyMotion_smartcase = 1
-let g:EasyMotion_do_mapping = 0 " Disable default mappings
-map <Leader> <Plug>(easymotion-prefix)
-nmap s <Plug>(easymotion-s)
-nmap s <Plug>(easymotion-s2)
-map <Leader>l <Plug>(easymotion-lineforward)
-map <Leader>j <Plug>(easymotion-j)
-map <Leader>k <Plug>(easymotion-k)
-map <Leader>h <Plug>(easymotion-linebackward)
-let g:EasyMotion_startofline = 0 " keep cursor column when JK motion
-let g:EasyMotion_smartcase = 1
-let g:EasyMotion_use_smartsign_us = 1
-" <Leader>f{char} to move to {char}
-map  <Leader>f <Plug>(easymotion-bd-f)
-nmap <Leader>f <Plug>(easymotion-overwin-f)
-" s{char}{char} to move to {char}{char}
-nmap s <Plug>(easymotion-overwin-f2)
-" Move to line
-map <Leader>L <Plug>(easymotion-bd-jk)
-nmap <Leader>L <Plug>(easymotion-overwin-line)
-" Move to word
-map  <Leader>w <Plug>(easymotion-bd-w)
 
 "----------NERDTree Config-----------
 "Set NERDTree arrow chars
 let g:NERDTreeMinimalUI=1
 let g:NERDTreeIndicatorMapCustom = {
-            \ "Modified"  : "⛏",
-            \ "Staged"    : "✚",
-            \ "Untracked" : "✭",
-            \ "Renamed"   : "➜",
-            \ "Unmerged"  : "═",
-            \ "Deleted"   : "✖",
-            \ "Dirty"     : "⚑",
-            \ "Clean"     : "✔︎",
-            \ "Unknown"   : "?"
-            \ }
+      \ "Modified"  : "⛏",
+      \ "Staged"    : "STAGED",
+      \ "Untracked" : "untracked",
+      \ "Renamed"   : "renamed",
+      \ "Unmerged"  : "unmerged",
+      \ "Deleted"   : "deleted",
+      \ "Dirty"     : "*",
+      \ "Clean"     : "clean",
+      \ "Unknown"   : "?"
+      \ }
 let g:NERDTreeDirArrows=0
 
 "----------NeoComplete------------
@@ -350,9 +343,9 @@ let g:neocomplete#enable_auto_select = 1
 " <CR>: close popup and save indent.
 inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
 function! s:my_cr_function()
-    return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-    " For no inserting <CR> key.
-    "return pumvisible() ? "\<C-y>" : "\<CR>"
+  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+  " For no inserting <CR> key.
+  "return pumvisible() ? "\<C-y>" : "\<CR>"
 endfunction
 " <TAB>: completion.
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
@@ -375,7 +368,7 @@ autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 " Enable heavy omni completion.
 if !exists('g:neocomplete#sources#omni#input_patterns')
-    let g:neocomplete#sources#omni#input_patterns = {}
+  let g:neocomplete#sources#omni#input_patterns = {}
 endif
 inoremap <expr> <C-g> neocomplete#undo_completion()
 inoremap <expr> <C-l> neocomplete#complete_common_string()
@@ -410,29 +403,34 @@ function! AirLineBlaenk()
   let g:airline_section_z = airline#section#create_right(['%c, %l  %p٪'])
 endfunction
 
+" let g:airline_left_sep           = ''
+" let g:airline_left_sep           = ''
+" let g:airline_right_sep          = ''
+" let g:airline_right_sep          = ''
+
 autocmd Vimenter * call AirLineBlaenk()
 
 
 " 0,1: gfg, gbg; 2,3: tfg, tbg; 4: styles
 
 let g:airline#extensions#default#section_truncate_width = {
-  \ 'x': 60,
-  \ 'y': 60
-  \ }
+      \ 'x': 60,
+      \ 'y': 60
+      \ }
 
 let g:airline_mode_map = {
-  \ '__' : '-',
-  \ 'n'  : 'N',
-  \ 'i'  : 'I',
-  \ 'R'  : 'R',
-  \ 'v'  : 'V',
-  \ 'V'  : 'V-L',
-  \ 'c'  : 'C',
-  \ '' : 'V-B',
-  \ 's'  : 'S',
-  \ 'S'  : 'S-L',
-  \ '' : 'S-B',
-  \ }
+      \ '__' : '-',
+      \ 'n'  : 'N',
+      \ 'i'  : 'I',
+      \ 'R'  : 'R',
+      \ 'v'  : 'V',
+      \ 'V'  : 'V-L',
+      \ 'c'  : 'C',
+      \ '' : 'V-B',
+      \ 's'  : 'S',
+      \ 'S'  : 'S-L',
+      \ '' : 'S-B',
+      \ }
 
 "----------gitgutter Config----------
 set updatetime=250

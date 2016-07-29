@@ -1,9 +1,3 @@
-cut
-open_with llhhhhhhhhhhhhh
-search Down	
-find Dow
-find pop 
-find ico
 copy
 find pr
 open_with j
@@ -28,7 +22,6 @@ rename Desktop
 rename projects
 open_with 
 set show_hidden
-open_with vim
 show_hidden
 cd  
 mv
@@ -39,8 +32,6 @@ search rog
 find .irre
 search projects
 q
-Q
-delete
 rename _modal_content.erb modal-examples.erb
 search neo
 search .shar
@@ -48,3 +39,12 @@ search
 find gn
 search shade
 find .loc
+find we
+find str
+search sso
+search manifes
+mkdir toy-ball
+delete
+Q
+find pytl
+open_with vim
