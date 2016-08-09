@@ -44,9 +44,16 @@ Plugin 'chriskempson/base16-vim'
 Plugin 'jaxbot/semantic-highlight.vim'
 Plugin 'othree/html5.vim'
 Plugin 'vim-scripts/vim-auto-save'
+Plugin 'Valloric/ListToggle'
+Plugin 'haya14busa/incsearch.vim'
+Plugin 'ntpeters/vim-better-whitespace'
+Plugin 'morhetz/gruvbox'
+Plugin 'easymotion/vim-easymotion'
+Plugin 'w0ng/vim-hybrid'
+Plugin 'ciaranm/detectindent'
 
 "Plugin 'jiangmiao/auto-pairs'
-Plugin 'kana/vim-smartinput'
+" Plugin 'kana/vim-smartinput'
 
 call vundle#end()
 "set omnifunc=syntaxcomplete#Complete
@@ -55,7 +62,6 @@ runtime macros/matchit.vim
 "----------General Options----------
 "encoding stuff. A very hack-y way to get special chars working property
 set autoindent
-set smartindent
 set cindent
 filetype plugin indent on
 scriptencoding utf-8,latin1
@@ -65,7 +71,7 @@ set complete+=k
 set complete-=i
 set encoding=utf-8 "set guifontwide=MingLiU:h11
 set fileencodings=utf-8,latin1
-set formatoptions-=t =-o
+set formatoptions-=o =-c
 set guioptions-=L
 set guioptions-=l
 set guioptions-=T
@@ -75,7 +81,6 @@ set hidden
 set ignorecase
 set iskeyword+=-
 set lazyredraw
-set list
 set noerrorbells
 set nojoinspaces
 set ruler
@@ -89,7 +94,6 @@ set wildmode=longest,full
 
 set autoindent
 set smartindent
-set cindent
 
 "----------File I/O, shell and platform-specific behavior and settings----------
 set noswapfile
@@ -112,6 +116,7 @@ au BufNewFile,BufRead *.ejs set filetype=html
 autocmd BufLeave,FocusLost * silent! wall
 :au FocusLost * :wa
 set autowrite
+set gcr=n:blinkon0
 
 "----------Visual Settings. Includes plugin colorschemes----------
 set t_Co=256
@@ -120,29 +125,48 @@ let base16colorspace=256
 " let g:mta_set_default_matchtag_color = 0
 " let g:mta_use_matchparen_group = 0
 
+highlight ExtraWhitespace ctermbg=6
+
+" Show whitespace
+" set list
+set listchars=tab:▒░,trail:·,nbsp:‗
+" set listchars=tab:│◦,trail:▁,nbsp:‗
+" set listchars=tab:▒░,trail:·
+" set listchars=tab:├─,trail:·,nbsp:▁
+"
+highlight List ctermfg=0
+
 "--DARK--
 set background=dark
-colorscheme noctu
+colorscheme hybrid
 set background=dark
 set cursorcolumn
 set cursorline
+
+highlight MatchParen ctermfg=255
+highlight Normal        ctermbg=none
+highlight CursorLine    ctermbg=232
 highlight CursorLine    ctermbg=232
 highlight CursorColumn  ctermbg=232
 highlight ColorColumn   ctermbg=233
 highlight CursorLineNr  ctermfg=15 ctermbg=none
-highlight Comment       ctermfg=244
+highlight Comment       ctermfg=244 cterm=italic
 highlight LineNr        ctermbg=none ctermfg=240
-highlight ErrorMsg      ctermbg=240 ctermfg=none 
-highlight Search        cterm=italic ctermfg=3 ctermbg=0
-highlight SyntasticWarningLine  ctermbg=0
+highlight ErrorMsg      ctermbg=240 ctermfg=none
+highlight SyntasticWarningLine  ctermbg=236
+highlight SyntasticErrorLine  ctermbg=52
 " highlight Error         ctermbg=0 ctermfg=1
 hi VertSplit ctermbg=232
+highlight NonText    ctermfg=239
+highlight SpecialKey ctermfg=239
+highlight Search ctermbg=232 ctermfg=226
+"highlight Search cterm=italic ctermbg=232 ctermfg=226
 
 " highlight Conceal ctermbg=none ctermfg=none cterm=italic
 "let g:airline_theme='distinguished'
 " highlight MatchTag ctermfg=white ctermbg=black cterm=underline
 " highlight MatchParen ctermfg=4 ctermbg=232 cterm=underline
-" highlight Folded ctermfg=8 ctermbg=233 
+" highlight Folded ctermfg=8 ctermbg=233
 let g:airline_theme='jack'
 
 "----------Editor remaps. Mostly personal preferance----------
@@ -155,9 +179,11 @@ nnoremap k gk
 :inoremap kj <ESC>
 nnoremap <C-t> :NERDTreeClose <bar> CommandT <CR>
 nnoremap <leader>q :noh <CR>
+nnoremap <leader><space> :noh <CR>
 
-" Deletes trailing whitespace on all lines. Mnemonic: 'Delete White Space'
-nnoremap <leader> dtws :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
+nnoremap <F8> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
+noremap <F3> :AirlineToggle <CR>
+map <F7> mzgg=G`z
 " "this is magic! it allows a two-column view to see more lines in the file
 noremap <silent> <Leader>bm :<C-u>let @z=&so<CR>:set so=0 noscb<CR>:bo vs<CR>Ljzt:setl scb<CR><C-w>p:setl scb<CR>:let &so=@z<CR>
 "//vnoremap // y/<C-R>"<CR>"
@@ -171,11 +197,6 @@ nnoremap <Left>  :vertical resize -3<cr>
 nnoremap <Right> :vertical resize +3<cr>
 nnoremap <Down>  :resize +3<cr>
 nnoremap <Up>    :resize -3<cr>
-"Fine resizing
-nnoremap <leader>L :vertical resize +1<CR>
-nnoremap <leader>H :vertical resize -1<CR>
-nnoremap <leader>K :resize +1<CR>
-nnoremap <leader>J :resize -1<CR>
 "for easier copying and pasting to/from clipboard
 vmap <leader>c "+y <CR>
 vmap <leader>C "+y <CR>
@@ -189,11 +210,11 @@ map <leader>ag :Ag '
 map <leader>ai :Ag --ignore '
 map <leader>ss :setlocal spell!<cr>
 nnoremap <Leader>s :SemanticHighlightToggle<cr>
-noremap <F3> :AirlineToggle <CR>
 noremap <leader>aw :AirlineToggleWhitespace <CR>
 xmap ga <Plug>(EasyAlign)
 noremap <leader>fr :%s/f/r/gc
-noremap <leader>fm :set foldmethod=indent
+noremap <leader>fmi :set foldmethod=indent
+noremap <leader>fms :set foldmethod=syntax
 noremap <leader>tt :set tabstop=8 softtabstop=0 expandtab shiftwidth=2
 noremap <leader>t4 :set tabstop=4 softtabstop=0 noexpandtab shiftwidth=4
 noremap <leader>t2 :set tabstop=2 softtabstop=0 noexpandtab shiftwidth=2
@@ -205,6 +226,16 @@ noremap <leader>rn :set relativenumber! <CR>
 noremap <leader>ddl :%s/\s\+$//e <CR> :%s/\n\{3,}/\r\r/e <CR>
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
+nnoremap<leader>d "_d
+vnoremap<leader>d "_d
+nnoremap<leader>dd "_dd
+vnoremap<leader>dd "_dd
+
+map <leader>lc :set list! <CR>
+
+
+let g:lt_quickfix_list_toggle_map = '<leader>qft'
+let g:lt_location_list_toggle_map = '<leader>ll'
 
 "Reload Configs
 nmap <leader>rc :call ReloadConfigs()
@@ -218,14 +249,37 @@ if !exists("*ReloadConfigs")
   command! Recfg call ReloadConfigs()
 endif
 
+" Highlight all instances of word under cursor, when idle.
+" Useful when studying strange source code.
+nnoremap <leader>z :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
+function! AutoHighlightToggle()
+  let @/ = ''
+  if exists('#auto_highlight')
+    au! auto_highlight
+    augroup! auto_highlight
+    setl updatetime=4000
+    echo 'Highlight current word: off'
+    return 0
+  else
+    augroup auto_highlight
+      au!
+      au CursorHold * let @/ = '\V\<'.escape(expand('<cword>'), '\').'\>'
+    augroup end
+    setl updatetime=750
+    echo 'Highlight current word: ON'
+    return 1
+  endif
+endfunction
 map <silent> <C-N> :NERDTreeToggle <CR>
 
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
+
 "----------Editor behavior----------
-set relativenumber
+"set relativenumber
 set hlsearch
-set smartindent
 set number
-" set relativenumber
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
@@ -236,22 +290,29 @@ set backspace=indent,eol,start " allow backspacing over everything in insert mod
 set history=100                " keep 50 lines of command line history
 set ruler                      " show the cursor position all the time
 set showcmd                    " display incomplete commands
-set incsearch                  " do incremental searching
+set incsearch!                  " do incremental searching
 set colorcolumn=80
 set wrap
-set linebreak
-set nolist
+" set linebreak
 set showbreak=┗━━━
 " start soft-wrap lines (and any prefix) in the line-number area
 set cpoptions+=n
 " Turns off annoying comment insertion
-autocmd FileType * setlocal formatoptions -=c formatoptions -=o
+" autocmd FileType * setlocal formatoptions -=c formatoptions -=o
 " Open help splits vertically
 autocmd FileType help wincmd L
 
 "----------------------------------------
 "---------Plugin Settings Below----------
 "----------------------------------------
+
+"----------EasyMotion stuff!----------
+map <Leader>l <Plug>(easymotion-lineforward)
+map <Leader>j <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
+map <Leader>h <Plug>(easymotion-linebackward)
+map <Leader>s <Plug>(easymotion-s2)
+map <Leader>f <Plug>(easymotion-overwin-f2)
 
 "----------Javascript stuff!----------
 let g:used_javascript_libs = 'angularjs'
@@ -308,8 +369,13 @@ let g:syntastic_html_tidy_ignore_errors=[
       \"proprietary attribute",
       \"unescaped & which should be written as &amp",
       \"trimming empty <span>",
+      \"inserting implicit <span>",
+      \"replacing unexpected button by </button>",
+      \"missing empty </button>",
+      \"trimming empty <button>",
       \" proprietary attribute \"ng-",
       \"<input> proprietary attribute \"autocomplete\"",
+      \"proprietary attribute",
       \]
 
 if !exists("*ReloadConfigs")
@@ -322,15 +388,15 @@ endif
 "Set NERDTree arrow chars
 let g:NERDTreeMinimalUI=1
 let g:NERDTreeIndicatorMapCustom = {
-      \ "Modified"  : "⛏",
-      \ "Staged"    : "STAGED",
-      \ "Untracked" : "untracked",
-      \ "Renamed"   : "renamed",
-      \ "Unmerged"  : "unmerged",
-      \ "Deleted"   : "deleted",
+      \ "Clean"     : ":)",
+      \ "Deleted"   : "X",
       \ "Dirty"     : "*",
-      \ "Clean"     : "clean",
-      \ "Unknown"   : "?"
+      \ "Modified"  : "⛏ ",
+      \ "Renamed"   : "RENAMED",
+      \ "Staged"    : "+",
+      \ "Unknown"   : "?",
+      \ "Unmerged"  : "?!",
+      \ "Untracked" : "++"
       \ }
 let g:NERDTreeDirArrows=0
 
@@ -376,7 +442,13 @@ endif
 inoremap <expr> <C-g> neocomplete#undo_completion()
 inoremap <expr> <C-l> neocomplete#complete_common_string()
 
+
 "----------Airline Config----------
+let g:airline#extensions#whitespace#enabled = 1
+let g:airline#extensions#whitespace#mixed_indent_algo = 1
+let g:airline#extensions#whitespace#checks = [ 'indent', 'trailing', 'mixed-indent-file' ]
+let g:airline#extensions#whitespace#show_message = 1
+
 let g:airline_powerline_fonts=1
 let g:airline#extensions#syntastic#enabled = 1
 let g:airline#extensions#tmuxline#enabled = 1
@@ -388,7 +460,7 @@ let g:airline_inactive_collapse=1
 let g:airline_mode_map = {}
 
 let g:airline#extensions#hunks#enabled = 1
-let g:airline#extensions#whitespace#enabled = 0
+" let g:airline#extensions#whitespace#enabled = 0
 
 function! AirLineBlaenk()
   function! Modified()
@@ -467,3 +539,20 @@ inoremap <C-j>       <Down>
 let g:ragtag_global_maps = 1
 :au FocusLost * :wa
 set autowriteall
+
+func! s:matchparen_cursorcolumn_setup()
+  augroup matchparen_cursorcolumn
+    autocmd!
+    autocmd CursorMoved * if get(w:, "paren_hl_on", 0) | set cursorcolumn | else | set nocursorcolumn | endif
+    autocmd InsertEnter * set nocursorcolumn
+  augroup END
+endf
+if !&cursorcolumn
+  augroup matchparen_cursorcolumn_setup
+    autocmd!
+    " - Add the event _only_ if matchparen is enabled.
+    " - Event must be added _after_ matchparen loaded (so we can react to w:paren_hl_on).
+    autocmd CursorMoved * if exists("#matchparen#CursorMoved") | call <sid>matchparen_cursorcolumn_setup() | endif
+          \ | autocmd! matchparen_cursorcolumn_setup
+  augroup END
+endif

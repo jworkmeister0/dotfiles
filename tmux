@@ -45,13 +45,13 @@ unbind r
 bind r source-file ~/.tmux.conf \; display-message "Config reloaded..."
 
 # REQUIRES v2.2
-# set -g mouse on 
-# ELSE 
+# set -g mouse on
+# ELSE
 set -g mouse-select-pane on
 set -g mouse-resize-pane on
 set -g mouse-select-window on
 
-# self-explanatory 
+# self-explanatory
 set -g history-limit 20000
 set -g @shell_mode 'vi'
 set -s escape-time 0
@@ -124,7 +124,7 @@ run-shell ~/.config/tmux-yank/yank.tmux
 
 # Italiac terminal hack
 # SEE: nerdyweekly.com/posts/enable-italic-text-vim-tmux-gnome-terminal/
-# set -g default-terminal "xterm-256color-italic"
+set -g default-terminal "xterm-256color-italic"
 
 # smart pane switching with awareness of vim splits
 bind -n C-h run "(tmux display-message -p '#{pane_current_command}' | grep -iq vim && tmux send-keys C-h) || tmux select-pane -L"
