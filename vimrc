@@ -5,14 +5,17 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
-Plugin 'Shougo/neocomplete.vim'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
+Plugin 'ervandew/supertab'
+Plugin 'heavenshell/vim-jsdoc'
 Plugin 'bkad/CamelCaseMotion'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'scrooloose/nerdtree'
 Plugin 'pangloss/vim-javascript'
 Plugin 'scrooloose/syntastic'
 Plugin 'moll/vim-node'
-Plugin 'mattn/emmet-vim'
 Plugin 'othree/javascript-libraries-syntax.vim'
 Plugin 'mbbill/undotree'
 Plugin 'tpope/vim-sensible'
@@ -28,7 +31,6 @@ Plugin 'tpope/vim-ragtag'
 Plugin 'tpope/vim-sleuth'
 Plugin 'justinmk/vim-gtfo'
 Plugin 'wesQ3/vim-windowswap'
-Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'wincent/command-t'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
@@ -51,9 +53,15 @@ Plugin 'morhetz/gruvbox'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'w0ng/vim-hybrid'
 Plugin 'ciaranm/detectindent'
+Plugin 'mhinz/vim-startify'
+Plugin '1995eaton/vim-better-javascript-completion'
+Plugin 'Raimondi/delimitMate'
+Plugin 'sindresorhus/focus'
+Plugin 'kshenoy/vim-signature'
+Plugin 'chrisgillis/vim-bootstrap3-snippets'
+Plugin 'godlygeek/tabular'
 
-"Plugin 'jiangmiao/auto-pairs'
-" Plugin 'kana/vim-smartinput'
+Plugin 'ternjs/tern_for_vim'
 
 call vundle#end()
 "set omnifunc=syntaxcomplete#Complete
@@ -71,7 +79,7 @@ set complete+=k
 set complete-=i
 set encoding=utf-8 "set guifontwide=MingLiU:h11
 set fileencodings=utf-8,latin1
-set formatoptions-=o =-c
+setlocal fo+=ro fo-=c
 set guioptions-=L
 set guioptions-=l
 set guioptions-=T
@@ -122,29 +130,21 @@ set gcr=n:blinkon0
 set t_Co=256
 syntax on
 let base16colorspace=256
-" let g:mta_set_default_matchtag_color = 0
-" let g:mta_use_matchparen_group = 0
-
 highlight ExtraWhitespace ctermbg=6
-
-" Show whitespace
-" set list
-set listchars=tab:▒░,trail:·,nbsp:‗
-" set listchars=tab:│◦,trail:▁,nbsp:‗
-" set listchars=tab:▒░,trail:·
-" set listchars=tab:├─,trail:·,nbsp:▁
-"
+set listchars=tab:├─,trail:·,nbsp:‗
 highlight List ctermfg=0
 
 "--DARK--
 set background=dark
 colorscheme hybrid
+" colorscheme focus-dark
 set background=dark
 set cursorcolumn
 set cursorline
 
 highlight MatchParen ctermfg=255
 highlight Normal        ctermbg=none
+highlight SignColumn ctermfg=8
 highlight CursorLine    ctermbg=232
 highlight CursorLine    ctermbg=232
 highlight CursorColumn  ctermbg=232
@@ -155,18 +155,10 @@ highlight LineNr        ctermbg=none ctermfg=240
 highlight ErrorMsg      ctermbg=240 ctermfg=none
 highlight SyntasticWarningLine  ctermbg=236
 highlight SyntasticErrorLine  ctermbg=52
-" highlight Error         ctermbg=0 ctermfg=1
-hi VertSplit ctermbg=232
+highlight VertSplit ctermbg=232
 highlight NonText    ctermfg=239
 highlight SpecialKey ctermfg=239
 highlight Search ctermbg=232 ctermfg=226
-"highlight Search cterm=italic ctermbg=232 ctermfg=226
-
-" highlight Conceal ctermbg=none ctermfg=none cterm=italic
-"let g:airline_theme='distinguished'
-" highlight MatchTag ctermfg=white ctermbg=black cterm=underline
-" highlight MatchParen ctermfg=4 ctermbg=232 cterm=underline
-" highlight Folded ctermfg=8 ctermbg=233
 let g:airline_theme='jack'
 
 "----------Editor remaps. Mostly personal preferance----------
@@ -240,37 +232,37 @@ let g:lt_location_list_toggle_map = '<leader>ll'
 "Reload Configs
 nmap <leader>rc :call ReloadConfigs()
 if !exists("*ReloadConfigs")
-  function! ReloadConfigs()
-    :source ~/.vimrc
-    if has("gui_running")
-      :source ~/.gvimrc
-    endif
-  endfunction
-  command! Recfg call ReloadConfigs()
+	function! ReloadConfigs()
+		:source ~/.vimrc
+		if has("gui_running")
+			:source ~/.gvimrc
+		endif
+	endfunction
+	command! Recfg call ReloadConfigs()
 endif
 
 " Highlight all instances of word under cursor, when idle.
 " Useful when studying strange source code.
 nnoremap <leader>z :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
 function! AutoHighlightToggle()
-  let @/ = ''
-  if exists('#auto_highlight')
-    au! auto_highlight
-    augroup! auto_highlight
-    setl updatetime=4000
-    echo 'Highlight current word: off'
-    return 0
-  else
-    augroup auto_highlight
-      au!
-      au CursorHold * let @/ = '\V\<'.escape(expand('<cword>'), '\').'\>'
-    augroup end
-    setl updatetime=750
-    echo 'Highlight current word: ON'
-    return 1
-  endif
+	let @/ = ''
+	if exists('#auto_highlight')
+		au! auto_highlight
+		augroup! auto_highlight
+		setl updatetime=4000
+		echo 'Highlight current word: off'
+		return 0
+	else
+		augroup auto_highlight
+			au!
+			au CursorHold * let @/ = '\V\<'.escape(expand('<cword>'), '\').'\>'
+		augroup end
+		setl updatetime=750
+		echo 'Highlight current word: ON'
+		return 1
+	endif
 endfunction
-map <silent> <C-N> :NERDTreeToggle <CR>
+map <silent> <leader>n :NERDTreeToggle <CR>
 
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
@@ -280,17 +272,17 @@ map g/ <Plug>(incsearch-stay)
 "set relativenumber
 set hlsearch
 set number
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
 set smarttab
 set expandtab
-set scrolloff=15  " keeps the cursor off the bottom-most and top-most line if possible
 set backspace=indent,eol,start " allow backspacing over everything in insert mode
-set history=100                " keep 50 lines of command line history
-set ruler                      " show the cursor position all the time
-set showcmd                    " display incomplete commands
-set incsearch!                  " do incremental searching
+set scrolloff=20 " keeps the cursor off the bottom-most and top-most line if possible
+set history=100  " keep 50 lines of command line history
+set ruler        " show the cursor position all the time
+set showcmd      " display incomplete commands
+set incsearch!   " do incremental searching
 set colorcolumn=80
 set wrap
 " set linebreak
@@ -298,13 +290,40 @@ set showbreak=┗━━━
 " start soft-wrap lines (and any prefix) in the line-number area
 set cpoptions+=n
 " Turns off annoying comment insertion
-" autocmd FileType * setlocal formatoptions -=c formatoptions -=o
 " Open help splits vertically
 autocmd FileType help wincmd L
+autocmd VimResized * wincmd =
+autocmd VimResized * NERDTreeClose
 
 "----------------------------------------
 "---------Plugin Settings Below----------
 "----------------------------------------
+
+"---------- Completion ------------
+" YouCompleteME
+let g:ycm_dont_warn_on_startup = 0
+let g:ycm_complete_in_comments = 1
+let g:ycm_complete_in_strings = 1
+let g:ycm_collect_identifiers_from_comments_and_strings = 1
+
+let g:ycm_filetype_blacklist = {}
+
+let g:ycm_key_list_select_completion   = ['<C-j>', '<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-k>', '<C-p>', '<Up>']
+
+"SuperTab
+let g:SuperTabDefaultCompletionType    = '<C-n>'
+let g:SuperTabCrMapping                = 0
+let g:UltiSnipsSnippetsDir='~/.vim/snippets'
+let g:UltiSnipsEditSplit='vertical'
+let g:UltiSnipsExpandTrigger           = '<tab>'
+let g:UltiSnipsJumpForwardTrigger      = '<tab>'
+let g:UltiSnipsJumpBackwardTrigger     = '<s-tab>'
+
+nnoremap <leader>ue :UltiSnipsEdit<cr>
+
+"---------- JSDOC stuff! ----------
+nmap <leader>doc <Plug>(jsdoc)
 
 "----------EasyMotion stuff!----------
 map <Leader>l <Plug>(easymotion-lineforward)
@@ -340,107 +359,66 @@ let g:syntastic_xml_checkers = ['plutil', 'xmllint']
 
 "----------Syntastic Behavior----------
 let g:syntastic_always_populate_loc_list = 1
-
 let g:syntastic_auto_loc_list = 0
-
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 let g:syntastic_enable_signs=1
 let g:syntastic_loc_list_height=5
-let g:syntastic_warning_symbol = '☡ '
-let g:syntastic_error_symbol = '☢ '
+let g:syntastic_warning_symbol = '◎ '
+let g:syntastic_error_symbol = '☹ '
 let b:syntastic_skip_checks = 0
 function! s:find_jshintrc(dir)
-  let l:found = globpath(a:dir, '.jshintrc')
-  if filereadable(l:found)
-    return l:found
-  endif
+	let l:found = globpath(a:dir, '.jshintrc')
+	if filereadable(l:found)
+		return l:found
+	endif
 
-  let l:parent = fnamemodify(a:dir, ':h')
-  if l:parent != a:dir
-    return s:find_jshintrc(l:parent)
-  endif
+	let l:parent = fnamemodify(a:dir, ':h')
+	if l:parent != a:dir
+		return s:find_jshintrc(l:parent)
+	endif
 
-  return "~/.jshintrc"
+	return "~/.jshintrc"
 endfunction
 
 "Ignore angular directive warnings
 let g:syntastic_html_tidy_ignore_errors=[
-      \"proprietary attribute",
-      \"unescaped & which should be written as &amp",
-      \"trimming empty <span>",
-      \"inserting implicit <span>",
-      \"replacing unexpected button by </button>",
-      \"missing empty </button>",
-      \"trimming empty <button>",
-      \" proprietary attribute \"ng-",
-      \"<input> proprietary attribute \"autocomplete\"",
-      \"proprietary attribute",
-      \]
+			\"proprietary attribute",
+			\"unescaped & which should be written as &amp",
+			\"trimming empty <span>",
+			\"discarding unexpedted </img>",
+			\"<img>",
+			\"inserting implicit <span>",
+			\"replacing unexpected button by </button>",
+			\"missing empty </button>",
+			\"trimming empty <button>",
+			\" proprietary attribute \"ng-",
+			\"<input> proprietary attribute \"autocomplete\"",
+			\"proprietary attribute",
+			\]
 
 if !exists("*ReloadConfigs")
-  set statusline+=%#warningmsg#
-  set statusline+=%{SyntasticStatuslineFlag()}
-  set statusline+=%*
+	set statusline+=%#warningmsg#
+	set statusline+=%{SyntasticStatuslineFlag()}
+	set statusline+=%*
 endif
 
 "----------NERDTree Config-----------
 "Set NERDTree arrow chars
 let g:NERDTreeMinimalUI=1
 let g:NERDTreeIndicatorMapCustom = {
-      \ "Clean"     : ":)",
-      \ "Deleted"   : "X",
-      \ "Dirty"     : "*",
-      \ "Modified"  : "⛏ ",
-      \ "Renamed"   : "RENAMED",
-      \ "Staged"    : "+",
-      \ "Unknown"   : "?",
-      \ "Unmerged"  : "?!",
-      \ "Untracked" : "++"
-      \ }
+			\ "Clean"     : ":)",
+			\ "Deleted"   : "X",
+			\ "Dirty"     : "*",
+			\ "Modified"  : "⛏ ",
+			\ "Renamed"   : "RENAMED",
+			\ "Staged"    : "+",
+			\ "Unknown"   : "?",
+			\ "Unmerged"  : "?!",
+			\ "Untracked" : "++"
+			\ }
 let g:NERDTreeDirArrows=0
-
-"----------NeoComplete------------
-" imap <c-j> <c-x><c-o>
-inoremap <expr> <c-k> pumvisible()?"\<Up>":"\<c-k>"
-inoremap <expr> <c-j> pumvisible()?"\<Down>":"\<c-j>"
-let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#enable_smart_case = 1
-let g:neocomplete#enable_camel_case = 1
-let g:neocomplete#enable_auto_select = 1
-" Recommended key-mappings.
-" <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-  " For no inserting <CR> key.
-  "return pumvisible() ? "\<C-y>" : "\<CR>"
-endfunction
-" <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <silent> <CR> <C-r>=neocomplete#smart_close_popup()<CR><CR>
-" <TAB>: completion.
-inoremap <expr> <Tab> pumvisible() ? "\<C-y>" : "\<Tab>"
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr> <C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr> <BS>  neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr> <C-y> neocomplete#close_popup()
-inoremap <expr> <C-e> neocomplete#cancel_popup()
-" Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown,ejs setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-" Enable heavy omni completion.
-if !exists('g:neocomplete#sources#omni#input_patterns')
-  let g:neocomplete#sources#omni#input_patterns = {}
-endif
-inoremap <expr> <C-g> neocomplete#undo_completion()
-inoremap <expr> <C-l> neocomplete#complete_common_string()
+" au VimEnter *  NERDTree
 
 
 "----------Airline Config----------
@@ -460,69 +438,33 @@ let g:airline_inactive_collapse=1
 let g:airline_mode_map = {}
 
 let g:airline#extensions#hunks#enabled = 1
-" let g:airline#extensions#whitespace#enabled = 0
+let g:airline#extensions#whitespace#enabled = 0
 
 function! AirLineBlaenk()
-  function! Modified()
-    return &modified ? " [+++]" : ''
-  endfunction
+	function! Modified()
+		return &modified ? " [+++]" : ''
+	endfunction
 
-  call airline#parts#define_raw('filename', '%<%f')
-  call airline#parts#define_function('modified', 'Modified')
+	call airline#parts#define_raw('filename', '%<%f')
+	call airline#parts#define_function('modified', 'Modified')
 
-  let g:airline_section_b = airline#section#create_left(['filename'])
-  let g:airline_section_c = airline#section#create([''])
-  let g:airline_section_gutter = airline#section#create(['modified', '%='])
-  let g:airline_section_x = airline#section#create(['branch'])
-  let g:airline_section_y = airline#section#create(['hunks'])
-  let g:airline_section_z = airline#section#create_right(['%c, %l  %p٪'])
+	let g:airline_section_b = airline#section#create_left(['filename'])
+	let g:airline_section_c = airline#section#create([''])
+	let g:airline_section_gutter = airline#section#create(['modified', '%='])
+	let g:airline_section_x = airline#section#create(['branch'])
+	let g:airline_section_y = airline#section#create(['hunks'])
+	let g:airline_section_z = airline#section#create_right(['%c, %l  %p٪'])
 endfunction
-
-" let g:airline_left_sep           = ''
-" let g:airline_left_sep           = ''
-" let g:airline_right_sep          = ''
-" let g:airline_right_sep          = ''
-
 autocmd Vimenter * call AirLineBlaenk()
-
-
-" 0,1: gfg, gbg; 2,3: tfg, tbg; 4: styles
-
-let g:airline#extensions#default#section_truncate_width = {
-      \ 'x': 60,
-      \ 'y': 60
-      \ }
-
-let g:airline_mode_map = {
-      \ '__' : '-',
-      \ 'n'  : 'N',
-      \ 'i'  : 'I',
-      \ 'R'  : 'R',
-      \ 'v'  : 'V',
-      \ 'V'  : 'V-L',
-      \ 'c'  : 'C',
-      \ '' : 'V-B',
-      \ 's'  : 'S',
-      \ 'S'  : 'S-L',
-      \ '' : 'S-B',
-      \ }
+let g:airline_mode_map = {  '__' : '-',  'n'  : 'N',  'i'  : 'I',  'R'  : 'R',
+	\ 'v'  : 'V',  'V'  : 'V-L',  'c'  : 'C',  '' : 'V-B',
+	\ 's'  : 'S',  'S'  : 'S-L',  '' : 'S-B',  }
 
 "----------gitgutter Config----------
 set updatetime=250
-let g:AutoPairsFlyMode = 0
 
-"----------ctrlp Config----------
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_by_filename = 1
-let g:ctrlp_root_markers = ['.ctrlp']
-let g:ctrlp_max_files=0
-let g:ctrlp_max_depth=40
-let g:ctrlp_follow_symlinks=1
-let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_match_window = ''
-let g:ctrlp_show_hidden=1
-let g:ctrlp_reuse_window = 'netrw'
+"----------ragtag Config----------
+let g:ragtag_global_maps = 1
 
 "-------------ag Config-------------
 let g:ag_working_path_mode="r"
@@ -531,28 +473,7 @@ let g:ag_prg="ag --vimgrep --smart-case"
 
 let b:syntastic_skip_checks = 0
 au BufWinEnter * normal zR
-
-set cursorcolumn
-set cursorline
 inoremap <M-o>       <Esc>o
 inoremap <C-j>       <Down>
-let g:ragtag_global_maps = 1
 :au FocusLost * :wa
 set autowriteall
-
-func! s:matchparen_cursorcolumn_setup()
-  augroup matchparen_cursorcolumn
-    autocmd!
-    autocmd CursorMoved * if get(w:, "paren_hl_on", 0) | set cursorcolumn | else | set nocursorcolumn | endif
-    autocmd InsertEnter * set nocursorcolumn
-  augroup END
-endf
-if !&cursorcolumn
-  augroup matchparen_cursorcolumn_setup
-    autocmd!
-    " - Add the event _only_ if matchparen is enabled.
-    " - Event must be added _after_ matchparen loaded (so we can react to w:paren_hl_on).
-    autocmd CursorMoved * if exists("#matchparen#CursorMoved") | call <sid>matchparen_cursorcolumn_setup() | endif
-          \ | autocmd! matchparen_cursorcolumn_setup
-  augroup END
-endif

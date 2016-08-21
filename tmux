@@ -17,6 +17,7 @@ bind -n M-j resize-pane -D 5
 bind -n M-k resize-pane -U 5
 bind -n M-l resize-pane -R 5
 
+bind a next-window
 
 # Requires 1.9+
 # bind \ split-window -h -c "#{pane_current_path}"
@@ -115,7 +116,6 @@ set -g status-right "%l:%M %p "
 #===================#
 # 4.    Hacks       #
 #===================#
-# best for last!
 
 # Hack for easy copying
 bind-key -t vi-copy 'v' begin-selection
