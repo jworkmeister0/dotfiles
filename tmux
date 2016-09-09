@@ -39,7 +39,7 @@ bind ^A select-pane -t :.+
 
 # Use vi keys for everything
 set-window-option -g mode-keys vi
-set-window-option -g utf8 on
+# set-window-option -g utf8 on
 
 # reload the config file with prefix+r
 unbind r
