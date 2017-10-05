@@ -5,23 +5,17 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
-Plugin 'ervandew/supertab'
-Plugin 'heavenshell/vim-jsdoc'
-Plugin 'bkad/CamelCaseMotion'
+Plugin 'lifepillar/vim-mucomplete'
+" Plugin 'bkad/CamelCaseMotion'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'scrooloose/nerdtree'
-Plugin 'pangloss/vim-javascript'
+" Plugin 'pangloss/vim-javascript'
 Plugin 'scrooloose/syntastic'
-Plugin 'moll/vim-node'
+" Plugin 'moll/vim-node'
 Plugin 'othree/javascript-libraries-syntax.vim'
-Plugin 'mbbill/undotree'
 Plugin 'tpope/vim-sensible'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
-Plugin 'wellle/targets.vim'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-markdown'
 Plugin 'tpope/vim-fugitive'
@@ -31,37 +25,49 @@ Plugin 'tpope/vim-ragtag'
 Plugin 'tpope/vim-sleuth'
 Plugin 'justinmk/vim-gtfo'
 Plugin 'wesQ3/vim-windowswap'
-Plugin 'wincent/command-t'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
-Plugin 'jszakmeister/vim-togglecursor'
-Plugin 'rking/ag.vim'
+" Plugin 'jszakmeister/vim-togglecursor'
 Plugin 'junegunn/vim-easy-align'
-Plugin 'tmux-plugins/vim-tmux-focus-events'
+" Plugin 'tmux-plugins/vim-tmux-focus-events'
 Plugin 'valloric/MatchTagAlways'
-Plugin 'tpope/vim-bundler'
-Plugin 'tpope/vim-rails'
-Plugin 'noahfrederick/vim-noctu'
-Plugin 'chriskempson/base16-vim'
-Plugin 'jaxbot/semantic-highlight.vim'
+" Plugin 'noahfrederick/vim-noctu'
+" Plugin 'chriskempson/base16-vim'
 Plugin 'othree/html5.vim'
 Plugin 'vim-scripts/vim-auto-save'
 Plugin 'Valloric/ListToggle'
 Plugin 'haya14busa/incsearch.vim'
 Plugin 'ntpeters/vim-better-whitespace'
-Plugin 'morhetz/gruvbox'
-Plugin 'easymotion/vim-easymotion'
-Plugin 'w0ng/vim-hybrid'
+" Plugin 'morhetz/gruvbox'
+" Plugin 'easymotion/vim-easymotion'
+" Plugin 'w0ng/vim-hybrid'
 Plugin 'ciaranm/detectindent'
 Plugin 'mhinz/vim-startify'
 Plugin '1995eaton/vim-better-javascript-completion'
-Plugin 'Raimondi/delimitMate'
-Plugin 'sindresorhus/focus'
-Plugin 'kshenoy/vim-signature'
-Plugin 'chrisgillis/vim-bootstrap3-snippets'
+" Plugin 'Raimondi/delimitMate'
+" Plugin 'sindresorhus/focus'
+" Plugin 'kshenoy/vim-signature'
+" Plugin 'chrisgillis/vim-bootstrap3-snippets'
 Plugin 'godlygeek/tabular'
+Plugin 'sheerun/vim-polyglot'
+" Plugin 'ryanoasis/vim-devicons'
+Plugin 'junegunn/fzf'
+Plugin 'mileszs/ack.vim'
+Plugin 'mustache/vim-mustache-handlebars'
+Plugin 'mxw/vim-jsx'
+Plugin 'nrocco/vim-phplint'
+Plugin 'vim-scripts/dbext.vim'
+Plugin 'noahfrederick/vim-noctu'
+Plugin 'tpope/vim-jdaddy'
+Plugin 'elzr/vim-json'
+Plugin 'Quramy/tsuquyomi'
+
+" Plugin 'SirVer/ultisnips'
+" Plugin 'honza/vim-snippets'
+" Plugin 'Shutnik/jshint2.vim'
 
 Plugin 'ternjs/tern_for_vim'
+
 
 call vundle#end()
 "set omnifunc=syntaxcomplete#Complete
@@ -69,16 +75,14 @@ call vundle#end()
 runtime macros/matchit.vim
 "----------General Options----------
 "encoding stuff. A very hack-y way to get special chars working property
-set autoindent
-set cindent
 filetype plugin indent on
-scriptencoding utf-8,latin1
+scriptencoding utf-8
 set autoread
 set breakindent
 set complete+=k
 set complete-=i
 set encoding=utf-8 "set guifontwide=MingLiU:h11
-set fileencodings=utf-8,latin1
+" set fileencodings=utf-8,latin1
 setlocal fo+=ro fo-=c
 set guioptions-=L
 set guioptions-=l
@@ -99,6 +103,7 @@ set title
 set ttyfast
 set wildmenu
 set wildmode=longest,full
+set spelllang=en
 
 set autoindent
 set smartindent
@@ -113,48 +118,50 @@ set undolevels=5000
 set undoreload=5000
 set autowrite
 set autowriteall
-:au FocusLost * :wa
 "au FocusLost * silent! wa
 set backup
 set nocompatible "behave mswin
 set mouse=a
 set pastetoggle=<F2>
-set clipboard=unnamed
-au BufNewFile,BufRead *.ejs set filetype=html
-autocmd BufLeave,FocusLost * silent! wall
-:au FocusLost * :wa
+" set clipboard=unnamedplus
+" au BufNewFile,BufRead *.ejs set filetype=html
+" autocmd BufLeave,FocusLost * silent! wall
+" :au FocusLost * :wa
 set autowrite
-set gcr=n:blinkon0
+" set gcr=n:blinkon0
 
 "----------Visual Settings. Includes plugin colorschemes----------
 set t_Co=256
 syntax on
-let base16colorspace=256
+" let base16colorspace=256
 highlight ExtraWhitespace ctermbg=6
 set listchars=tab:├─,trail:·,nbsp:‗
 highlight List ctermfg=0
 
 "--DARK--
 set background=dark
-colorscheme hybrid
+colorscheme noctu
 " colorscheme focus-dark
 set background=dark
-set cursorcolumn
-set cursorline
+" set cursorcolumn
+" set cursorline
 
-highlight MatchParen ctermfg=255
+"highlight MatchParen ctermfg=255
 highlight Normal        ctermbg=none
-highlight SignColumn ctermfg=8
-highlight CursorLine    ctermbg=232
-highlight CursorLine    ctermbg=232
-highlight CursorColumn  ctermbg=232
-highlight ColorColumn   ctermbg=233
-highlight CursorLineNr  ctermfg=15 ctermbg=none
-highlight Comment       ctermfg=244 cterm=italic
+"highlight SignColumn ctermfg=8
+"highlight CursorLine    ctermbg=232
+highlight CursorLine    ctermbg=237
+highlight CursorColumn  ctermbg=237
+highlight Visual  ctermbg=238
+" highlight Visual cterm=NONE ctermbg=0 ctermfg=NONE guibg=Grey40
+
+highlight ColorColumn   ctermbg=236
+"highlight CursorLineNr  ctermfg=15 ctermbg=none
+"highlight Comment       ctermfg=244 cterm=italic
 highlight LineNr        ctermbg=none ctermfg=240
 highlight ErrorMsg      ctermbg=240 ctermfg=none
-highlight SyntasticWarningLine  ctermbg=236
-highlight SyntasticErrorLine  ctermbg=52
+" highlight SyntasticWarningLine  ctermbg=236
+" highlight SyntasticErrorLine  ctermbg=52
 highlight VertSplit ctermbg=232
 highlight NonText    ctermfg=239
 highlight SpecialKey ctermfg=239
@@ -166,15 +173,17 @@ let mapleader=" "
 command! W w
 map L $
 map H ^
-nnoremap j gj
-nnoremap k gk
-:inoremap kj <ESC>
-nnoremap <C-t> :NERDTreeClose <bar> CommandT <CR>
+" nnoremap j gj
+" nnoremap k gk
+" :inoremap kj <ESC>
+" nnoremap <C-t> :NERDTreeClose <bar> CommandT <CR>
+nnoremap <c-t> :FZF<cr>
+nnoremap <leader>t :vs **/* 
 nnoremap <leader>q :noh <CR>
 nnoremap <leader><space> :noh <CR>
 
-nnoremap <F8> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
-noremap <F3> :AirlineToggle <CR>
+" nnoremap <F8> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
+noremap <leader>at :AirlineToggle <CR>
 map <F7> mzgg=G`z
 " "this is magic! it allows a two-column view to see more lines in the file
 noremap <silent> <Leader>bm :<C-u>let @z=&so<CR>:set so=0 noscb<CR>:bo vs<CR>Ljzt:setl scb<CR><C-w>p:setl scb<CR>:let &so=@z<CR>
@@ -183,12 +192,15 @@ noremap <silent> <Leader>bm :<C-u>let @z=&so<CR>:set so=0 noscb<CR>:bo vs<CR>Ljz
 nmap <leader>st :SyntasticToggleMode
 map <leader>vrc :vsp ~/.vimrc<cr>
 nmap <leader>tt :TagbarToggle<CR>
-map <leader>rg :Rgrep<CR>
+map <leader>rg :Ack 
+map <leader>ag :Ack 
+map <leader>rgi :Ack --ignore-file=match:
 "Coarse resizing
 nnoremap <Left>  :vertical resize -3<cr>
 nnoremap <Right> :vertical resize +3<cr>
 nnoremap <Down>  :resize +3<cr>
 nnoremap <Up>    :resize -3<cr>
+nnoremap <leader>cl :set cursorline! cursorcolumn!<CR>
 "for easier copying and pasting to/from clipboard
 vmap <leader>c "+y <CR>
 vmap <leader>C "+y <CR>
@@ -198,8 +210,6 @@ vmap <leader>Y "+y <CR>
 noremap <leader>p "+p <ENTER><CR>
 noremap <leader>P "+P <ENTER><CR>
 noremap <leader>v "+P <ENTER><CR>
-map <leader>ag :Ag '
-map <leader>ai :Ag --ignore '
 map <leader>ss :setlocal spell!<cr>
 nnoremap <Leader>s :SemanticHighlightToggle<cr>
 noremap <leader>aw :AirlineToggleWhitespace <CR>
@@ -207,7 +217,7 @@ xmap ga <Plug>(EasyAlign)
 noremap <leader>fr :%s/f/r/gc
 noremap <leader>fmi :set foldmethod=indent
 noremap <leader>fms :set foldmethod=syntax
-noremap <leader>tt :set tabstop=8 softtabstop=0 expandtab shiftwidth=2
+noremap <leader>tt :set tabstop=8 softtabstop=0 expandtab shiftwidth=2 smarttab
 noremap <leader>t4 :set tabstop=4 softtabstop=0 noexpandtab shiftwidth=4
 noremap <leader>t2 :set tabstop=2 softtabstop=0 noexpandtab shiftwidth=2
 noremap <leader>] :GitGutterNextHunk <CR>
@@ -222,6 +232,7 @@ nnoremap<leader>d "_d
 vnoremap<leader>d "_d
 nnoremap<leader>dd "_dd
 vnoremap<leader>dd "_dd
+cmap w!! w !sudo tee > /dev/null %
 
 map <leader>lc :set list! <CR>
 
@@ -240,6 +251,8 @@ if !exists("*ReloadConfigs")
 	endfunction
 	command! Recfg call ReloadConfigs()
 endif
+
+let g:ack_default_options=' -s -H --smart-case --nocolor --nogroup --column --ignore-dir=.built'
 
 " Highlight all instances of word under cursor, when idle.
 " Useful when studying strange source code.
@@ -264,6 +277,19 @@ function! AutoHighlightToggle()
 endfunction
 map <silent> <leader>n :NERDTreeToggle <CR>
 
+" if has("autocmd")
+"   au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+" endif
+
+
+" if has("clipboard")
+"   set clipboard=unnamed " copy to the system clipboard
+
+"   if has("unnamedplus") " X11 support
+"     set clipboard+=unnamedplus
+"   endif
+" endif
+
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
@@ -277,6 +303,7 @@ set shiftwidth=2
 set softtabstop=2
 set smarttab
 set expandtab
+set linebreak
 set backspace=indent,eol,start " allow backspacing over everything in insert mode
 set scrolloff=20 " keeps the cursor off the bottom-most and top-most line if possible
 set history=100  " keep 50 lines of command line history
@@ -284,16 +311,17 @@ set ruler        " show the cursor position all the time
 set showcmd      " display incomplete commands
 set incsearch!   " do incremental searching
 set colorcolumn=80
-set wrap
+" set wrap
 " set linebreak
-set showbreak=┗━━━
+" set showbreak=┗━━━
 " start soft-wrap lines (and any prefix) in the line-number area
 set cpoptions+=n
 " Turns off annoying comment insertion
 " Open help splits vertically
-autocmd FileType help wincmd L
-autocmd VimResized * wincmd =
-autocmd VimResized * NERDTreeClose
+" autocmd FileType help wincmd L
+" autocmd VimResized * wincmd =
+" autocmd VimResized * NERDTreeClose
+set showcmd
 
 "----------------------------------------
 "---------Plugin Settings Below----------
@@ -301,37 +329,58 @@ autocmd VimResized * NERDTreeClose
 
 "---------- Completion ------------
 " YouCompleteME
-let g:ycm_dont_warn_on_startup = 0
-let g:ycm_complete_in_comments = 1
-let g:ycm_complete_in_strings = 1
-let g:ycm_collect_identifiers_from_comments_and_strings = 1
+" let g:ycm_dont_warn_on_startup = 0
+" let g:ycm_complete_in_comments = 1
+" let g:ycm_complete_in_strings = 1
+" let g:ycm_collect_identifiers_from_comments_and_strings = 1
 
-let g:ycm_filetype_blacklist = {}
+" let g:ycm_filetype_blacklist = {}
 
-let g:ycm_key_list_select_completion   = ['<C-j>', '<C-n>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<C-k>', '<C-p>', '<Up>']
+" let g:ycm_key_list_select_completion   = ['<C-j>', '<C-n>', '<Down>']
+" let g:ycm_key_list_previous_completion = ['<C-k>', '<C-p>', '<Up>']
 
-"SuperTab
-let g:SuperTabDefaultCompletionType    = '<C-n>'
-let g:SuperTabCrMapping                = 0
-let g:UltiSnipsSnippetsDir='~/.vim/snippets'
-let g:UltiSnipsEditSplit='vertical'
-let g:UltiSnipsExpandTrigger           = '<tab>'
-let g:UltiSnipsJumpForwardTrigger      = '<tab>'
-let g:UltiSnipsJumpBackwardTrigger     = '<s-tab>'
+" "SuperTab
+" let g:SuperTabDefaultCompletionType    = '<C-n>'
+" let g:SuperTabCrMapping                = 0
+" let g:UltiSnipsSnippetsDir='~/.vim/snippets'
+" let g:UltiSnipsEditSplit='vertical'
+" let g:UltiSnipsExpandTrigger           = '<tab>'
+" let g:UltiSnipsJumpForwardTrigger      = '<tab>'
+" let g:UltiSnipsJumpBackwardTrigger     = '<s-tab>'
 
-nnoremap <leader>ue :UltiSnipsEdit<cr>
+" nnoremap <leader>ue :UltiSnipsEdit<cr>
+
+
+set completeopt+=menuone
+inoremap <expr> <c-e> mucomplete#popup_exit("\<c-e>")
+inoremap <expr> <c-y> mucomplete#popup_exit("\<c-y>")
+inoremap <expr>  <cr> mucomplete#popup_exit("\<cr>")
+set completeopt+=noselect
+set shortmess+=c   " Shut off completion messages
+set belloff+=ctrlg " If Vim beeps during completion
+let g:mucomplete#enable_auto_at_startup = 1
+
+let g:mucomplete#ulti=1
+" imap <c-j> <plug>(MUcompleteFwd)
+" imap <c-k> <plug>(MUcompleteBwd)
+
+
+" let g:mucomplete#user_mappings = { 'snip' : "\<plug>snipMateShow" }
+" let g:mucomplete#chains = { 'default': ['snip', 'keyn'] } " For instance
+" let g:snipMate['no_match_completion_feedkeys_chars'] = ''
+" imap <expr> <c-j> (pumvisible()?"\<c-y>":"")."\<plug>snipMateNextOrTrigger"
+
 
 "---------- JSDOC stuff! ----------
 nmap <leader>doc <Plug>(jsdoc)
 
 "----------EasyMotion stuff!----------
-map <Leader>l <Plug>(easymotion-lineforward)
-map <Leader>j <Plug>(easymotion-j)
-map <Leader>k <Plug>(easymotion-k)
-map <Leader>h <Plug>(easymotion-linebackward)
-map <Leader>s <Plug>(easymotion-s2)
-map <Leader>f <Plug>(easymotion-overwin-f2)
+" map <Leader>l <Plug>(easymotion-lineforward)
+" map <Leader>j <Plug>(easymotion-j)
+" map <Leader>k <Plug>(easymotion-k)
+" map <Leader>h <Plug>(easymotion-linebackward)
+" map <Leader>s <Plug>(easymotion-s2)
+" map <Leader>f <Plug>(easymotion-overwin-f2)
 
 "----------Javascript stuff!----------
 let g:used_javascript_libs = 'angularjs'
@@ -351,8 +400,10 @@ sunmap E
 
 "----------Syntastic Checkers----------
 let g:syntastic_java_checkers = ['javac']
-let g:syntastic_javascript_checkers = ['jshint']
+" let g:syntastic_javascript_checkers = ['jshint']
+let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_html_checkers = ['tidy']
+let g:syntastic_php_checkers = ['php']
 let g:syntastic_html_tidy_exec = '/usr/bin/tidy'
 let g:syntastic_json_checkers = ['jsonlint']
 let g:syntastic_xml_checkers = ['plutil', 'xmllint']
@@ -406,19 +457,24 @@ endif
 "----------NERDTree Config-----------
 "Set NERDTree arrow chars
 let g:NERDTreeMinimalUI=1
-let g:NERDTreeIndicatorMapCustom = {
-			\ "Clean"     : ":)",
-			\ "Deleted"   : "X",
-			\ "Dirty"     : "*",
-			\ "Modified"  : "⛏ ",
-			\ "Renamed"   : "RENAMED",
-			\ "Staged"    : "+",
-			\ "Unknown"   : "?",
-			\ "Unmerged"  : "?!",
-			\ "Untracked" : "++"
-			\ }
+let g:NERDTreeCascadeSingleChildDir=1
+
+" let g:NERDTreeIndicatorMapCustom = {
+" 			\ "Clean"     : "[:)]",
+" 			\ "Deleted"   : "[X]",
+" 			\ "Dirty"     : "[*]",
+" 			\ "Modified"  : "[M]",
+" 			\ "Renamed"   : "RENAMED",
+" 			\ "Staged"    : "[+]",
+" 			\ "Unknown"   : "[?]",
+" 			\ "Unmerged"  : "[?!]",
+" 			\ "Untracked" : "[-]"
+" 			\ }
 let g:NERDTreeDirArrows=0
 " au VimEnter *  NERDTree
+" let NERDTreeDirArrowExpandable='+'
+" let NERDTreeDirArrowCollapsible='~'
+
 
 
 "----------Airline Config----------
@@ -439,29 +495,30 @@ let g:airline_mode_map = {}
 
 let g:airline#extensions#hunks#enabled = 1
 let g:airline#extensions#whitespace#enabled = 0
+let g:loaded_airline = 0
 
-function! AirLineBlaenk()
-	function! Modified()
-		return &modified ? " [+++]" : ''
-	endfunction
+" function! AirLineBlaenk()
+" 	function! Modified()
+" 		return &modified ? " [+++]" : ''
+" 	endfunction
 
-	call airline#parts#define_raw('filename', '%<%f')
-	call airline#parts#define_function('modified', 'Modified')
+" 	call airline#parts#define_raw('filename', '%<%f')
+" 	call airline#parts#define_function('modified', 'Modified')
 
-	let g:airline_section_b = airline#section#create_left(['filename'])
-	let g:airline_section_c = airline#section#create([''])
-	let g:airline_section_gutter = airline#section#create(['modified', '%='])
-	let g:airline_section_x = airline#section#create(['branch'])
-	let g:airline_section_y = airline#section#create(['hunks'])
-	let g:airline_section_z = airline#section#create_right(['%c, %l  %p٪'])
-endfunction
-autocmd Vimenter * call AirLineBlaenk()
+" 	let g:airline_section_b = airline#section#create_left(['filename'])
+" 	let g:airline_section_c = airline#section#create([''])
+" 	let g:airline_section_gutter = airline#section#create(['modified', '%='])
+" 	let g:airline_section_x = airline#section#create(['branch'])
+" 	let g:airline_section_y = airline#section#create(['hunks'])
+" 	let g:airline_section_z = airline#section#create_right(['%c, %l  %p٪'])
+" endfunction
+" autocmd Vimenter * call AirLineBlaenk()
 let g:airline_mode_map = {  '__' : '-',  'n'  : 'N',  'i'  : 'I',  'R'  : 'R',
 	\ 'v'  : 'V',  'V'  : 'V-L',  'c'  : 'C',  '' : 'V-B',
 	\ 's'  : 'S',  'S'  : 'S-L',  '' : 'S-B',  }
 
 "----------gitgutter Config----------
-set updatetime=250
+set updatetime=1000
 
 "----------ragtag Config----------
 let g:ragtag_global_maps = 1
@@ -470,10 +527,17 @@ let g:ragtag_global_maps = 1
 let g:ag_working_path_mode="r"
 let g:ag_highlight=1
 let g:ag_prg="ag --vimgrep --smart-case"
+cnoreabbrev Ack Ack!
+nnoremap <Leader>a :Ack!<Space>
 
 let b:syntastic_skip_checks = 0
 au BufWinEnter * normal zR
-inoremap <M-o>       <Esc>o
-inoremap <C-j>       <Down>
-:au FocusLost * :wa
+" inoremap <M-o>       <Esc>o
+" :au FocusLost * :wa
 set autowriteall
+set autoindent
+set smartindent
+set tabstop=4 softtabstop=0 expandtab shiftwidth=2 smarttab
+set list
+set smartindent
+" autocmd VimEnter * AirlineToggle
